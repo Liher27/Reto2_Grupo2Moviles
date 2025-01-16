@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="263dp" />
+        app:layout_constraintGuide_begin="184dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -67,6 +67,7 @@
         android:layout_height="54dp"
         android:fontFamily="@font/alata"
         android:gravity="center"
+        android:textColor="@color/black"
         android:text="Iniciar sesión"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -132,6 +133,7 @@
         android:layout_height="49dp"
         android:fontFamily="@font/alata"
         android:gravity="center"
+        android:textColor="@color/black"
         android:text="Remember me"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
@@ -146,6 +148,7 @@
         android:layout_height="49dp"
         android:fontFamily="@font/alata"
         android:gravity="center"
+        android:textColor="@color/black"
         android:text="Regístrate"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
@@ -160,6 +163,7 @@
         android:layout_height="69dp"
         android:fontFamily="@font/alata"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:backgroundTint="@color/dark_Blue"
         android:text="Continuar"
         app:layout_constraintBottom_toBottomOf="parent"

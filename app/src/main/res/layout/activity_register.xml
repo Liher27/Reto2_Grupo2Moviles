@@ -1,95 +1,557 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/gradient">
+    android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/registerTitle"
-        android:layout_width="254dp"
-        android:layout_height="54dp"
-        android:fontFamily="@font/alata"
-        android:gravity="center"
-        android:text="Registrate"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.936"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.375" />
-
-    <ImageView
-        android:id="@+id/loginLogo3"
-        android:layout_width="179dp"
-        android:layout_height="175dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline16"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@mipmap/elorclass_foreground" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="166dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient" />
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="418dp"
-        android:layout_height="457dp"
-        android:background="@drawable/blue_rounded_square"
-        app:layout_constraintBottom_toTopOf="@+id/guideline17"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline16">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/registerTitle"
+                android:layout_width="208dp"
+                android:layout_height="51dp"
+                android:fontFamily="@font/alata"
+                android:gravity="center"
+                android:text="Registrate"
+                android:textColor="@color/black"
+                android:textSize="34sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/loginLogo3"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextSizeCheck" />
+
+            <ImageView
+                android:id="@+id/loginLogo3"
+                android:layout_width="195dp"
+                android:layout_height="173dp"
+                android:contentDescription="Logo de la app"
+                app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
+                app:layout_constraintEnd_toStartOf="@+id/registerTitle"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/elorclass_foreground" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/shapeGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="278dp" />
+
+            <View
+                android:id="@+id/shapeBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="2300dp"
+                android:background="@drawable/registering_square"
+                app:layout_constraintBottom_toTopOf="@+id/button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/shapeGuideline"
+                app:layout_constraintVertical_bias="0.022" />
+
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="63dp"
-                android:textSize="30dp"
                 android:fontFamily="@font/alata"
+                android:gravity="center"
+                android:text="Datos personales"
+                android:textColor="@color/white"
+                android:textSize="40sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/personalInfoGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/shapeBackground"
+                app:layout_constraintVertical_bias="0.696" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/personalInfoGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="446dp" />
+
+            <EditText
+                android:id="@+id/surname2Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname2TitleTxt"
+                app:layout_constraintBottom_toTopOf="@+id/dniTitleTxt"
+                tools:layout_editor_absoluteY="974dp" />
+
+            <TextView
+                android:id="@+id/loginTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Nombre de usuario"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/loginTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.126"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/personalInfoGuideline" />
+
+            <EditText
+                android:id="@+id/loginTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintBottom_toTopOf="@+id/nameTitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginTitleTxt" />
+
+            <TextView
+                android:id="@+id/nameTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Nombre"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/nameTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.088"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginTxt" />
+
+            <EditText
+                android:id="@+id/nameTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/surname1TitleTxt"
+                app:layout_constraintTop_toBottomOf="@+id/nameTitleTxt"
+                tools:layout_editor_absoluteY="709dp" />
+
+            <TextView
+                android:id="@+id/surname1TitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Apellido"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/surname1Txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.101"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nameTxt" />
+
+            <EditText
+                android:id="@+id/surname1Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintBottom_toTopOf="@+id/surname2TitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.168"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname1TitleTxt" />
+
+            <TextView
+                android:id="@+id/surname2TitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Segundo apellido"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/surname2Txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.119"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname1Txt" />
+
+            <TextView
+                android:id="@+id/dniTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="DNI"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.084"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname2Txt"
+                app:layout_constraintBottom_toTopOf="@+id/dniTxt"
+                tools:layout_editor_absoluteY="1056dp" />
+
+            <EditText
+                android:id="@+id/dniTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintBottom_toTopOf="@+id/directionTitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dniTitleTxt" />
+
+            <TextView
+                android:id="@+id/directionTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Dirección"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/directionTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.103"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dniTxt" />
+
+            <EditText
+                android:id="@+id/directionTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/directionTitleTxt"
+                app:layout_constraintBottom_toTopOf="@+id/telephone1TitleTxt"
+                tools:layout_editor_absoluteY="1233dp" />
+
+            <TextView
+                android:id="@+id/telephone1TitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Teléfono 1"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/telephone1Txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.093"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/directionTxt" />
+
+            <EditText
+                android:id="@+id/telephone1Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telephone1TitleTxt"
+                app:layout_constraintBottom_toTopOf="@+id/telephone2TitleTxt"
+                tools:layout_editor_absoluteY="1346dp" />
+
+
+            <TextView
+                android:id="@+id/telephone2TitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Teléfono 2"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/telephone2Txt"
+                app:layout_constraintEnd_toEndOf="@+id/shapeBackground"
+                app:layout_constraintHorizontal_bias="0.107"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telephone1Txt" />
+
+            <EditText
+                android:id="@+id/telephone2Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telephone2TitleTxt"
+                app:layout_constraintBottom_toTopOf="@+id/personalInfoGuidelineEnd"
+                tools:layout_editor_absoluteY="1460dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/personalInfoGuidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="1551dp" />
+
+            <TextView
+                android:id="@+id/scholarInfoTitle"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/alata"
+                android:gravity="center"
+                android:text="Informacion formativa"
+                android:textColor="@color/white"
+                android:textSize="35sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/scholarInfoGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/personalInfoGuidelineEnd"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/scholarInfoGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="1669dp" />
+
+            <TextView
+                android:id="@+id/cicleTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Nombre del ciclo"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/cicleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.116"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scholarInfoGuideline" />
+
+            <EditText
+                android:id="@+id/cicleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cicleTitleTxt"
+                app:layout_constraintBottom_toTopOf="@+id/courseTitleTxt"
+                tools:layout_editor_absoluteY="1742dp" />
+
+            <TextView
+                android:id="@+id/courseTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Nombre del curso"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/courseTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.134"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cicleTxt" />
+
+            <EditText
+                android:id="@+id/courseTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/courseTitleTxt"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox"
+                tools:layout_editor_absoluteY="1865dp" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="304dp"
+                android:layout_height="55dp"
+                android:text="Dual intensiva"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.277"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/courseTxt"
+                app:layout_constraintBottom_toTopOf="@+id/scholarInfoGuidelineEnd"
+                tools:layout_editor_absoluteY="1933dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/scholarInfoGuidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="2005dp" />
+
+            <TextView
+                android:id="@+id/passwordTitle"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:fontFamily="@font/alata"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:text="Datos personales" />
-        </LinearLayout>
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:text="Contraseña"
+                app:layout_constraintBottom_toTopOf="@+id/passwordGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/scholarInfoGuidelineEnd" />
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/passwordGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="2123dp" />
+
+            <TextView
+                android:id="@+id/password1Title"
+                android:layout_width="267dp"
+                android:layout_height="46dp"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Introduce tu contraseña"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/password1Txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.289"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/passwordGuideline"
+                app:layout_constraintVertical_bias="0.56" />
+
+            <EditText
+                android:id="@+id/password1Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.207"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password1Title"
+                app:layout_constraintBottom_toTopOf="@+id/password2Title"
+                tools:layout_editor_absoluteY="2221dp" />
+
+            <TextView
+                android:id="@+id/password2Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alata"
+                android:gravity="center_vertical"
+                android:text="Repite tu contraseña"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/password2Txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.188"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password1Txt" />
+
+            <EditText
+                android:id="@+id/password2Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.207"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password2Title"
+                app:layout_constraintBottom_toTopOf="@+id/imageViewGuideline"
+                tools:layout_editor_absoluteY="2352dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/imageViewGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="2416dp" />
+
+            <Button
+                android:id="@+id/imageviewButton"
+                android:layout_width="293dp"
+                android:layout_height="80dp"
+                android:fontFamily="@font/alata"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/black"
+                android:text="Añade una foto"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/shapeBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageViewGuideline"
+                app:layout_constraintVertical_bias="0.573" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="211dp"
+                android:layout_height="69dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/dark_Blue"
+                android:fontFamily="@font/alata"
+                android:text="Continuar"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shapeBackground" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="211dp"
-        android:layout_height="69dp"
-        android:backgroundTint="@color/dark_Blue"
-        android:fontFamily="@font/alata"
-        android:text="Continuar"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline17" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="636dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
