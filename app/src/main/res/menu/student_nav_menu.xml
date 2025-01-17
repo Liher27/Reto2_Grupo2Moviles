@@ -6,7 +6,7 @@
         android:title="@string/home" />
 
     <item
-        android:id="@+id/page_search"
+        android:id="@+id/user"
         android:icon="@drawable/user_solid"
         android:title="@string/profile" />
 

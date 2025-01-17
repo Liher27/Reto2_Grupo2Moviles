@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -42,7 +43,10 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-
+            else if (userTextField.text.isEmpty() || passwordTextField.text.isEmpty()) {
+                Toast.makeText(this, "Por favor, ingrese su nombre de usuario y contraseña", Toast.LENGTH_SHORT).show()
+            }
+            //Falta validar el usuario y contraseñaq
         }
 
     }

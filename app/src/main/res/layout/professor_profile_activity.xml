@@ -55,7 +55,7 @@
                 android:id="@+id/registerTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/studentSchedule"
+                android:text="@string/profile"
                 android:textSize="34sp"
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
@@ -91,7 +91,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/student_nav_menu"
+        app:menu="@menu/bottom_nav_menu"
         app:labelVisibilityMode="selected"
         tools:ignore="VisualLintBottomNav"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

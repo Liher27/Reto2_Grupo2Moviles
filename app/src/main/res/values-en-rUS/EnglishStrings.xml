@@ -8,7 +8,6 @@
     <string name="continuar">Continue</string>
     <string name="userIcon">User icon</string>
     <string name="pass_icon">Password icon</string>
-    <string name="contraseña">Password</string>
     <string name="personal_info">Personal Information</string>
     <string name="userName">Username</string>
     <string name="name">Name</string>
@@ -27,4 +26,16 @@
     <string name="repeatPassword">Repeat your password</string>
     <string name="add_photo">Add a photo</string>
     <string name="back">Back</string>
+    <string name="app_name">ElorClass</string>
+    <string name="ProfessorMainPanelTitle">Control del aula</string>
+    <string name="profile">Profile</string>
+    <string name="home">Home</string>
+    <string name="settings">Settings</string>
+    <string name="reunions">Reunions</string>
+    <string name="studentSchedule">Student schedule</string>
+    <string name="download">Download</string>
+    <string name="downloadDocuments">Documents download</string>
+    <string name="filter">Filter</string>
+    <string name="external_courses">External courses</string>
+    <string name="externalCourses">External courses</string>
 </resources>

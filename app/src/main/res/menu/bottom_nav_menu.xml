@@ -11,7 +11,7 @@
         android:title="@string/reunions" />
 
     <item
-        android:id="@+id/page_search"
+        android:id="@+id/user"
         android:icon="@drawable/user_solid"
         android:title="@string/profile" />
 
