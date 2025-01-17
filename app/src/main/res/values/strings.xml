@@ -29,4 +29,14 @@
     <string name="back">Volver</string>
     <string name="app_name">ElorClass</string>
     <string name="professorMainTitle">Control del aula</string>
+    <string name="profile">Perfil</string>
+    <string name="home">Inicio</string>
+    <string name="settings">Ajustes</string>
+    <string name="reunions">Reuniones</string>
+    <string name="ProfessorMainPanelTitle">Control del aula</string>
+    <string name="studentSchedule">Horario del estudiante</string>
+    <string name="download">Descargar</string>
+    <string name="downloadDocuments">Descarga de documentos</string>
+    <string name="filter">Filtrar</string>
+    <string name="external_courses">Cursos externos</string>
 </resources>

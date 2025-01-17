@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="2300dp"
                 android:background="@drawable/registering_square"
-                app:layout_constraintBottom_toTopOf="@+id/registerButton"
+                app:layout_constraintBottom_toTopOf="@+id/loginButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -561,7 +561,7 @@
                 app:layout_constraintVertical_bias="0.573" />
 
             <Button
-                android:id="@+id/registerButton"
+                android:id="@+id/loginButton"
                 android:layout_width="211dp"
                 android:layout_height="69dp"
                 android:layout_marginTop="8dp"
@@ -591,7 +591,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/registerButton"
+                app:layout_constraintStart_toEndOf="@+id/loginButton"
                 app:layout_constraintTop_toBottomOf="@+id/shapeBackground"
                 app:layout_constraintVertical_bias="0.0" />
 

@@ -166,7 +166,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/loginButton"
         android:layout_width="211dp"
         android:layout_height="69dp"
         android:fontFamily="@font/alata"

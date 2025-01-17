@@ -31,14 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.compose.ui.platform.ComposeView
-                android:id="@+id/my_composable"
-                android:layout_width="0dp"
-                android:layout_height="252dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/shapeGuideline" />
-
             <ImageView
                 android:id="@+id/loginLogo"
                 android:layout_width="210dp"
@@ -57,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/alata"
                 android:gravity="center"
-                android:text="@string/ProfessorMainPanelTitle"
+                android:text="@string/reunions"
                 android:textColor="@color/black"
                 android:textSize="34sp"
                 android:textStyle="bold"
@@ -76,14 +68,13 @@
 
             <View
                 android:id="@+id/shapeBackground"
-                android:layout_width="0dp"
+                android:layout_width="411dp"
                 android:layout_height="1608dp"
-                android:layout_marginTop="250dp"
                 android:background="@drawable/mainpanel_layer"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/shapeGuideline" />
+                app:layout_constraintTop_toBottomOf="@+id/registerTitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

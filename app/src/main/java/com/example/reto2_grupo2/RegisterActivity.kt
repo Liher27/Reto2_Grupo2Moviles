@@ -33,7 +33,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        //Inicializacion de las variables
         userTextField = findViewById(R.id.loginTxt)
         nameTextField = findViewById(R.id.nameTxt)
         surnameTextField = findViewById(R.id.surname1Txt)
@@ -54,13 +53,13 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
 
-        registerButton = findViewById(R.id.registerButton)
-       // if (credentialsOk()) {
-            registerButton.setOnClickListener {
-              //  val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
+        registerButton = findViewById(R.id.loginButton)
+        // if (credentialsOk()) {
+        registerButton.setOnClickListener {
+            //  val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         // }
     }
 
@@ -79,9 +78,11 @@ class RegisterActivity : AppCompatActivity() {
             && repeatPasswordTextField.text.toString().isNotEmpty()
             && passwordTextField.text.toString() == repeatPasswordTextField.text.toString()
         )
-            if (cycleNameTextField.text.toString().isNotEmpty() && courseNameTextField.text.toString().isNotEmpty())
-                //check for user if its correctly registered
-                    ret = true
+            if (cycleNameTextField.text.toString()
+                    .isNotEmpty() && courseNameTextField.text.toString().isNotEmpty()
+            )
+            //check for user if its correctly registered
+                ret = true
 
 
         return ret

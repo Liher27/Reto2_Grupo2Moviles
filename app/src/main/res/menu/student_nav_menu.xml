@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/house_solid"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/page_search"
+        android:icon="@drawable/user_solid"
+        android:title="@string/profile" />
+
+    <item
+        android:id="@+id/documents_download"
+        android:icon="@drawable/download_solid"
+        android:title="@string/download" />
+
+    <item
+        android:id="@+id/external_courses"
+        android:icon="@drawable/graduation_cap_solid"
+        android:title="@string/external_courses" />
+
+</menu>
