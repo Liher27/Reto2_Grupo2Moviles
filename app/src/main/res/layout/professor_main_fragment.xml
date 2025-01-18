@@ -32,8 +32,9 @@
 
             <CalendarView
                 android:id="@+id/calendarView"
-                android:layout_width="406dp"
-                android:layout_height="270dp"
+                android:layout_width="0dp"
+                android:layout_height="307dp"
+                android:theme="@style/calendarBackground"
                 app:layout_constraintBottom_toTopOf="@+id/shapeBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

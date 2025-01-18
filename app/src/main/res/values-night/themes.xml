@@ -12,6 +12,10 @@
         <item name="android:background">@drawable/dark_gradient</item>
     </style>
 
+    <style name="calendarBackground" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:background">@drawable/calendar_dark_background</item>
+    </style>
+
     <style name="ButtonFont" parent="Theme.Reto2_Grupo2">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">16sp</item>
