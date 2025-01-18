@@ -17,6 +17,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var registerTextButton: TextView
     private lateinit var rememberMe: CheckBox
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -34,19 +35,16 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton = findViewById(R.id.loginButton)
         loginButton.setOnClickListener {
-            if (userTextField.text.toString() == "profesor" && passwordTextField.text.toString() == "profesor") {
-                val intent = Intent(this@LoginActivity, MainProfessorActivity::class.java)
+
+            if (userTextField.text.toString() == "profesor" && passwordTextField.text.toString() == "profesor" ||
+                userTextField.text.toString() == "alumno" && passwordTextField.text.toString() == "alumno") {
+                val intent = Intent(this@LoginActivity, MainFrame::class.java)
+                //intent.putExtra("user", el objeto de user que traigamos de la base de datos)
                 startActivity(intent)
                 finish()
-            } else if (userTextField.text.toString() == "alumno" && passwordTextField.text.toString() == "alumno") {
-                val intent = Intent(this@LoginActivity, MainStudentActivity::class.java)
-                startActivity(intent)
-                finish()
+            } else if (userTextField.text.isEmpty() || passwordTextField.text.isEmpty()) {
+                Toast.makeText(this@LoginActivity, "Por favor, ingrese un nombre de usuario y contraseña", Toast.LENGTH_SHORT).show()
             }
-            else if (userTextField.text.isEmpty() || passwordTextField.text.isEmpty()) {
-                Toast.makeText(this, "Por favor, ingrese su nombre de usuario y contraseña", Toast.LENGTH_SHORT).show()
-            }
-            //Falta validar el usuario y contraseñaq
         }
 
     }
