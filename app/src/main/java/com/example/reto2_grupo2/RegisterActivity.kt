@@ -1,0 +1,91 @@
+package com.example.reto2_grupo2
+
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+
+class RegisterActivity : AppCompatActivity() {
+
+    private lateinit var userTextField: EditText
+    private lateinit var nameTextField: EditText
+    private lateinit var surnameTextField: EditText
+    private lateinit var secondSurnameTextField: EditText
+    private lateinit var dniTextField: EditText
+    private lateinit var directionTextField: EditText
+    private lateinit var telephone1TextField: EditText
+    private lateinit var telephone2TextField: EditText
+
+    private lateinit var courseNameTextField: EditText
+    private lateinit var cycleNameTextField: EditText
+    private lateinit var gradoDobleCheck: CheckBox
+
+    private lateinit var passwordTextField: EditText
+    private lateinit var repeatPasswordTextField: EditText
+
+    private lateinit var backButton: Button
+    private lateinit var registerButton: Button
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_register)
+
+        userTextField = findViewById(R.id.loginTxt)
+        nameTextField = findViewById(R.id.nameTxt)
+        surnameTextField = findViewById(R.id.surname1Txt)
+        secondSurnameTextField = findViewById(R.id.surname2Txt)
+        dniTextField = findViewById(R.id.dniTxt)
+        directionTextField = findViewById(R.id.directionTxt)
+        telephone1TextField = findViewById(R.id.telephone1Txt)
+        telephone2TextField = findViewById(R.id.telephone2Txt)
+        courseNameTextField = findViewById(R.id.courseTxt)
+        cycleNameTextField = findViewById(R.id.cycleTxt)
+        gradoDobleCheck = findViewById(R.id.intensiveCheck)
+
+
+        backButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        registerButton = findViewById(R.id.loginButton)
+        // if (credentialsOk()) {
+        registerButton.setOnClickListener {
+            //  val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        // }
+    }
+
+    private fun credentialsOk(): Boolean {
+        var ret = false
+
+        if (userTextField.text.toString().isNotEmpty()
+            && nameTextField.text.toString().isNotEmpty()
+            && surnameTextField.text.toString().isNotEmpty()
+            && dniTextField.text.toString().isNotEmpty()
+            && directionTextField.text.toString().isNotEmpty()
+            && telephone1TextField.text.toString().isNotEmpty()
+            && telephone2TextField.text.toString().isNotEmpty()
+            && telephone2TextField.text.toString() == telephone1TextField.text.toString()
+            && passwordTextField.text.toString().isNotEmpty()
+            && repeatPasswordTextField.text.toString().isNotEmpty()
+            && passwordTextField.text.toString() == repeatPasswordTextField.text.toString()
+        )
+            if (cycleNameTextField.text.toString()
+                    .isNotEmpty() && courseNameTextField.text.toString().isNotEmpty()
+            )
+            //check for user if its correctly registered
+                ret = true
+
+
+        return ret
+
+    }
+}
