@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
                 userTextField.text.toString() == "alumno" && passwordTextField.text.toString() == "alumno") {
                 val intent = Intent(this@LoginActivity, MainFrame::class.java)
                 //intent.putExtra("user", el objeto de user que traigamos de la base de datos)
+                intent.putExtra("user", userTextField.text.toString())
                 startActivity(intent)
                 finish()
             } else if (userTextField.text.isEmpty() || passwordTextField.text.isEmpty()) {

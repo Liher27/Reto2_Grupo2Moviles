@@ -33,7 +33,14 @@
         <item name="android:textColorHint">@color/mid_blue</item>
     </style>
 
-    <style name="scrollViewLightStyle" parent="Theme.Reto2_Grupo2">
+    <style name="inputText" parent="Theme.Reto2_Grupo2">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColorHint">@color/mid_blue</item>
+    </style>
+
+    <style name="scrollViewStyle" parent="Theme.Reto2_Grupo2">
         <item name="android:background">@drawable/mainpanel_layer</item>
     </style>
 
