@@ -1,11 +1,15 @@
 package com.example.reto2_grupo2
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -25,13 +29,16 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var passwordTextField: EditText
     private lateinit var repeatPasswordTextField: EditText
 
+    private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
     private lateinit var registerButton: Button
 
+    private val REQUEST_CODE_RECORD_IMAGE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
 
         userTextField = findViewById(R.id.loginTxt)
         nameTextField = findViewById(R.id.nameTxt)
@@ -61,6 +68,28 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
         // }
+
+        addPhotoButton = findViewById(R.id.addPhotoButton)
+        addPhotoButton.setOnClickListener {
+            val videoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (videoIntent.resolveActivity(packageManager) != null) {
+                startActivityForResult(videoIntent, REQUEST_CODE_RECORD_IMAGE)
+            } else {
+                Toast.makeText(this, "No camera app found", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_RECORD_IMAGE && resultCode == RESULT_OK) {
+            val selectedVideo: Uri? = data?.data
+            if (selectedVideo != null) {
+                // Añadir la foto al objeto Usuario
+            } else {
+                Toast.makeText(this, "Video recording canceled", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun credentialsOk(): Boolean {

@@ -9,7 +9,11 @@
     <style name="Theme.Reto2_Grupo2" parent="Base.Theme.Reto2_Grupo2" />
 
     <style name="background" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:background">@drawable/gradient</item>
+        <item name="android:background">@drawable/dark_gradient</item>
+    </style>
+
+    <style name="calendarBackground" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:background">@drawable/calendar_dark_background</item>
     </style>
 
     <style name="ButtonFont" parent="Theme.Reto2_Grupo2">
@@ -27,14 +31,20 @@
     </style>
 
     <style name="textBoxes" parent="Theme.Reto2_Grupo2">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="inputText" parent="Theme.Reto2_Grupo2">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">15sp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColorHint">@color/mid_blue</item>
     </style>
 
-    <style name="scrollViewLightStyle" parent="Theme.Reto2_Grupo2">
-        <item name="android:background">@drawable/mainpanel_layer</item>
+    <style name="scrollViewStyle" parent="Theme.Reto2_Grupo2">
+        <item name="android:background">@drawable/mainpanel_darklayer</item>
     </style>
 
     <style name="blackButton" parent="Theme.Reto2_Grupo2">

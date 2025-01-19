@@ -5,14 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
     tools:context=".LoginActivity">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/background" />
     <EditText
         android:id="@+id/passwordTxt"
         android:layout_width="302dp"
         android:layout_height="62dp"
-        android:theme="@style/textBoxes"
+        android:theme="@style/inputText"
         android:hint="@string/password"
         android:importantForAutofill="no"
         android:inputType="textPassword"
@@ -79,7 +82,7 @@
         android:id="@+id/userNameTxt"
         android:layout_width="302dp"
         android:layout_height="62dp"
-        android:theme="@style/textBoxes"
+        android:theme="@style/inputText"
         android:hint="@string/usuario"
         android:importantForAutofill="no"
         android:inputType="text"

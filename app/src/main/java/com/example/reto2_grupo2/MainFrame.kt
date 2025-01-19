@@ -1,59 +1,61 @@
 package com.example.reto2_grupo2
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.example.reto2_grupo2.databinding.ProfessorMainFrameBinding
 import com.example.reto2_grupo2.databinding.StudentMainFrameBinding
+import com.example.reto2_grupo2.ui.DocumentsDownloadFragment
+import com.example.reto2_grupo2.ui.ExternalCoursesFragment
 import com.example.reto2_grupo2.ui.ProfessorMainFragment
 import com.example.reto2_grupo2.ui.ProfileFragment
 import com.example.reto2_grupo2.ui.Reunions_fragment
+import com.example.reto2_grupo2.ui.StudentMainFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainFrame : AppCompatActivity() {
 
     private lateinit var mainFrameBinding: ProfessorMainFrameBinding
-    private lateinit var fragmentManager: FragmentManager
-    private lateinit var fragmentTransaction: FragmentTransaction
     private lateinit var studentFrame: StudentMainFrameBinding
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         mainFrameBinding = ProfessorMainFrameBinding.inflate(layoutInflater)
         studentFrame = StudentMainFrameBinding.inflate(layoutInflater)
-        //Aqui deberia de ponerse el panel inferior del tipo de usuario, pasado a traves del intent.putExtra()
-        setContentView(mainFrameBinding.root)
 
-        mainFrameBinding.bottomNavigationView.setOnItemSelectedListener { item ->
-            when (item.itemId) {
+        val userType = intent.getStringExtra("user")
 
-                R.id.home -> {
+        if (userType == "profesor") {
+            setContentView(mainFrameBinding.root)
+            bottomNavigationView = mainFrameBinding.bottomNavigationView
+        } else if (userType == "alumno") {
+            setContentView(studentFrame.root)
+            bottomNavigationView = studentFrame.bottomNavigationView
+        }
+
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            handleBottomNavigation(item.itemId, userType)
+            true
+        }
+    }
+
+    private fun handleBottomNavigation(itemId: Int, userType: String?) {
+        when (itemId) {
+            R.id.home -> {
+                if (userType == "profesor") {
                     replaceFragment(ProfessorMainFragment())
-                    true
-                }
-
-                R.id.reunions -> {
-                    replaceFragment(Reunions_fragment())
-                    true
-                }
-
-                R.id.user -> {
-                    replaceFragment(ProfileFragment())
-                    true
-                }
-
-                else -> {
-                    false
+                } else {
+                    replaceFragment(StudentMainFragment())
                 }
             }
 
+            R.id.reunions -> replaceFragment(Reunions_fragment())
+            R.id.user -> replaceFragment(ProfileFragment())
+            R.id.documents_download -> replaceFragment(DocumentsDownloadFragment())
+            R.id.external_courses -> replaceFragment(ExternalCoursesFragment())
         }
-
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -61,7 +63,5 @@ class MainFrame : AppCompatActivity() {
         val fT = fM.beginTransaction()
         fT.replace(R.id.frameLayout, fragment)
         fT.commit()
-
     }
-
 }
