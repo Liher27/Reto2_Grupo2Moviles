@@ -57,10 +57,11 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="278dp" />
 
+
             <View
                 android:id="@+id/shapeBackground"
                 android:layout_width="wrap_content"
-                android:layout_height="2300dp"
+                android:layout_height="2600dp"
                 android:theme="@style/scrollViewStyle"
                 app:layout_constraintBottom_toTopOf="@+id/loginButton"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -69,6 +70,91 @@
                 app:layout_constraintTop_toTopOf="@+id/shapeGuideline"
                 app:layout_constraintVertical_bias="0.022" />
 
+            <EditText
+                android:id="@+id/password2Txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/registerCheckBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.198"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password2Title2"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/password2Title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repeatPassword"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/password2Txt2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.188"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password1Txt2" />
+
+            <EditText
+                android:id="@+id/password1Txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/password2Title2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.198"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password1Title2"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/password1Title2"
+                android:layout_width="267dp"
+                android:layout_height="46dp"
+                android:gravity="center_vertical"
+                android:text="@string/insert_password"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/password1Txt2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.269"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginTxt"
+                tools:ignore="TextSizeCheck" />
+
+            <EditText
+                android:id="@+id/cycleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/courseTitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.206"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cicleTitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+            <CheckBox
+                android:id="@+id/intensiveCheck"
+                android:layout_width="304dp"
+                android:layout_height="55dp"
+                android:text="@string/dual_intensive"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/scholarInfoGuidelineEnd"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.343"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/courseTxt" />
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
@@ -76,12 +162,11 @@
                 android:text="@string/personal_info"
                 android:textSize="40sp"
                 android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/personalInfoGuideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/shapeBackground"
-                app:layout_constraintVertical_bias="0.696"
+                app:layout_constraintBottom_toTopOf="@+id/nameTitleTxt"
+                app:layout_constraintTop_toTopOf="@+id/personalInfoGuideline"
                 tools:ignore="TextSizeCheck,TextContrastCheck" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -89,7 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="446dp" />
+                app:layout_constraintGuide_begin="864dp" />
 
             <EditText
                 android:id="@+id/surname2Txt"
@@ -101,7 +186,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/dniTitleTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintHorizontal_bias="0.206"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/surname2TitleTxt"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
@@ -111,13 +196,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/userName"
-                android:theme="@style/textBoxes"
                 android:textSize="20sp"
+                android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/loginTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.126"
+                app:layout_constraintHorizontal_bias="0.174"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/personalInfoGuideline"
+                app:layout_constraintTop_toTopOf="@+id/shapeGuideline"
                 tools:ignore="TextContrastCheck" />
 
             <EditText
@@ -128,9 +213,9 @@
                 android:inputType="text"
                 android:minHeight="48dp"
                 android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/nameTitleTxt"
+                app:layout_constraintBottom_toTopOf="@+id/password1Title2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintHorizontal_bias="0.198"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/loginTitleTxt"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
@@ -144,9 +229,9 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/nameTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.088"
+                app:layout_constraintHorizontal_bias="0.126"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginTxt" />
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <EditText
                 android:id="@+id/nameTxt"
@@ -158,7 +243,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/surname1TitleTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintHorizontal_bias="0.206"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nameTitleTxt"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
@@ -172,7 +257,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/surname1Txt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.101"
+                app:layout_constraintHorizontal_bias="0.141"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nameTxt" />
 
@@ -186,7 +271,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/surname2TitleTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.168"
+                app:layout_constraintHorizontal_bias="0.228"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/surname1TitleTxt"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
@@ -200,7 +285,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/surname2Txt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.119"
+                app:layout_constraintHorizontal_bias="0.169"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/surname1Txt" />
 
@@ -213,10 +298,9 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/dniTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.084"
+                app:layout_constraintHorizontal_bias="0.118"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/surname2Txt"
-                tools:layout_editor_absoluteY="1056dp" />
+                app:layout_constraintTop_toBottomOf="@+id/surname2Txt" />
 
             <EditText
                 android:id="@+id/dniTxt"
@@ -228,7 +312,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/directionTitleTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.14"
+                app:layout_constraintHorizontal_bias="0.198"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dniTitleTxt"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
@@ -242,7 +326,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/directionTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.103"
+                app:layout_constraintHorizontal_bias="0.144"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dniTxt" />
 
@@ -256,7 +340,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/telephone1TitleTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintHorizontal_bias="0.206"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/directionTitleTxt"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
@@ -270,7 +354,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/telephone1Txt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.093"
+                app:layout_constraintHorizontal_bias="0.132"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/directionTxt" />
 
@@ -284,11 +368,10 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/telephone2TitleTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintHorizontal_bias="0.206"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/telephone1TitleTxt"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
-
 
             <TextView
                 android:id="@+id/telephone2TitleTxt"
@@ -299,7 +382,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/telephone2Txt"
                 app:layout_constraintEnd_toEndOf="@+id/shapeBackground"
-                app:layout_constraintHorizontal_bias="0.107"
+                app:layout_constraintHorizontal_bias="0.149"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/telephone1Txt" />
 
@@ -313,7 +396,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/personalInfoGuidelineEnd"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintHorizontal_bias="0.206"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/telephone2TitleTxt"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
@@ -323,7 +406,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="1551dp" />
+                app:layout_constraintGuide_begin="1963dp" />
 
             <TextView
                 android:id="@+id/scholarInfoTitle"
@@ -335,7 +418,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/scholarInfoGuideline"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/personalInfoGuidelineEnd"
                 app:layout_constraintVertical_bias="0.0"
@@ -346,7 +429,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="1669dp" />
+                app:layout_constraintGuide_begin="2081dp" />
 
             <TextView
                 android:id="@+id/cicleTitleTxt"
@@ -357,37 +440,9 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/cycleTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.116"
+                app:layout_constraintHorizontal_bias="0.165"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/scholarInfoGuideline" />
-
-            <EditText
-                android:id="@+id/cycleTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:minHeight="48dp"
-                android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/courseTitleTxt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.148"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cicleTitleTxt"
-                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
-
-            <TextView
-                android:id="@+id/courseTitleTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/course_name"
-                android:textSize="20sp"
-                android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/courseTxt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.134"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cycleTxt" />
 
             <EditText
                 android:id="@+id/courseTxt"
@@ -399,116 +454,30 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/intensiveCheck"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.148"
+                app:layout_constraintHorizontal_bias="0.206"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/courseTitleTxt"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
-
-            <CheckBox
-                android:id="@+id/intensiveCheck"
-                android:layout_width="304dp"
-                android:layout_height="55dp"
-                android:text="@string/dual_intensive"
-                android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/scholarInfoGuidelineEnd"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.277"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/courseTxt"
-                tools:layout_editor_absoluteY="1933dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/scholarInfoGuidelineEnd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="2005dp" />
+                app:layout_constraintGuide_begin="2417dp" />
 
             <TextView
-                android:id="@+id/passwordTitle"
-                android:layout_width="match_parent"
-                android:layout_height="63dp"
-                android:text="@string/password"
-                android:textSize="40sp"
-                android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/passwordGuideline"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/scholarInfoGuidelineEnd"
-                tools:ignore="TextSizeCheck" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/passwordGuideline"
+                android:id="@+id/courseTitleTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="2123dp" />
-
-            <TextView
-                android:id="@+id/password1Title"
-                android:layout_width="267dp"
-                android:layout_height="46dp"
-                android:gravity="center_vertical"
-                android:text="@string/insert_password"
+                android:text="@string/course_name"
                 android:textSize="20sp"
                 android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/password1Txt"
+                app:layout_constraintBottom_toTopOf="@+id/courseTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.289"
+                app:layout_constraintHorizontal_bias="0.184"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/passwordGuideline"
-                app:layout_constraintVertical_bias="0.56"
-                tools:ignore="TextSizeCheck" />
-
-            <EditText
-                android:id="@+id/password1Txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPassword"
-                android:minHeight="48dp"
-                android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/password2Title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.207"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/password1Title"
-                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
-
-            <TextView
-                android:id="@+id/password2Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/repeatPassword"
-                android:textSize="20sp"
-                android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/password2Txt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.188"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/password1Txt" />
-
-            <EditText
-                android:id="@+id/password2Txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPassword"
-                android:minHeight="48dp"
-                android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/imageViewGuideline"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.207"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/password2Title"
-                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/imageViewGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="2416dp" />
+                app:layout_constraintTop_toBottomOf="@+id/cycleTxt" />
 
             <Button
                 android:id="@+id/addPhotoButton"
@@ -516,16 +485,17 @@
                 android:layout_height="80dp"
                 android:text="@string/add_photo"
                 android:theme="@style/blackButton"
-                app:layout_constraintBottom_toBottomOf="@+id/shapeBackground"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.412"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageViewGuideline"
-                app:layout_constraintVertical_bias="0.573" />
+                app:layout_constraintTop_toTopOf="@+id/scholarInfoGuidelineEnd"
+                app:layout_constraintVertical_bias="0.07" />
 
             <Button
                 android:id="@+id/loginButton"
-                android:layout_width="200dp"
-                android:layout_height="69dp"
+                android:layout_width="169dp"
+                android:layout_height="68dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/continuar"
@@ -538,8 +508,8 @@
 
             <Button
                 android:id="@+id/backButton"
-                android:layout_width="200dp"
-                android:layout_height="69dp"
+                android:layout_width="169dp"
+                android:layout_height="68dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/back"
@@ -551,6 +521,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/shapeBackground"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <Button
+                android:id="@+id/registerCheckBtn"
+                android:layout_width="313dp"
+                android:layout_height="79dp"
+                android:text="@string/continuar"
+                app:layout_constraintBottom_toTopOf="@+id/personalInfoGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.317"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/password2Txt2" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="252dp"
+                android:layout_height="254dp"
+                android:contentDescription="@string/add_photo"
+                app:layout_constraintBottom_toBottomOf="@+id/shapeBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addPhotoButton"
+                app:srcCompat="@drawable/pipboy" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </FrameLayout>
