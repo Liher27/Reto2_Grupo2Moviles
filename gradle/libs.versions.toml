@@ -1,5 +1,6 @@
 [versions]
 agp = "8.6.1"
+gson = "2.10.1"
 composeBom = "2025.01.00"
 desugar_jdk_libs = "2.1.4"
 kotlin = "1.9.10"
@@ -31,6 +32,9 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+socket-io-client = { module = "io.socket:socket.io-client", version = "2.1.1" }
+engine-io-client = { module = "io.socket:engine.io-client", version = "2.1.0" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

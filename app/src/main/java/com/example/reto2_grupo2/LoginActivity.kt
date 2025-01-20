@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import java.util.Locale
+import com.example.reto2_grupo2.socketIO.SocketClient
 
 class LoginActivity : AppCompatActivity() {
 
@@ -20,13 +21,14 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var registerTextButton: TextView
     private lateinit var rememberMe: CheckBox
     private lateinit var forgotPassword: TextView
+    private var socketClient : SocketClient? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
         val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
 
         if (sharedPreferences.contains("selected_theme")) {
@@ -47,10 +49,16 @@ class LoginActivity : AppCompatActivity() {
         }
 
         forgotPassword = findViewById(R.id.forgotPassword)
+        socketClient = SocketClient(this)
+        socketClient!!.connect()
         userTextField = findViewById(R.id.userNameTxt)
         passwordTextField = findViewById(R.id.passwordTxt)
         rememberMe = findViewById(R.id.rememberMeCheck)
         registerTextButton = findViewById(R.id.registerTextButton)
+
+
+
+
         registerTextButton.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
@@ -60,15 +68,17 @@ class LoginActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.loginButton)
         loginButton.setOnClickListener {
 
-            if (userTextField.text.toString() == "profesor" && passwordTextField.text.toString() == "profesor" ||
-                userTextField.text.toString() == "alumno" && passwordTextField.text.toString() == "alumno"
-            ) {
-                val intent = Intent(this@LoginActivity, MainFrame::class.java)
+            if (userTextField.text.isNotEmpty() || passwordTextField.text.isNotEmpty()) {
+                socketClient!!.doLogin(
+                    userTextField.text.toString(),
+                    passwordTextField.text.toString()
+                )
+                /*val intent = Intent(this@LoginActivity, MainFrame::class.java)
                 //intent.putExtra("user", el objeto de user que traigamos de la base de datos)
                 intent.putExtra("user", userTextField.text.toString())
                 startActivity(intent)
-                finish()
-            } else if (userTextField.text.isEmpty() || passwordTextField.text.isEmpty()) {
+                finish()*/
+            } else {
                 Toast.makeText(
                     this@LoginActivity,
                     "Por favor, ingrese un nombre de usuario y contraseña",
@@ -76,7 +86,12 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
             }
         }
+    }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        socketClient!!.disconnect()
     }
 
     private fun setLocale(languageCode: String, context: Context) {

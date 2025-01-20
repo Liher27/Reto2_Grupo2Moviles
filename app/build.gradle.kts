@@ -57,4 +57,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    // SOCKET.IO
+    implementation(libs.socket.io.client)
+    implementation(libs.engine.io.client)
+
+    // GSON
+    implementation(libs.gson)
 }
