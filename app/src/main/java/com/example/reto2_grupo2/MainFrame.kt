@@ -25,32 +25,19 @@ class MainFrame : AppCompatActivity() {
         mainFrameBinding = ProfessorMainFrameBinding.inflate(layoutInflater)
         studentFrame = StudentMainFrameBinding.inflate(layoutInflater)
 
-        val userType = intent.getStringExtra("user")
+        setContentView(studentFrame.root)
+        bottomNavigationView = studentFrame.bottomNavigationView
 
-        if (userType == "profesor") {
-            setContentView(mainFrameBinding.root)
-            bottomNavigationView = mainFrameBinding.bottomNavigationView
-        } else if (userType == "alumno") {
-            setContentView(studentFrame.root)
-            bottomNavigationView = studentFrame.bottomNavigationView
-        }
 
         bottomNavigationView.setOnItemSelectedListener { item ->
-            handleBottomNavigation(item.itemId, userType)
+            handleBottomNavigation(item.itemId)
             true
         }
     }
 
-    private fun handleBottomNavigation(itemId: Int, userType: String?) {
+    private fun handleBottomNavigation(itemId: Int?) {
         when (itemId) {
-            R.id.home -> {
-                if (userType == "profesor") {
-                    replaceFragment(ProfessorMainFragment())
-                } else {
-                    replaceFragment(StudentMainFragment())
-                }
-            }
-
+            R.id.home -> replaceFragment(StudentMainFragment())
             R.id.reunions -> replaceFragment(Reunions_fragment())
             R.id.user -> replaceFragment(ProfileFragment())
             R.id.documents_download -> replaceFragment(DocumentsDownloadFragment())
