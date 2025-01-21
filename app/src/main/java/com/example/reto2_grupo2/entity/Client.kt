@@ -4,17 +4,26 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Client
-    (public val userId:Int,
-     public val name:String,
-     public val surname:String,
-     public val password:String,
-     public val userType:Boolean,
-     public val registered:Boolean):Parcelable {
+    (
+    val userId:Int,
+    val name:String,
+    val surname:String,
+    val secondSurname :String,
+    val password:String,
+    val dni:String,
+    val direction:String,
+    val telephone :Int,
+    val userType:Boolean,
+    val registered:Boolean):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readString().toString(),
+        parcel.readInt(),
         parcel.readBoolean(),
         parcel.readBoolean()
     ) {
@@ -29,7 +38,11 @@ data class Client
             dest.writeInt(userId)
             dest.writeString(name)
             dest.writeString(surname)
+            dest.writeString(secondSurname)
             dest.writeString(password)
+            dest.writeString(dni)
+            dest.writeString(direction)
+            dest.writeInt(telephone)
             dest.writeBoolean(userType)
             dest.writeBoolean(registered)
         }

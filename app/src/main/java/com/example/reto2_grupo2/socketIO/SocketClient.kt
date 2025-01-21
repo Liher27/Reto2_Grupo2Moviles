@@ -28,7 +28,7 @@ import kotlin.properties.Delegates
 
 class SocketClient (private val activity: Activity) {
 
-    private val ipPort = "http://10.5.104.36:2888"
+    private val ipPort = "http://10.5.104.21:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var name :String = ""
     private lateinit var context: Context
@@ -78,15 +78,19 @@ class SocketClient (private val activity: Activity) {
             val id = jsonObject["userId"].asInt
             val name = jsonObject["userName"].asString
             val surname = jsonObject["surname"].asString
+            val secondSurname = jsonObject["secondSurname"].asString
             val pass = jsonObject["pass"].asString
+            val dni = jsonObject["dni"].asString
+            val direction = jsonObject["direction"].asString
+            val telephone = jsonObject["telephone"].asInt
             val type = jsonObject["userType"].asBoolean
             val registered = jsonObject["registered"].asBoolean
 
             // Log the values for debugging
-            Log.d(tag, "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered")
+            Log.d(tag, "id: $id, name: $name, surname: $surname, 2ndSurname:$secondSurname,pass: $pass,dni:$dni,direction:$direction,telephone:$telephone  tipo:$type, registered:$registered")
 
             // Create a Client object (or any other appropriate model class)
-            val client = Client(id, name, surname, pass,type,registered)
+            val client = Client(id, name, surname,secondSurname, pass,dni,direction,telephone,type,registered)
 
             // Display the result in the UI
            /* activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login: $client")
@@ -165,7 +169,11 @@ class SocketClient (private val activity: Activity) {
             val id = jsonObject["userId"].asInt
             val name = jsonObject["userName"].asString
             val surname = jsonObject["surname"].asString
+            val secondSurname = jsonObject["secondsurname"].asString
             val pass = jsonObject["pass"].asString
+            val dni = jsonObject["dni"].asString
+            val direction = jsonObject["direction"].asString
+            val telephone = jsonObject["telephone"].asInt
             val type = jsonObject["userType"].asBoolean
             val registered = jsonObject["registered"].asBoolean
 
@@ -173,7 +181,7 @@ class SocketClient (private val activity: Activity) {
             Log.d(tag, "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered")
 
             // Create a Client object (or any other appropriate model class)
-            val client = Client(id, name, surname, pass,type,registered)
+            val client = Client(id, name, surname,secondSurname, pass,dni,direction,telephone,type,registered)
             val intent = Intent(context, MainFrame::class.java).apply {
                 putExtra("user",client)
             }
@@ -188,6 +196,19 @@ class SocketClient (private val activity: Activity) {
            Toast.makeText(context,"No se ha logueado correctamente",Toast.LENGTH_SHORT).show()
                 }
         }
+        socket.on(Events.ON_REGISTER.value){ args ->
+            val response = args[0] as String
+            Log.d(tag, "Registra su usuario por: $response")
+            val intent = Intent(context, RegisterActivity::class.java)
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        }
+    }
+
+
+    fun doRegister(){
+
     }
 
 
