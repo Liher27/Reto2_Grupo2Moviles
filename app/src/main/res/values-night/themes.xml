@@ -43,6 +43,11 @@
         <item name="android:textColorHint">@color/mid_blue</item>
     </style>
 
+    <style name="CustomCardViewStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/dark_Blue </item>
+        <item name="cardCornerRadius">8dp</item>
+    </style>
+
     <style name="scrollViewStyle" parent="Theme.Reto2_Grupo2">
         <item name="android:background">@drawable/mainpanel_darklayer</item>
     </style>

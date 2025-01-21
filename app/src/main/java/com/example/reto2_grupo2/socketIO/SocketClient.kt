@@ -28,7 +28,7 @@ import kotlin.properties.Delegates
 
 class SocketClient (private val activity: Activity) {
 
-    private val ipPort = "http://10.5.104.21:2888"
+    private val ipPort = "http://10.5.104.36:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var name :String = ""
     private lateinit var context: Context

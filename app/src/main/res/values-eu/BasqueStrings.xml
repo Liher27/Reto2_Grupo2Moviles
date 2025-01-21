@@ -35,7 +35,17 @@
     <string name="studentSchedule">Ordutegia</string>
     <string name="download">Deskargatu</string>
     <string name="downloadDocuments">Dokumentuen deskarga</string>
-    <string name="filter">Filtrati</string>
+    <string name="filter">Filtratu</string>
     <string name="external_courses">Kanpo-Kurtsoak</string>
     <string name="externalCourses">Kanpo-Kurtsoak</string>
+    <string name="languageSettingsTitle">Aldatu hizkuntza</string>
+    <string-array name="theme_arrays">
+        <item>Argia</item>
+        <item>Iluna</item>
+    </string-array>
+    <string name="insert_old_password">Sartu zure pasahitz zaharra</string>
+    <string name="insert_new_password">Sartu zure pasahitz berria</string>
+    <string name="repeat_new_password">Errepikatu zure pasahitz berria</string>
+    <string name="themeSettingsTitle">Gaia aldatu</string>
+    <string name="forgotPassword">Nire pasahitza ahaztu dut</string>
 </resources>

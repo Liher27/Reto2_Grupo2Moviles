@@ -7,9 +7,9 @@ import android.provider.MediaStore
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -71,48 +71,31 @@ class RegisterActivity : AppCompatActivity() {
 
         addPhotoButton = findViewById(R.id.addPhotoButton)
         addPhotoButton.setOnClickListener {
-            val videoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (videoIntent.resolveActivity(packageManager) != null) {
-                startActivityForResult(videoIntent, REQUEST_CODE_RECORD_IMAGE)
+            val imageIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (imageIntent.resolveActivity(packageManager) != null) {
+                startActivityForResult(imageIntent, REQUEST_CODE_RECORD_IMAGE)
             } else {
                 Toast.makeText(this, "No camera app found", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    @Deprecated("")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_RECORD_IMAGE && resultCode == RESULT_OK) {
-            val selectedVideo: Uri? = data?.data
-            if (selectedVideo != null) {
-                // Añadir la foto al objeto Usuario
+            val takenImage: Uri? = data?.data
+            if (takenImage != null) {
+                val imageView = findViewById<ImageView>(R.id.imageView)
+                imageView.setImageURI(takenImage)
             } else {
-                Toast.makeText(this, "Video recording canceled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Photo recording canceled", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun credentialsOk(): Boolean {
         var ret = false
-
-        if (userTextField.text.toString().isNotEmpty()
-            && nameTextField.text.toString().isNotEmpty()
-            && surnameTextField.text.toString().isNotEmpty()
-            && dniTextField.text.toString().isNotEmpty()
-            && directionTextField.text.toString().isNotEmpty()
-            && telephone1TextField.text.toString().isNotEmpty()
-            && telephone2TextField.text.toString().isNotEmpty()
-            && telephone2TextField.text.toString() == telephone1TextField.text.toString()
-            && passwordTextField.text.toString().isNotEmpty()
-            && repeatPasswordTextField.text.toString().isNotEmpty()
-            && passwordTextField.text.toString() == repeatPasswordTextField.text.toString()
-        )
-            if (cycleNameTextField.text.toString()
-                    .isNotEmpty() && courseNameTextField.text.toString().isNotEmpty()
-            )
-            //check for user if its correctly registered
-                ret = true
-
 
         return ret
 

@@ -38,4 +38,14 @@
     <string name="filter">Filter</string>
     <string name="external_courses">External courses</string>
     <string name="externalCourses">External courses</string>
+    <string name="languageSettingsTitle">Change language</string>
+    <string-array name="theme_arrays">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+    <string name="insert_old_password">Insert your old password</string>
+    <string name="insert_new_password">Insert your new password</string>
+    <string name="repeat_new_password">Repeat your new password</string>
+    <string name="themeSettingsTitle">Change theme</string>
+    <string name="forgotPassword">I forgot my password</string>
 </resources>
