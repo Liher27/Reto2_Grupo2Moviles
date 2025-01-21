@@ -28,7 +28,7 @@ import kotlin.properties.Delegates
 
 class SocketClient (private val activity: Activity) {
 
-    private val ipPort = "http://10.0.2.2:2888"
+    private val ipPort = "http://10.5.104.21:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var name :String = ""
     private lateinit var context: Context
@@ -155,9 +155,28 @@ class SocketClient (private val activity: Activity) {
         Log.d(tag, "Attempt of login - $userName, $password")
 
         socket.on(Events.ON_LOGIN_SUCCESS.value) { args ->
-            val response = args[0] as String
-            Log.d(tag, "Login correcto: $response")
-            val intent = Intent(context, MainFrame::class.java)
+            val response = args[0] as JSONObject
+            // The response contains a JSON string under the "message" key
+            val message = response.getString("message")
+            // Now we can use Gson to parse the message into a JsonObject
+            val gson = Gson()
+            val jsonObject = gson.fromJson(message, JsonObject::class.java)
+            // Extract values from the JsonObject
+            val id = jsonObject["userId"].asInt
+            val name = jsonObject["userName"].asString
+            val surname = jsonObject["surname"].asString
+            val pass = jsonObject["pass"].asString
+            val type = jsonObject["userType"].asBoolean
+            val registered = jsonObject["registered"].asBoolean
+
+            // Log the values for debugging
+            Log.d(tag, "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered")
+
+            // Create a Client object (or any other appropriate model class)
+            val client = Client(id, name, surname, pass,type,registered)
+            val intent = Intent(context, MainFrame::class.java).apply {
+                putExtra("user",client)
+            }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }

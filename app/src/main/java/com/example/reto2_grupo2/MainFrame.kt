@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.databinding.ProfessorMainFrameBinding
 import com.example.reto2_grupo2.databinding.StudentMainFrameBinding
+import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.ui.DocumentsDownloadFragment
 import com.example.reto2_grupo2.ui.ExternalCoursesFragment
 import com.example.reto2_grupo2.ui.ProfessorMainFragment
@@ -28,16 +29,34 @@ class MainFrame : AppCompatActivity() {
         setContentView(studentFrame.root)
         bottomNavigationView = studentFrame.bottomNavigationView
 
+        val client:Client? = intent.getParcelableExtra("user")
+        if (client?.userType == true) {
+            setContentView(mainFrameBinding.root)
+            bottomNavigationView = mainFrameBinding.bottomNavigationView
+        } else {
+            setContentView(studentFrame.root)
+            bottomNavigationView = studentFrame.bottomNavigationView
+        }
+
+
 
         bottomNavigationView.setOnItemSelectedListener { item ->
-            handleBottomNavigation(item.itemId)
+            handleBottomNavigation(item.itemId,client?.userType)
             true
         }
     }
 
-    private fun handleBottomNavigation(itemId: Int?) {
+
+    private fun handleBottomNavigation(itemId: Int, userType: Boolean?) {
         when (itemId) {
-            R.id.home -> replaceFragment(StudentMainFragment())
+            R.id.home -> {
+                if (userType == true) {
+                    replaceFragment(ProfessorMainFragment())
+                } else {
+                    replaceFragment(StudentMainFragment())
+                }
+            }
+
             R.id.reunions -> replaceFragment(Reunions_fragment())
             R.id.user -> replaceFragment(ProfileFragment())
             R.id.documents_download -> replaceFragment(DocumentsDownloadFragment())
