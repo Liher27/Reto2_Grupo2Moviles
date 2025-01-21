@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
             finish()
-        }
+            }
 
         loginButton = findViewById(R.id.loginButton)
         loginButton.setOnClickListener {
@@ -73,11 +73,7 @@ class LoginActivity : AppCompatActivity() {
                     userTextField.text.toString(),
                     passwordTextField.text.toString()
                 )
-                /*val intent = Intent(this@LoginActivity, MainFrame::class.java)
-                //intent.putExtra("user", el objeto de user que traigamos de la base de datos)
-                intent.putExtra("user", userTextField.text.toString())
-                startActivity(intent)
-                finish()*/
+
             } else {
                 Toast.makeText(
                     this@LoginActivity,

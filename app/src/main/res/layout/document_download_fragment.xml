@@ -110,6 +110,17 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     app:layout_constraintGuide_begin="466dp" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="247dp"
+                    android:layout_height="164dp"
+                    android:text="Button"
+                    app:layout_constraintBottom_toBottomOf="@+id/shapeBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guideline6"
+                    app:layout_constraintVertical_bias="0.095" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
