@@ -1,33 +1,37 @@
 package com.example.reto2_grupo2.ui
 
 import android.app.DownloadManager
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Button
+import android.widget.Spinner
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
+import com.example.reto2_grupo2.entity.Client
+import com.example.reto2_grupo2.socketIO.SocketClient
 
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_USER = "user"
 
 class DocumentsDownloadFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
-    private lateinit var downloadButton : Button
+    private lateinit var downloadButton: Button
     private var manager: DownloadManager? = null
+    private lateinit var documentSelectionSpinner: Spinner
+    private lateinit var filterSpinner: Spinner
+    private var socketClient: SocketClient? = null
+    private var documentLink: String = ""
+    private var documentsLinks: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        val client = arguments?.getParcelable<Client>(ARG_USER)
+        socketClient = SocketClient(this)
     }
 
     override fun onCreateView(
@@ -39,10 +43,45 @@ class DocumentsDownloadFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        downloadButton = view.findViewById(R.id.button2)
+        documentSelectionSpinner = view.findViewById(R.id.documentSelectionSpinner)
+        filterSpinner = view.findViewById(R.id.filterSpinner)
+        downloadButton = view.findViewById(R.id.documentDownloadButton)
+
+        filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, view: View?, p2: Int, p3: Long) {
+                when (p2) {
+                    0 -> filterByCourse()
+                    1 -> filterByCycle()
+                    2 -> filterBySubject()
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+        }
+
+        //Aqui dependiendo del tamaño del arrayList de Strings que nos devuelva el anterior spinner,
+        // pondremos un tamaño mayor o menor, y llenaremos con nombres como: Documento + i
+        // y luego que sea on item selected, y que pille el link y lo ponga en documentLink
+
+
         downloadButton.setOnClickListener {
             downloadDocument()
         }
+    }
+
+    private fun filterByCourse() {
+        socketClient?.filterByCourse()
+    }
+
+    private fun filterByCycle() {
+
+    }
+
+    private fun filterBySubject() {
+
     }
 
     private fun downloadDocument() {
@@ -55,13 +94,14 @@ class DocumentsDownloadFragment : Fragment() {
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DocumentsDownloadFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        private const val ARG_CLIENT = "client"
+
+        fun newInstance(client: Client?): StudentMainFragment {
+            val fragment = StudentMainFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_CLIENT, client)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

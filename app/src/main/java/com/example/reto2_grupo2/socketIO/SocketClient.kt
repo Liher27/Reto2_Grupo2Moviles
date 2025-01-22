@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.LoginActivity
 import com.example.reto2_grupo2.MainFrame
 import com.example.reto2_grupo2.R
@@ -26,24 +27,27 @@ import com.example.reto2_grupo2.socketIO.config.Events
 import com.example.reto2_grupo2.socketIO.model.MessageInput
 import kotlin.properties.Delegates
 
-class SocketClient (private val activity: Activity) {
+class SocketClient(private val activity: Activity) {
 
-    private val ipPort = "http://10.5.104.36:2888"
+    private val ipPort = "http://172.29.48.1:2888"
     private val socket: Socket = IO.socket(ipPort)
-    private var name :String = ""
+    private var name: String = ""
     private lateinit var context: Context
     private lateinit var perf: SharedPreferences
     private var saveUser by Delegates.notNull<Boolean>()
+    private var fragment: Fragment? = null
 
-
+    constructor(fragment: Fragment) : this(fragment.requireActivity()) {
+        this.fragment = fragment
+    }
 
     // For log purposes
     private var tag = "socket.io"
 
     // We add here ALL the events we are eager to LISTEN from the server
     init {
-        context = activity.applicationContext
-        perf = context.getSharedPreferences("document_sharedPreferences", MODE_PRIVATE)
+
+        context = fragment?.requireContext() ?: activity.applicationContext
         // Event called when the socket connects
         socket.on(Socket.EVENT_CONNECT) {
             Log.d(tag, "Connected...")
@@ -83,18 +87,20 @@ class SocketClient (private val activity: Activity) {
             val registered = jsonObject["registered"].asBoolean
 
             // Log the values for debugging
-            Log.d(tag, "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered")
+            Log.d(
+                tag,
+                "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered"
+            )
 
             // Create a Client object (or any other appropriate model class)
-            val client = Client(id, name, surname, pass,type,registered)
+            val client = Client(id, name, surname, pass, type, registered)
 
             // Display the result in the UI
-           /* activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login: $client")
-            Log.d(tag, "Answer to Login: $client")*/
+            /* activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login: $client")
+             Log.d(tag, "Answer to Login: $client")*/
 
 
         }
-
 
 
         // Event called when the socket gets an answer from a getAll.
@@ -131,7 +137,7 @@ class SocketClient (private val activity: Activity) {
         socket.connect()
 
         // Log traces
-        Log.d (tag, "Connecting to server...")
+        Log.d(tag, "Connecting to server...")
     }
 
     // This method is called when we want to disconnect from the server
@@ -139,7 +145,7 @@ class SocketClient (private val activity: Activity) {
         socket.disconnect()
 
         // Log traces
-        Log.d (tag, "Disconnecting from server...")
+        Log.d(tag, "Disconnecting from server...")
     }
 
     // Custom events
@@ -170,12 +176,15 @@ class SocketClient (private val activity: Activity) {
             val registered = jsonObject["registered"].asBoolean
 
             // Log the values for debugging
-            Log.d(tag, "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered")
+            Log.d(
+                tag,
+                "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered"
+            )
 
             // Create a Client object (or any other appropriate model class)
-            val client = Client(id, name, surname, pass,type,registered)
+            val client = Client(id, name, surname, pass, type, registered)
             val intent = Intent(context, MainFrame::class.java).apply {
-                putExtra("user",client)
+                putExtra("user", client)
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
@@ -185,11 +194,14 @@ class SocketClient (private val activity: Activity) {
             val response = args[0] as String
             Log.d(tag, "Login fallado: $response")
             activity.runOnUiThread {
-           Toast.makeText(context,"No se ha logueado correctamente",Toast.LENGTH_SHORT).show()
-                }
+                Toast.makeText(context, "No se ha logueado correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
+    fun filterByCourse() {
+    }
 
     // This method is called when we want to getAll the Alumno.
     fun doGetAll() {
@@ -197,7 +209,7 @@ class SocketClient (private val activity: Activity) {
 
         // Log traces
 
-        Log.d (tag, "Attempt of getAll...")
+        Log.d(tag, "Attempt of getAll...")
     }
 
     // This method is called when we want to logout. We get the userName,
@@ -208,7 +220,7 @@ class SocketClient (private val activity: Activity) {
 
         // Log traces
 
-        Log.d (tag, "Attempt of logout - $message")
+        Log.d(tag, "Attempt of logout - $message")
     }
 
 }

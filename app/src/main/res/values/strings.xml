@@ -48,6 +48,11 @@
         <item>Claro</item>
         <item>Oscuro</item>
     </string-array>
+    <string-array name="filter_arrays">
+        <item>Por Curso</item>
+        <item>Por Ciclo</item>
+        <item>Por Asignatura</item>
+    </string-array>
     <string name="insert_old_password">Introduce tu antigua contraseña</string>
     <string name="insert_new_password">Introduce tu nueva contraseña</string>
     <string name="repeat_new_password">Repite tu nueva contraseña</string>

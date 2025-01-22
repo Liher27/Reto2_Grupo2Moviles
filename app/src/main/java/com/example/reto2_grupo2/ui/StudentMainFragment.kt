@@ -7,7 +7,11 @@ import android.view.ViewGroup
 import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
+import com.example.reto2_grupo2.entity.Client
 import java.util.Calendar
+
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
 class StudentMainFragment : Fragment() {
 
@@ -51,16 +55,14 @@ class StudentMainFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_PARAM1 = "param1"
-        private const val ARG_PARAM2 = "param2"
+        private const val ARG_CLIENT = "client"
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StudentMainFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        fun newInstance(client: Client?): StudentMainFragment {
+            val fragment = StudentMainFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_CLIENT, client)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }
