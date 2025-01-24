@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/gradientBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/loginLogo"
+                android:layout_width="210dp"
+                android:layout_height="205dp"
+                android:layout_marginTop="-40dp"
+                android:contentDescription="@string/logo_description"
+                app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@mipmap/elorclass_foreground" />
+
+            <TextView
+                android:id="@+id/registerTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/profile"
+                android:textSize="34sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginLogo" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/shapeGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="278dp" />
+
+
+            <View
+                android:id="@+id/shapeBackground"
+                android:layout_width="0dp"
+                android:layout_height="1000dp"
+                android:theme="@style/scrollViewStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/shapeGuideline"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/oldPasswordTitle"
+                android:layout_width="333dp"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:text="@string/insert_old_password"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/oldPasswordTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.272"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline8"
+                tools:ignore="TextSizeCheck" />
+
+            <EditText
+                android:id="@+id/newPasswordTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/repeatPasswordTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/newPasswordTitle"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/repeatPasswordTitle"
+                android:layout_width="381dp"
+                android:layout_height="55dp"
+                android:text="@string/repeat_new_password"
+                android:textSize="20sp"
+                android:gravity="center_vertical"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/repeatNewPasswordTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.42"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/newPasswordTxt" />
+
+            <EditText
+                android:id="@+id/repeatNewPasswordTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.14"
+                app:layout_constraintTop_toBottomOf="@+id/repeatPasswordTitle"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/newPasswordTitle"
+                android:layout_width="351dp"
+                android:layout_height="59dp"
+                android:gravity="center_vertical"
+                android:text="@string/insert_new_password"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/newPasswordTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.313"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/oldPasswordTxt"
+                tools:ignore="TextSizeCheck" />
+
+            <EditText
+                android:id="@+id/oldPasswordTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/newPasswordTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.14"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/oldPasswordTitle"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/languageSettingsTitle"
+                android:layout_width="411dp"
+                android:layout_height="wrap_content"
+                android:text="@string/languageSettingsTitle"
+                android:textSize="34sp"
+                android:theme="@style/textBoxes"
+
+                app:layout_constraintBottom_toTopOf="@+id/languageSpinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.637"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/registerTitle"
+                app:layout_constraintVertical_chainStyle="spread" />
+
+            <Spinner
+                android:id="@+id/themeSpinner"
+                android:layout_width="331dp"
+                android:layout_height="55dp"
+                android:minHeight="48dp"
+                android:entries="@array/theme_arrays"
+                app:layout_constraintBottom_toTopOf="@+id/guideline8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.633"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/themeSettingsTitle" />
+
+            <Spinner
+                android:id="@+id/languageSpinner"
+                android:layout_width="331dp"
+                android:layout_height="55dp"
+                android:entries="@array/country_arrays"
+                android:gravity="center_vertical"
+                android:minHeight="48dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.633"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/languageSettingsTitle" />
+
+            <TextView
+                android:id="@+id/themeSettingsTitle"
+                android:layout_width="411dp"
+                android:layout_height="wrap_content"
+                android:text="@string/themeSettingsTitle"
+                android:textSize="34sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/themeSpinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.637"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline7"
+                app:layout_constraintVertical_chainStyle="spread" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:theme="@style/ButtonFont"
+                app:layout_constraintGuide_begin="430dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="579dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="1160dp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="274dp"
+                android:layout_height="83dp"
+                android:text="@string/continuar"
+                android:theme="@style/blackButton"
+                app:layout_constraintBottom_toTopOf="@+id/guideline9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.189"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/repeatNewPasswordTxt" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

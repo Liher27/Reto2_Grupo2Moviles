@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="logo_description">Elorclass-eko logoa</string>
+    <string name="iniciar_sesion">Sesio hasi</string>
+    <string name="usuario">Erabiltzaile</string>
+    <string name="remember_pass">Pasahitza gogoratu</string>
+    <string name="registrate">Erregistratu</string>
+    <string name="continuar">Jarraitu</string>
+    <string name="userIcon">Erabiltzailearen ikonoa</string>
+    <string name="pass_icon">Pasahitzaren ikonoa</string>
+    <string name="personal_info">Informazio pertsonala</string>
+    <string name="userName">Erabil-izena</string>
+    <string name="name">Izena</string>
+    <string name="surname">Abizena</string>
+    <string name="second_surname">Bigarren abizena</string>
+    <string name="dni">DNI</string>
+    <string name="direction">Direkzioa</string>
+    <string name="telephone1">Telefono 1</string>
+    <string name="telephone2">Telefono 2</string>
+    <string name="formative_info">Informazio formatiboa</string>
+    <string name="course_name">Kurtso izena</string>
+    <string name="cycle_name">Ziklo izena</string>
+    <string name="dual_intensive">Inentsibo duala</string>
+    <string name="password">Pasahitza</string>
+    <string name="insert_password">Pasahitza sartu</string>
+    <string name="repeatPassword">Errepikatu pasahitza</string>
+    <string name="add_photo">foto gehitu</string>
+    <string name="back">Atzera</string>
+    <string name="app_name">ElorClass</string>
+    <string name="ProfessorMainPanelTitle">Klasearen kontrola</string>
+    <string name="profile">Profila</string>
+    <string name="home">Etxea</string>
+    <string name="settings">Ezarpenak</string>
+    <string name="reunions">Bilera</string>
+    <string name="studentSchedule">Ordutegia</string>
+    <string name="download">Deskargatu</string>
+    <string name="downloadDocuments">Dokumentuen deskarga</string>
+    <string name="filter">Filtratu</string>
+    <string name="external_courses">Kanpo-Kurtsoak</string>
+    <string name="externalCourses">Kanpo-Kurtsoak</string>
+    <string name="languageSettingsTitle">Aldatu hizkuntza</string>
+    <string-array name="theme_arrays">
+        <item>Argia</item>
+        <item>Iluna</item>
+    </string-array>
+    <string name="insert_old_password">Sartu zure pasahitz zaharra</string>
+    <string name="insert_new_password">Sartu zure pasahitz berria</string>
+    <string name="repeat_new_password">Errepikatu zure pasahitz berria</string>
+    <string name="themeSettingsTitle">Gaia aldatu</string>
+    <string name="forgotPassword">Nire pasahitza ahaztu dut</string>
+</resources>

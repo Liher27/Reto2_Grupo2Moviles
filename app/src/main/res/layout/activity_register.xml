@@ -1,0 +1,547 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/background" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/registerTitle"
+                android:layout_width="208dp"
+                android:layout_height="51dp"
+                android:text="@string/registrate"
+                android:textSize="34sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.947"
+                tools:ignore="TextSizeCheck" />
+
+            <ImageView
+                android:id="@+id/loginLogo"
+                android:layout_width="261dp"
+                android:layout_height="256dp"
+                android:layout_marginTop="-40dp"
+                android:contentDescription="@string/logo_description"
+                app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                app:srcCompat="@mipmap/elorclass_foreground" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/shapeGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="278dp" />
+
+
+            <View
+                android:id="@+id/shapeBackground"
+                android:layout_width="wrap_content"
+                android:layout_height="2600dp"
+                android:theme="@style/scrollViewStyle"
+                app:layout_constraintBottom_toTopOf="@+id/loginButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/shapeGuideline"
+                app:layout_constraintVertical_bias="0.022" />
+
+            <EditText
+                android:id="@+id/password2Txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/registerCheckBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.198"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password2Title2"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/password2Title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/repeatPassword"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/password2Txt2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.188"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password1Txt2" />
+
+            <EditText
+                android:id="@+id/password1Txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/password2Title2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.198"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password1Title2"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/password1Title2"
+                android:layout_width="267dp"
+                android:layout_height="46dp"
+                android:gravity="center_vertical"
+                android:text="@string/insert_password"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/password1Txt2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.269"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginTxt"
+                tools:ignore="TextSizeCheck" />
+
+            <EditText
+                android:id="@+id/cycleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/courseTitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.206"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cicleTitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+            <CheckBox
+                android:id="@+id/intensiveCheck"
+                android:layout_width="304dp"
+                android:layout_height="55dp"
+                android:text="@string/dual_intensive"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/scholarInfoGuidelineEnd"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.343"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/courseTxt" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:text="@string/personal_info"
+                android:textSize="40sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/nameTitleTxt"
+                app:layout_constraintTop_toTopOf="@+id/personalInfoGuideline"
+                tools:ignore="TextSizeCheck,TextContrastCheck" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/personalInfoGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="864dp" />
+
+            <EditText
+                android:id="@+id/surname2Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/dniTitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.206"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname2TitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/loginTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/userName"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/loginTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.174"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/shapeGuideline"
+                tools:ignore="TextContrastCheck" />
+
+            <EditText
+                android:id="@+id/loginTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/password1Title2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.198"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/loginTitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/nameTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/nameTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.126"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <EditText
+                android:id="@+id/nameTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/surname1TitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.206"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nameTitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/surname1TitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/surname"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/surname1Txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.141"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nameTxt" />
+
+            <EditText
+                android:id="@+id/surname1Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/surname2TitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.228"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname1TitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/surname2TitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/second_surname"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/surname2Txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.169"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname1Txt" />
+
+            <TextView
+                android:id="@+id/dniTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dni"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/dniTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.118"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/surname2Txt" />
+
+            <EditText
+                android:id="@+id/dniTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/directionTitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.198"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dniTitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/directionTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/direction"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/directionTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.144"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dniTxt" />
+
+            <EditText
+                android:id="@+id/directionTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/telephone1TitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.206"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/directionTitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/telephone1TitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/telephone1"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/telephone1Txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.132"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/directionTxt" />
+
+            <EditText
+                android:id="@+id/telephone1Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/telephone2TitleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.206"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telephone1TitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/telephone2TitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/telephone2"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/telephone2Txt"
+                app:layout_constraintEnd_toEndOf="@+id/shapeBackground"
+                app:layout_constraintHorizontal_bias="0.149"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telephone1Txt" />
+
+            <EditText
+                android:id="@+id/telephone2Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/personalInfoGuidelineEnd"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.206"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telephone2TitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/personalInfoGuidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="1963dp" />
+
+            <TextView
+                android:id="@+id/scholarInfoTitle"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/formative_info"
+                android:textSize="35sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/scholarInfoGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/personalInfoGuidelineEnd"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="TextSizeCheck" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/scholarInfoGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="2081dp" />
+
+            <TextView
+                android:id="@+id/cicleTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cycle_name"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/cycleTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.165"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scholarInfoGuideline" />
+
+            <EditText
+                android:id="@+id/courseTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/intensiveCheck"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.206"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/courseTitleTxt"
+                tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/scholarInfoGuidelineEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="2417dp" />
+
+            <TextView
+                android:id="@+id/courseTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/course_name"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/courseTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.184"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cycleTxt" />
+
+            <Button
+                android:id="@+id/addPhotoButton"
+                android:layout_width="293dp"
+                android:layout_height="80dp"
+                android:text="@string/add_photo"
+                android:theme="@style/blackButton"
+                app:layout_constraintBottom_toTopOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.412"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/scholarInfoGuidelineEnd"
+                app:layout_constraintVertical_bias="0.07" />
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="169dp"
+                android:layout_height="68dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/continuar"
+                android:theme="@style/ButtonsLightStyle1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/backButton"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shapeBackground" />
+
+            <Button
+                android:id="@+id/backButton"
+                android:layout_width="169dp"
+                android:layout_height="68dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/back"
+                android:theme="@style/ButtonsLightStyle1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/loginButton"
+                app:layout_constraintTop_toBottomOf="@+id/shapeBackground"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Button
+                android:id="@+id/registerCheckBtn"
+                android:layout_width="313dp"
+                android:layout_height="79dp"
+                android:text="@string/continuar"
+                app:layout_constraintBottom_toTopOf="@+id/personalInfoGuideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.317"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/password2Txt2" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="252dp"
+                android:layout_height="254dp"
+                android:contentDescription="@string/add_photo"
+                app:layout_constraintBottom_toBottomOf="@+id/shapeBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/addPhotoButton"
+                app:srcCompat="@drawable/pipboy" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</FrameLayout>
