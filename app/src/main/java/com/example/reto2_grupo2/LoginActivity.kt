@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
 import java.util.Locale
 import com.example.reto2_grupo2.socketIO.SocketClient
 
@@ -21,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var registerTextButton: TextView
     private lateinit var rememberMe: CheckBox
     private lateinit var forgotPassword: TextView
-    private var socketClient : SocketClient? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         forgotPassword = findViewById(R.id.forgotPassword)
-        socketClient = SocketClient(this)
+        socketClient =SocketClient(this)
         socketClient!!.connect()
         userTextField = findViewById(R.id.userNameTxt)
         passwordTextField = findViewById(R.id.passwordTxt)
@@ -65,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
             }
 
-        loginButton = findViewById(R.id.loginButton)
+        loginButton = findViewById(R.id.registerButton)
         loginButton.setOnClickListener {
 
             if (userTextField.text.isNotEmpty() || passwordTextField.text.isNotEmpty()) {
