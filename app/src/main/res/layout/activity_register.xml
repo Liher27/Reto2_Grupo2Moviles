@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="2600dp"
                 android:theme="@style/scrollViewStyle"
-                app:layout_constraintBottom_toTopOf="@+id/loginButton"
+                app:layout_constraintBottom_toTopOf="@+id/registerUserButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -493,7 +493,7 @@
                 app:layout_constraintVertical_bias="0.07" />
 
             <Button
-                android:id="@+id/loginButton"
+                android:id="@+id/registerUserButton"
                 android:layout_width="169dp"
                 android:layout_height="68dp"
                 android:layout_marginTop="8dp"
@@ -517,7 +517,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/loginButton"
+                app:layout_constraintStart_toEndOf="@+id/registerUserButton"
                 app:layout_constraintTop_toBottomOf="@+id/shapeBackground"
                 app:layout_constraintVertical_bias="0.0" />
 
