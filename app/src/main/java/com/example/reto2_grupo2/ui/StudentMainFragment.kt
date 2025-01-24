@@ -56,7 +56,6 @@ class StudentMainFragment : Fragment() {
 
     companion object {
         private const val ARG_CLIENT = "client"
-
         fun newInstance(client: Client?): StudentMainFragment {
             val fragment = StudentMainFragment()
             val args = Bundle()

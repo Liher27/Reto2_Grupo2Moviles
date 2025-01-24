@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.reto2_grupo2.R
+import com.example.reto2_grupo2.databinding.ProfessorMainFrameBinding
 import com.example.reto2_grupo2.entity.Client
 
 // TODO: Rename parameter arguments, choose names that match
@@ -41,9 +42,8 @@ class ProfessorMainFragment : Fragment() {
 
     companion object {
         private const val ARG_CLIENT = "client"
-
-        fun newInstance(client: Client?): StudentMainFragment {
-            val fragment = StudentMainFragment()
+        fun newInstance(client: Client?): ProfessorMainFragment {
+            val fragment = ProfessorMainFragment()
             val args = Bundle()
             args.putParcelable(ARG_CLIENT, client)
             fragment.arguments = args

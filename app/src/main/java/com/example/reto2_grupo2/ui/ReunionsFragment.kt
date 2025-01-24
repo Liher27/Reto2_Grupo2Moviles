@@ -41,9 +41,8 @@ class ReunionsFragment : Fragment() {
 
     companion object {
         private const val ARG_CLIENT = "client"
-
-        fun newInstance(client: Client?): StudentMainFragment {
-            val fragment = StudentMainFragment()
+        fun newInstance(client: Client?): ReunionsFragment {
+            val fragment = ReunionsFragment()
             val args = Bundle()
             args.putParcelable(ARG_CLIENT, client)
             fragment.arguments = args
