@@ -3,7 +3,6 @@ package com.example.reto2_grupo2.ui
 import android.app.DownloadManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.entity.Client
-import com.example.reto2_grupo2.entity.Document
 import com.example.reto2_grupo2.socketIO.SocketClient
 
 
@@ -28,12 +26,10 @@ class DocumentsDownloadFragment : Fragment() {
     private var socketClient: SocketClient? = null
     private var documentLink: String = ""
     private var client: Client? = null
-    private var links: List<String>? = null
-    private var documents: List<Document>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        client = arguments?.getParcelable(ARG_CLIENT)
+        client = arguments?.getParcelable(ARG_CLIENT, Client::class.java)
         socketClient = SocketClient(this)
         socketClient!!.connect()
     }
@@ -66,11 +62,6 @@ class DocumentsDownloadFragment : Fragment() {
 
         }
 
-        //Aqui dependiendo del tamaño del arrayList de Strings que nos devuelva el anterior spinner,
-        // pondremos un tamaño mayor o menor, y llenaremos con nombres como: Documento + i
-        // y luego que sea on item selected, y que pille el link y lo ponga en documentLink
-
-
         downloadButton.setOnClickListener {
             if (documentLink != "")
                 downloadDocument(documentLink)
@@ -81,65 +72,81 @@ class DocumentsDownloadFragment : Fragment() {
     }
 
     private fun filterByCourse() {
-        documents = socketClient?.filterByCourse(client)
-        val linksList = documents?.map { it.link }
-        if (documents != null) {
-            val adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                linksList!!
-            )
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            documentSelectionSpinner.adapter = adapter
-            adapter.notifyDataSetChanged()
-            documentSelectionSpinner.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        documentLink = documents!![position].link
-                    }
+        socketClient?.filterByCourse(client) { links ->
+            if (links.isNotEmpty()) {
+                requireActivity().runOnUiThread {
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_spinner_item,
+                        links
+                    )
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    documentSelectionSpinner.adapter = adapter
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                    }
+                    documentSelectionSpinner.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                documentLink = links[position]
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                            }
+                        }
                 }
-        } else
-            Toast.makeText(requireContext(), "No se han encontrado documentos", Toast.LENGTH_SHORT)
-                .show()
+            } else {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        "No se han encontrado documentos",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     private fun filterByCycle() {
-        documents = socketClient?.filterByCycle(client)
-        val linksList = documents?.map { it.link }
-        if (documents != null) {
-            val adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                linksList!!
-            )
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            documentSelectionSpinner.adapter = adapter
-            adapter.notifyDataSetChanged()
-            documentSelectionSpinner.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        documentLink = documents!![position].link
-                    }
+        socketClient?.filterByCycle(client) { links ->
+            if (links.isNotEmpty()) {
+                requireActivity().runOnUiThread {
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_spinner_item,
+                        links
+                    )
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    documentSelectionSpinner.adapter = adapter
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                    }
+                    documentSelectionSpinner.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                documentLink = links[position]
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                            }
+                        }
                 }
-        } else
-            Toast.makeText(requireContext(), "No se han encontrado documentos", Toast.LENGTH_SHORT)
-                .show()
+            } else {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        "No se han encontrado documentos",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     private fun filterBySubject() {
@@ -171,7 +178,11 @@ class DocumentsDownloadFragment : Fragment() {
                 }
             } else {
                 requireActivity().runOnUiThread {
-                    Toast.makeText(requireContext(), "No se han encontrado documentos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "No se han encontrado documentos",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

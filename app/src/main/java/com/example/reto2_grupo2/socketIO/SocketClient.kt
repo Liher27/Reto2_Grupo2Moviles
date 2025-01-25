@@ -187,26 +187,12 @@ class SocketClient(private val activity: Activity) {
             val registered = jsonObject["registered"].asBoolean
 
             // Log the values for debugging
-            Log.d(
-                tag,
-                "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered"
-            )
+            Log.d(tag, "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered")
 
             // Create a Client object (or any other appropriate model class)
-            val client = Client(
-                id,
-                name,
-                surname,
-                secondSurname,
-                pass,
-                dni,
-                direction,
-                telephone,
-                type,
-                registered
-            )
+            val client = Client(id, name, surname,secondSurname, pass,dni,direction,telephone,type,registered)
             val intent = Intent(context, MainFrame::class.java).apply {
-                putExtra("user", client)
+                putExtra("user",client)
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
@@ -216,8 +202,7 @@ class SocketClient(private val activity: Activity) {
             val response = args[0] as String
             Log.d(tag, "Login fallado: $response")
             activity.runOnUiThread {
-                Toast.makeText(context, "No se ha logueado correctamente", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(context,"No se ha logueado correctamente",Toast.LENGTH_SHORT).show()
             }
         }
         socket.on(Events.ON_REGISTER.value) { args ->
@@ -237,6 +222,7 @@ class SocketClient(private val activity: Activity) {
         userName: String,
         password: String,
         surname: String,
+        secondSurname: String,
         dni: String,
         direction: String,
         telephone: Int,
@@ -248,6 +234,7 @@ class SocketClient(private val activity: Activity) {
             "username" to userName,
             "userpass" to password,
             "surname" to surname,
+            "secondsurname" to secondSurname,
             "dni" to dni,
             "direction" to direction,
             "telephone" to telephone,
@@ -258,40 +245,49 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
     }
 
-    fun filterByCourse(client: Client?): List<Document> {
-        var documents: List<Document> = listOf()
-        val loginData = mapOf(
-            "message" to client
-        )
+    fun filterByCourse(client: Client?, callback: (List<String>) -> Unit) {
+        val loginData = mapOf("message" to client)
         val jsonData = Gson().toJson(loginData)
+
         socket.emit(Events.ON_FILTER_BY_COURSE.value, jsonData)
         socket.on(Events.ON_FILTER_BY_COURSE_RESPONSE.value) { args ->
             val jsonDocuments = args[0] as String
-            val gson = Gson()
-            val documentListType =
-                object : TypeToken<List<Document>>() {}.type
-            documents = gson.fromJson(jsonDocuments, documentListType)
+            Log.d(tag, "JSON: $jsonDocuments")
+            try {
+                val gson = Gson()
+                val documentListType = object : TypeToken<List<String>>() {}.type
+                val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
+                callback(documentsLinks)
+            } catch (e: Exception) {
+                socket.on(Events.ON_FILTER_ERROR.value) {
+                    Log.e(tag, "Failed to parse JSON", e)
+                }
+                callback(emptyList())
+            }
         }
-        return documents
-
     }
 
 
-    fun filterByCycle(client: Client?): List<Document> {
-        var documents: List<Document> = listOf()
-        val loginData = mapOf(
-            "message" to client
-        )
+    fun filterByCycle(client: Client?, callback: (List<String>) -> Unit) {
+        val loginData = mapOf("message" to client)
         val jsonData = Gson().toJson(loginData)
+
         socket.emit(Events.ON_FILTER_BY_CYCLE.value, jsonData)
         socket.on(Events.ON_FILTER_BY_CYCLE_RESPONSE.value) { args ->
             val jsonDocuments = args[0] as String
-            val gson = Gson()
-            val documentListType =
-                object : TypeToken<List<Document>>() {}.type
-            documents = gson.fromJson(jsonDocuments, documentListType)
+            Log.d(tag, "JSON: $jsonDocuments")
+            try {
+                val gson = Gson()
+                val documentListType = object : TypeToken<List<String>>() {}.type
+                val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
+                callback(documentsLinks)
+            } catch (e: Exception) {
+                socket.on(Events.ON_FILTER_ERROR.value) {
+                    Log.e(tag, "Failed to parse JSON", e)
+                }
+                callback(emptyList())
+            }
         }
-        return documents
     }
 
     fun filterBySubject(client: Client?, callback: (List<String>) -> Unit) {
@@ -308,7 +304,9 @@ class SocketClient(private val activity: Activity) {
                 val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
                 callback(documentsLinks)
             } catch (e: Exception) {
-                Log.e(tag, "Failed to parse JSON", e)
+                socket.on(Events.ON_FILTER_ERROR.value) {
+                    Log.e(tag, "Failed to parse JSON", e)
+                }
                 callback(emptyList())
             }
         }
