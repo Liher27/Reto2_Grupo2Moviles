@@ -17,6 +17,7 @@ enum class Events(val value: String) {
     ON_FILTER_ERROR("onFilterError"),
     ON_LOGIN_STUDENT("onLoginStudent"),
     ON_LOGIN_PROFESSOR("onLoginProfessor"),
+    ON_REGISTER_ANSWER("onRegisterAwnser"),
     ON_REGISTER("onRegister");
 
 }

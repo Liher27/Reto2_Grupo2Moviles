@@ -222,17 +222,40 @@ class SocketClient(private val activity: Activity) {
         }
         socket.on(Events.ON_REGISTER.value) { args ->
             val response = args[0] as String
-            Log.d(tag, "Registra su usuario por: $response")
-            val intent = Intent(context, RegisterActivity::class.java)
+            Log.d(tag, "Received ON_REQUEST_REGISTER event: $response")
 
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
+            activity.runOnUiThread {
+                val intent = Intent(context, RegisterActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            }
         }
     }
 
 
-    fun doRegister() {
-
+    fun doRegister(
+        userName: String,
+        password: String,
+        surname: String,
+        dni: String,
+        direction: String,
+        telephone: Int,
+        year: Char,
+        courseName: String,
+        dual: Boolean
+    ) {
+        val registerData = mapOf(
+            "username" to userName,
+            "userpass" to password,
+            "surname" to surname,
+            "dni" to dni,
+            "direction" to direction,
+            "telephone" to telephone,
+            "year" to year,
+            "courseName" to courseName,
+            "dual" to dual
+        )
+        socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
     }
 
     fun filterByCourse(client: Client?): List<Document> {
