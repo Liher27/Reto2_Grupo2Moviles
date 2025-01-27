@@ -10,6 +10,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.reto2_grupo2.Singleton.SocketClientSingleton
+import kotlin.properties.Delegates
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -32,6 +34,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
     private lateinit var registerButton: Button
+    private lateinit var regusterCheckButton: Button
+    private var dual by Delegates.notNull<Boolean>()
 
     private val REQUEST_CODE_RECORD_IMAGE = 1
 
@@ -51,7 +55,10 @@ class RegisterActivity : AppCompatActivity() {
         courseNameTextField = findViewById(R.id.courseTxt)
         cycleNameTextField = findViewById(R.id.cycleTxt)
         gradoDobleCheck = findViewById(R.id.intensiveCheck)
+        passwordTextField = findViewById(R.id.password1Txt2)
+        repeatPasswordTextField = findViewById(R.id.password2Txt2)
 
+        val socketClient = SocketClientSingleton.socketClient
 
         backButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
@@ -60,14 +67,83 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
 
-        registerButton = findViewById(R.id.loginButton)
+        regusterCheckButton = findViewById(R.id.registerCheckBtn)
+
+        regusterCheckButton.setOnClickListener {
+            if (passwordTextField.text.toString() != repeatPasswordTextField.text.toString()) {
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "Las contraseñas no son mismas",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                Toast.makeText(this@RegisterActivity, "Nothing happend", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        registerButton = findViewById(R.id.registerUserButton)
         // if (credentialsOk()) {
         registerButton.setOnClickListener {
-            //  val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            if (userTextField.text.isEmpty() || nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
+                || dniTextField.text.isEmpty() || directionTextField.text.isEmpty() || telephone1TextField.text.isEmpty() ||
+                telephone2TextField.text.isEmpty() || courseNameTextField.text.isEmpty() || cycleNameTextField.text.isEmpty() || repeatPasswordTextField.text.toString()
+                    .isEmpty()
+            ) {
+
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "Hay campos que están vacíos",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                if (passwordTextField.text.toString() != repeatPasswordTextField.text.toString()) {
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        "Las contraseñas no son las mismas",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+
+                    val telephoneInt = try {
+                        telephone1TextField.text.toString().toInt()
+                    } catch (e: NumberFormatException) {
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            "El teléfono no es válido",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
+                    val yearchar = if (cycleNameTextField.text.isNotEmpty()) {
+                        cycleNameTextField.text.toString()[0]
+                    } else {
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            "El nombre del curso está vacío",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
+                    dual = gradoDobleCheck.isChecked
+                    if (socketClient != null) {
+                        socketClient.doRegister(
+                            userTextField.text.toString(),
+                            passwordTextField.text.toString(),
+                            surnameTextField.text.toString(),
+                            dniTextField.text.toString(),
+                            directionTextField.text.toString(),
+                            telephoneInt,
+                            yearchar,
+                            courseNameTextField.text.toString(),
+                            dual
+                        )
+                    }
+
+                }
+            }
         }
-        // }
+
+
 
         addPhotoButton = findViewById(R.id.addPhotoButton)
         addPhotoButton.setOnClickListener {

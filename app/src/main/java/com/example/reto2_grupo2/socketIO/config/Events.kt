@@ -8,7 +8,6 @@ enum class Events(val value: String) {
     ON_GET_ALL_ANSWER ("onGetAllAnswer"),
     ON_LOGIN_SUCCESS("onLoginSuccess"),
     ON_LOGIN_FALL("onLoginFall"),
-    ON_LOGIN_STUDENT("onLoginStudent"),
-    ON_LOGIN_PROFESSOR("onLoginProfessor"),
+    ON_REGISTER_AWNSER("onRegisterAwnser"),
     ON_REGISTER("onRegister");
 }
