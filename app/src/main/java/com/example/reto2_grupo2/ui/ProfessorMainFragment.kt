@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.reto2_grupo2.R
+import com.example.reto2_grupo2.databinding.ProfessorMainFrameBinding
+import com.example.reto2_grupo2.entity.Client
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,22 +41,13 @@ class ProfessorMainFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProffesorMainFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfessorMainFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        private const val ARG_CLIENT = "client"
+        fun newInstance(client: Client?): ProfessorMainFragment {
+            val fragment = ProfessorMainFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_CLIENT, client)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
+import com.example.reto2_grupo2.entity.Client
 import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
@@ -156,22 +157,14 @@ class ProfileFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        private const val ARG_CLIENT = "client"
+
+        fun newInstance(client: Client?): ProfileFragment {
+            val fragment = ProfileFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_CLIENT, client)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }

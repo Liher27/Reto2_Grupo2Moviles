@@ -9,8 +9,9 @@ android {
 
     defaultConfig {
         applicationId = "com.example.reto2_grupo2"
-        minSdk = 31
-        targetSdk = 34
+        minSdk = 35
+        //noinspection EditedTargetSdkVersion
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
