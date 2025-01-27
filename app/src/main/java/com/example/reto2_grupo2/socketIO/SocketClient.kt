@@ -22,7 +22,7 @@ import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
 
-    private val ipPort = "http://10.5.104.35:2888"
+    private val ipPort = "http://10.5.104.34:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
