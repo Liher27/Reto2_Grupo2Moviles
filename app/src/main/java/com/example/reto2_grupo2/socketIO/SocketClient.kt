@@ -7,10 +7,13 @@ import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.reto2_grupo2.LoginActivity
 import com.example.reto2_grupo2.MainFrame
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
+import com.example.reto2_grupo2.entity.Course
+import com.example.reto2_grupo2.entity.Student
 import com.example.reto2_grupo2.socketIO.config.Events
 import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
@@ -22,7 +25,7 @@ import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
 
-    private val ipPort = "http://10.5.104.35:2888"
+    private val ipPort = "http://10.5.104.21:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -162,26 +165,26 @@ class SocketClient(private val activity: Activity) {
             "userPass" to password
         )
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(loginData))
-
         socket.on(Events.ON_LOGIN_SUCCESS.value) { args ->
             val response = args[0] as JSONObject
             // The response contains a JSON string under the "message" key
             val message = response.getString("message")
             // Now we can use Gson to parse the message into a JsonObject
             val gson = Gson()
-            val jsonObject = gson.fromJson(message, JsonObject::class.java)
+            val jsonObject = gson.fromJson(response.toString(), JsonObject::class.java)
             Log.d(tag, "JSON: $jsonObject")
             // Extract values from the JsonObject
-            val id = jsonObject["userId"].asInt
-            val name = jsonObject["userName"].asString
-            val surname = jsonObject["surname"].asString
-            val secondSurname = jsonObject["secondSurname"].asString
-            val pass = jsonObject["pass"].asString
-            val dni = jsonObject["dni"].asString
-            val direction = jsonObject["direction"].asString
-            val telephone = jsonObject["telephone"].asInt
-            val type = jsonObject["userType"].asBoolean
-            val registered = jsonObject["registered"].asBoolean
+            val loginClientJson = jsonObject.getAsJsonObject("loginClient")
+            val id = loginClientJson["userId"].asInt
+            val name = loginClientJson["userName"].asString
+            val surname = loginClientJson["surname"].asString
+            val secondSurname = loginClientJson["secondSurname"].asString
+            val pass = loginClientJson["pass"].asString
+            val dni = loginClientJson["dni"].asString
+            val direction = loginClientJson["direction"].asString
+            val telephone = loginClientJson["telephone"].asInt
+            val type = loginClientJson["userType"].asBoolean
+            val registered = loginClientJson["registered"].asBoolean
 
             // Log the values for debugging
             Log.d(
@@ -189,7 +192,31 @@ class SocketClient(private val activity: Activity) {
                 "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered"
             )
 
-            // Create a Client object (or any other appropriate model class)
+            // 提取 student 部分
+            val studentJson = jsonObject.getAsJsonObject("student")
+            val studentUserId = studentJson["userId"].asInt
+            val userYear = studentJson["userYear"].asCharacter
+            val intensiveDual = studentJson["intensiveDual"].asBoolean
+
+            val student = Student(
+                studentUserId,
+                userYear,
+                intensiveDual
+            )
+            Log.d(tag,"studentId:$studentUserId,year:$userYear,dual:$intensiveDual")
+
+            val courseJson = jsonObject.getAsJsonObject("course")
+            val title = courseJson["title"].asString
+            val email = courseJson["email"].asString
+            val courseDescription = courseJson["courseDescription"].asString
+
+            Log.d(tag,"title:$title,email:$email,des:$courseDescription")
+
+            val course = Course(
+                title,
+                email,
+                courseDescription
+            )
             val client = Client(
                 id,
                 name,
@@ -228,8 +255,6 @@ class SocketClient(private val activity: Activity) {
             }
         }
     }
-
-
     fun doRegister(
         userName: String,
         password: String,
@@ -255,6 +280,30 @@ class SocketClient(private val activity: Activity) {
             "dual" to dual
         )
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
+
+        socket.on(Events.ON_REGISTER_SUCCESS.value){ args ->
+            val response = args[0] as String
+            Log.d(tag, "Received ON_REQUEST_SUCCESS event: $response")
+            activity.runOnUiThread {
+                val intent = Intent(context, LoginActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            }
+
+
+        }
+        socket.on(Events.ON_REGISTER_FAIL.value){ args ->
+            val response = args[0] as String
+            Log.d(tag, "Received ON_REQUEST_FALL event: $response")
+
+
+
+        }
+        socket.on(Events.ON_REGISTER_SAME_PASSWORD.value){ args ->
+            val response = args[0] as String
+            Log.d(tag, "Received ON_REGISTER_SAME_PASSWORD event: $response")
+
+        }
     }
 
     fun filterByCourse(client: Client?, callback: (List<String>) -> Unit) {
