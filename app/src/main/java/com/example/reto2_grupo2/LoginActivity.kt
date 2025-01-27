@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         forgotPassword = findViewById(R.id.forgotPassword)
-        socketClient =SocketClient(this)
+        socketClient = SocketClient(this)
         socketClient!!.connect()
         userTextField = findViewById(R.id.userNameTxt)
         passwordTextField = findViewById(R.id.passwordTxt)

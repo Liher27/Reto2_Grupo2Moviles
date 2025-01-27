@@ -56,6 +56,7 @@ class MainFrame : AppCompatActivity() {
                     replaceFragment(StudentMainFragment.newInstance(client))
                 }
             }
+
             R.id.reunions -> replaceFragment(ReunionsFragment.newInstance(client))
             R.id.user -> replaceFragment(ProfileFragment.newInstance(client))
             R.id.documents_download -> replaceFragment(DocumentsDownloadFragment.newInstance(client))

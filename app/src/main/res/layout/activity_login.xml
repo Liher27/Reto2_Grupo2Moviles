@@ -68,7 +68,7 @@
         tools:ignore="VisualLintBounds" />
 
     <TextView
-        android:id="@+id/registerTitle"
+        android:id="@+id/externalCoursesTitle"
         android:layout_width="254dp"
         android:layout_height="54dp"
         android:text="@string/iniciar_sesion"
