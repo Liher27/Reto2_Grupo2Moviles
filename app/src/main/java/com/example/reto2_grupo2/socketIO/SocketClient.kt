@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -13,19 +11,18 @@ import com.example.reto2_grupo2.MainFrame
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
-import com.example.reto2_grupo2.entity.Document
+import com.example.reto2_grupo2.socketIO.config.Events
+import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONObject
-import com.example.reto2_grupo2.socketIO.config.Events
-import com.example.reto2_grupo2.socketIO.model.MessageInput
 
 class SocketClient(private val activity: Activity) {
 
-    private val ipPort = "http://172.29.48.1:2888"
+    private val ipPort = "http://10.5.104.35:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -165,7 +162,6 @@ class SocketClient(private val activity: Activity) {
             "userPass" to password
         )
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(loginData))
-        Log.d(tag, "Attempt of login - $userName, $password")
 
         socket.on(Events.ON_LOGIN_SUCCESS.value) { args ->
             val response = args[0] as JSONObject
@@ -174,11 +170,12 @@ class SocketClient(private val activity: Activity) {
             // Now we can use Gson to parse the message into a JsonObject
             val gson = Gson()
             val jsonObject = gson.fromJson(message, JsonObject::class.java)
+            Log.d(tag, "JSON: $jsonObject")
             // Extract values from the JsonObject
             val id = jsonObject["userId"].asInt
             val name = jsonObject["userName"].asString
             val surname = jsonObject["surname"].asString
-            val secondSurname = jsonObject["secondsurname"].asString
+            val secondSurname = jsonObject["secondSurname"].asString
             val pass = jsonObject["pass"].asString
             val dni = jsonObject["dni"].asString
             val direction = jsonObject["direction"].asString
@@ -187,22 +184,37 @@ class SocketClient(private val activity: Activity) {
             val registered = jsonObject["registered"].asBoolean
 
             // Log the values for debugging
-            Log.d(tag, "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered")
+            Log.d(
+                tag,
+                "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered"
+            )
 
             // Create a Client object (or any other appropriate model class)
-            val client = Client(id, name, surname,secondSurname, pass,dni,direction,telephone,type,registered)
+            val client = Client(
+                id,
+                name,
+                surname,
+                secondSurname,
+                pass,
+                dni,
+                direction,
+                telephone,
+                type,
+                registered
+            )
             val intent = Intent(context, MainFrame::class.java).apply {
-                putExtra("user",client)
+                putExtra("user", client)
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
 
-        socket.on(Events.ON_LOGIN_FALL.value) { args ->
+        socket.on(Events.ON_LOGIN_FAIL.value) { args ->
             val response = args[0] as String
             Log.d(tag, "Login fallado: $response")
             activity.runOnUiThread {
-                Toast.makeText(context,"No se ha logueado correctamente",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "No se ha logueado correctamente", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
         socket.on(Events.ON_REGISTER.value) { args ->
