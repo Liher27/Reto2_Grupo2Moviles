@@ -65,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
 
 
 
-        val socketClient = SocketClientSingleton.socketClient
+
 
         backButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
@@ -91,6 +91,7 @@ class RegisterActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.registerUserButton)
         // if (credentialsOk()) {
         registerButton.setOnClickListener {
+
 
         }
 

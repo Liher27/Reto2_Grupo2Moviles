@@ -278,9 +278,6 @@ class SocketClient(private val activity: Activity) {
         dni: String,
         direction: String,
         telephone: Int,
-        year: Char,
-        courseName: String,
-        dual: Boolean
     ) {
         val registerData = mapOf(
             "username" to userName,
@@ -290,9 +287,6 @@ class SocketClient(private val activity: Activity) {
             "dni" to dni,
             "direction" to direction,
             "telephone" to telephone,
-            "year" to year,
-            "courseName" to courseName,
-            "dual" to dual
         )
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
 
