@@ -13,6 +13,7 @@ import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
+import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
 import com.example.reto2_grupo2.socketIO.config.Events
 import com.example.reto2_grupo2.socketIO.model.MessageInput
@@ -29,6 +30,10 @@ class SocketClient(private val activity: Activity) {
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
+    private lateinit var rootData : RootData
+    private lateinit var userClient :Client
+    private lateinit var userStudent :Student
+    private lateinit var userCourse: Course
 
     constructor(fragment: Fragment) : this(fragment.requireActivity()) {
         this.fragment = fragment
@@ -171,66 +176,40 @@ class SocketClient(private val activity: Activity) {
             val message = response.getString("message")
             // Now we can use Gson to parse the message into a JsonObject
             val gson = Gson()
-            val jsonObject = gson.fromJson(response.toString(), JsonObject::class.java)
-            Log.d(tag, "JSON: $jsonObject")
-            // Extract values from the JsonObject
-            val loginClientJson = jsonObject.getAsJsonObject("loginClient")
-            val id = loginClientJson["userId"].asInt
-            val name = loginClientJson["userName"].asString
-            val surname = loginClientJson["surname"].asString
-            val secondSurname = loginClientJson["secondSurname"].asString
-            val pass = loginClientJson["pass"].asString
-            val dni = loginClientJson["dni"].asString
-            val direction = loginClientJson["direction"].asString
-            val telephone = loginClientJson["telephone"].asInt
-            val type = loginClientJson["userType"].asBoolean
-            val registered = loginClientJson["registered"].asBoolean
+             rootData = gson.fromJson(message, RootData::class.java)
+            Log.d(tag, "JSON: $rootData")
 
-            // Log the values for debugging
-            Log.d(
-                tag,
-                "id: $id, name: $name, surname: $surname, pass: $pass, tipo:$type, registered:$registered"
+
+            val client = rootData.loginClient
+             userClient = Client(
+                client.userId,
+                client.userName,
+                client.surname,
+                client.secondSurname,
+                client.pass,
+                client.dni,
+                client.direction,
+                client.telephone,
+                client.userType,
+                client.registered
+            )
+            val student = rootData.student
+             userStudent = Student(
+                student.userId,
+                student.userYear,
+                student.intensiveDual
             )
 
-            // 提取 student 部分
-            val studentJson = jsonObject.getAsJsonObject("student")
-            val studentUserId = studentJson["userId"].asInt
-            val userYear = studentJson["userYear"].asCharacter
-            val intensiveDual = studentJson["intensiveDual"].asBoolean
-
-            val student = Student(
-                studentUserId,
-                userYear,
-                intensiveDual
-            )
-            Log.d(tag,"studentId:$studentUserId,year:$userYear,dual:$intensiveDual")
-
-            val courseJson = jsonObject.getAsJsonObject("course")
-            val title = courseJson["title"].asString
-            val email = courseJson["email"].asString
-            val courseDescription = courseJson["courseDescription"].asString
-
-            Log.d(tag,"title:$title,email:$email,des:$courseDescription")
-
-            val course = Course(
-                title,
-                email,
-                courseDescription
-            )
-            val client = Client(
-                id,
-                name,
-                surname,
-                secondSurname,
-                pass,
-                dni,
-                direction,
-                telephone,
-                type,
-                registered
+            val course = rootData.course
+             userCourse = Course(
+                course.title,
+                course.email,
+                course.courseDescription
             )
             val intent = Intent(context, MainFrame::class.java).apply {
-                putExtra("user", client)
+                putExtra("user", userClient).
+                putExtra("studentInfo",userStudent).
+                putExtra("userCourse",userCourse)
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
@@ -245,14 +224,48 @@ class SocketClient(private val activity: Activity) {
             }
         }
         socket.on(Events.ON_REGISTER.value) { args ->
-            val response = args[0] as String
-            Log.d(tag, "Received ON_REQUEST_REGISTER event: $response")
+            val response = args[0] as JSONObject
+            // The response contains a JSON string under the "message" key
+            val message = response.getString("message")
+            // Now we can use Gson to parse the message into a JsonObject
+            val gson = Gson()
+            rootData = gson.fromJson(message, RootData::class.java)
+            Log.d(tag, "JSON: $rootData")
 
-            activity.runOnUiThread {
-                val intent = Intent(context, RegisterActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(intent)
+
+            val client = rootData.loginClient
+            userClient = Client(
+                client.userId,
+                client.userName,
+                client.surname,
+                client.secondSurname,
+                client.pass,
+                client.dni,
+                client.direction,
+                client.telephone,
+                client.userType,
+                client.registered
+            )
+            val student = rootData.student
+            userStudent = Student(
+                student.userId,
+                student.userYear,
+                student.intensiveDual
+            )
+
+            val course = rootData.course
+            userCourse = Course(
+                course.title,
+                course.email,
+                course.courseDescription
+            )
+            val intent = Intent(context, RegisterActivity::class.java).apply {
+                putExtra("user", userClient).
+                putExtra("studentInfo",userStudent).
+                putExtra("userCourse",userCourse)
             }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
         }
     }
     fun doRegister(
