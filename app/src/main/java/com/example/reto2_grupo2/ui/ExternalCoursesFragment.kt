@@ -115,18 +115,20 @@ class ExternalCoursesFragment : Fragment(), OnMapReadyCallback {
 
         val marker = MarkerOptions().position(latLng).title(externalCourse.title)
         externalCourseUbi.getMapAsync { map ->
+            map.clear()
             map.addMarker(marker)
         }
     }
 
     private fun putInfo(externalCourse: ExternalCourse) {
         externalCourseDescription?.text = String.format(
-            "%s \n \n %s \n Tiempo total: %s horas \n Fecha de inicio: %s \n Fecha de fin: %s",
+            "%s \n \n %s \n Tiempo total: %s horas \n Fecha de inicio: %s \n Fecha de fin: %s \n Telefono: %s",
             externalCourse.title,
             externalCourse.description,
             externalCourse.schedule,
             externalCourse.startDate,
-            externalCourse.endDate
+            externalCourse.endDate,
+            externalCourse.telephone
         )
     }
 
