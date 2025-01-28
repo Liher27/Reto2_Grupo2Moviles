@@ -11,13 +11,11 @@ import com.example.reto2_grupo2.entity.Client
 
 class StudentMainFragment : Fragment() {
     private var client: Client? = null
-
+    private val socketClient = SocketClientSingleton.socketClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         client = arguments?.getParcelable(ARG_CLIENT, Client::class.java)
-        val socketClient = SocketClientSingleton.socketClient
-        socketClient!!.connect()
     }
 
     override fun onCreateView(

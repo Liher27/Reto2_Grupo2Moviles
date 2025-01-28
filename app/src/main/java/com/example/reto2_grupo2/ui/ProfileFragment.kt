@@ -13,6 +13,7 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
+import com.example.reto2_grupo2.Singleton.SocketClientSingleton
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.socketIO.SocketClient
 import java.util.Locale
@@ -24,7 +25,7 @@ class ProfileFragment : Fragment() {
     private lateinit var newPasswordTxt: EditText
     private lateinit var repeatNewPasswordTxt: EditText
     private var client: Client? = null
-    private var socketClient: SocketClient? = null
+    private val socketClient = SocketClientSingleton.socketClient
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var sharedPreferences: SharedPreferences
@@ -32,8 +33,6 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         client = arguments?.getParcelable(ARG_CLIENT, Client::class.java)
-        socketClient = SocketClient(this)
-        socketClient!!.connect()
     }
 
     override fun onCreateView(

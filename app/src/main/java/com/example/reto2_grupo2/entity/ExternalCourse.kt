@@ -2,7 +2,7 @@ package com.example.reto2_grupo2.entity
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.util.Date
+import java.sql.Date
 
 data class ExternalCourse(
     val externalCourseId: Int,

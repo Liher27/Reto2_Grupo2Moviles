@@ -22,6 +22,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Reto2_Grupo2"
         android:usesCleartextTraffic="true">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD1azDtGV0dQSATXSFuVyt9XsNxl8AOWS8" />
+
         <activity
             android:name=".LoginActivity"
             android:exported="true">

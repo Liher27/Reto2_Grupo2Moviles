@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -41,10 +42,10 @@
                     android:contentDescription="@string/logo_description"
                     app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.496"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.053"
+                    app:layout_constraintVertical_bias="0.5"
                     app:srcCompat="@mipmap/elorclass_foreground" />
 
                 <TextView
@@ -123,23 +124,16 @@
                     android:orientation="horizontal"
                     app:layout_constraintGuide_begin="471dp" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/externalCourseInfo"
-                    style="@style/CustomCardViewStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="291dp"
+                <TextView
+                    android:id="@+id/externalCourseInfoText"
+                    android:layout_width="434dp"
+                    android:layout_height="295dp"
+                    android:textSize="20sp"
+                    android:theme="@style/textBoxes"
                     app:layout_constraintBottom_toTopOf="@+id/guideline13"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guideline15" >
-
-                    <TextView
-                        android:id="@+id/externalCourseInfoText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:theme="@style/textBoxes"
-                        android:textSize="20sp"/>
-                </androidx.cardview.widget.CardView>
+                    app:layout_constraintTop_toTopOf="@+id/guideline15" />
 
                 <TextView
                     android:id="@+id/externalCourseFilteringTitle"

@@ -85,12 +85,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        socketClient!!.disconnect()
-    }
-
     private fun setLocale(languageCode: String, context: Context) {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)

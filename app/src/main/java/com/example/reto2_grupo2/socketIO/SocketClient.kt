@@ -23,7 +23,7 @@ import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
 
-    private val ipPort = "http://10.5.104.35:2888"
+    private val ipPort = "http://192.168.1.147:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -323,11 +323,12 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_GET_EXTERNAL_COURSES.value, jsonData)
         socket.on(Events.ON_GET_EXTERNAL_COURSES_ANSWER.value) { args ->
             val jsonDocuments = args[0] as String
-            Log.d(tag, "JSON: $jsonDocuments")
+            Log.d(tag, "JSONDocuments: $jsonDocuments")
             try {
                 val gson = Gson()
                 val externalCoursesType = object : TypeToken<List<ExternalCourse>>() {}.type
                 val externalCoursesList: List<ExternalCourse> = gson.fromJson(jsonDocuments, externalCoursesType)
+                Log.d(tag, "JSONList: $externalCoursesList")
                 callback(externalCoursesList)
             } catch (e: Exception) {
                 callback(emptyList())
