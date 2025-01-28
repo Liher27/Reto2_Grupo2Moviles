@@ -56,6 +56,7 @@ class MainFrame : AppCompatActivity() {
                     replaceFragment(StudentMainFragment.newInstance(client))
                 }
             }
+
             R.id.reunions -> replaceFragment(ReunionsFragment.newInstance(client))
             R.id.user -> replaceFragment(ProfileFragment.newInstance(client))
             R.id.documents_download -> replaceFragment(DocumentsDownloadFragment.newInstance(client))
@@ -65,8 +66,18 @@ class MainFrame : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         val fM = supportFragmentManager
-        val fT = fM.beginTransaction()
-        fT.replace(R.id.frameLayout, fragment)
-        fT.commit()
+        val existingFragment = fM.findFragmentByTag(fragment::class.java.simpleName)
+        if (existingFragment != null) {
+            fM.beginTransaction()
+                .replace(R.id.frameLayout, existingFragment)
+                .addToBackStack(null)
+                .commit()
+        } else {
+            fM.beginTransaction()
+                .replace(R.id.frameLayout, fragment, fragment::class.java.simpleName)
+                .addToBackStack(null)
+                .commit()
+        }
     }
+
 }

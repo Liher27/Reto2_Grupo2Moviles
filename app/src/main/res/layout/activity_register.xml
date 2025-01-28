@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/registerTitle"
+                android:id="@+id/externalCoursesTitle"
                 android:layout_width="208dp"
                 android:layout_height="51dp"
                 android:text="@string/registrate"
