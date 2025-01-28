@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
         rememberMe = findViewById(R.id.rememberMeCheck)
         registerTextButton = findViewById(R.id.registerTextButton)
 
-        val client = getROOMClient()
+        //val client = getROOMClient()
 
 
         registerTextButton.setOnClickListener {
