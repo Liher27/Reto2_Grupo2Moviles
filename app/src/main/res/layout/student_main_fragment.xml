@@ -64,7 +64,7 @@
             <CalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="0dp"
-                android:layout_height="307dp"
+                android:layout_height="wrap_content"
                 android:theme="@style/calendarBackground"
                 app:layout_constraintBottom_toTopOf="@+id/shapeBackground"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -83,16 +83,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
             <androidx.cardview.widget.CardView
-                android:layout_width="463dp"
-                android:layout_height="167dp"
+                android:id="@+id/cardView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                app:cardBackgroundColor="#3C8AAB"
                 app:layout_constraintBottom_toTopOf="@+id/guideline12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calendarView">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="370dp"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/todo"
                     android:orientation="vertical"
@@ -117,6 +119,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="792dp" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DayOfWeekAndNumerOfTheWeek"
+                app:layout_constraintBottom_toTopOf="@+id/cardView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calendarView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,22 +38,28 @@ class StudentMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         calendarView = view.findViewById(R.id.calendarView)
         val cardTitle = view.findViewById<TextView>(R.id.cardTitle)
-        val cardDes = view.findViewById<TextView>(R.id.cardDescription)
+        val textOfTheDay = view.findViewById<TextView>(R.id.textView5)
+
+        val calendar = Calendar.getInstance()
+        val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.time)
+        val dayOfTheYear = calendar.get(Calendar.DAY_OF_MONTH)
+        textOfTheDay.text = "~$dayOfWeek: $dayOfTheYear"
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = "$dayOfMonth/${month + 1}/$year"
-            val calendar = Calendar.getInstance()
-            calendar.set(year,month,dayOfMonth)
+            calendar.set(year, month, dayOfMonth)
 
-            val dayOfTheYear = calendar.get(Calendar.DAY_OF_YEAR)
-            val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.time)
+            val selectedDayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.time)
+            val selectedDayOfTheMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+            textOfTheDay.text = "~$selectedDayOfWeek: $selectedDayOfTheMonth"
+
             Toast.makeText(requireContext(), "Fecha seleccionada: $selectedDate", Toast.LENGTH_SHORT).show()
-            cardTitle.text = "~$dayOfWeek: $dayOfTheYear"
-            cardDes.text = ""
 
-
+            cardTitle.text = ""
         }
     }
+
 
     companion object {
         private const val ARG_CLIENT = "client"
