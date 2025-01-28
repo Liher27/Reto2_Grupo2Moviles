@@ -12,9 +12,12 @@ import com.example.reto2_grupo2.MainFrame
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
+
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
+
+import com.example.reto2_grupo2.entity.ExternalCourse
 import com.example.reto2_grupo2.socketIO.config.Events
 import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
@@ -25,7 +28,6 @@ import io.socket.client.Socket
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-
     private val ipPort = "http://10.5.104.21:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
@@ -333,9 +335,6 @@ class SocketClient(private val activity: Activity) {
                 val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
                 callback(documentsLinks)
             } catch (e: Exception) {
-                socket.on(Events.ON_FILTER_ERROR.value) {
-                    Log.e(tag, "Failed to parse JSON", e)
-                }
                 callback(emptyList())
             }
         }
@@ -356,9 +355,6 @@ class SocketClient(private val activity: Activity) {
                 val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
                 callback(documentsLinks)
             } catch (e: Exception) {
-                socket.on(Events.ON_FILTER_ERROR.value) {
-                    Log.e(tag, "Failed to parse JSON", e)
-                }
                 callback(emptyList())
             }
         }
@@ -378,26 +374,38 @@ class SocketClient(private val activity: Activity) {
                 val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
                 callback(documentsLinks)
             } catch (e: Exception) {
-                socket.on(Events.ON_FILTER_ERROR.value) {
-                    Log.e(tag, "Failed to parse JSON", e)
-                }
                 callback(emptyList())
             }
         }
     }
 
+    fun getExternalCourses(client: Client?, callback: (List<ExternalCourse>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
 
-    // This method is called when we want to getAll the Alumno.
-    fun doGetAll() {
-        socket.emit(Events.ON_GET_ALL.value)
-
-        // Log traces
-
-        Log.d(tag, "Attempt of getAll...")
+        socket.emit(Events.ON_GET_EXTERNAL_COURSES.value, jsonData)
+        socket.on(Events.ON_GET_EXTERNAL_COURSES_ANSWER.value) { args ->
+            val jsonDocuments = args[0] as String
+            Log.d(tag, "JSONDocuments: $jsonDocuments")
+            try {
+                val gson = Gson()
+                val externalCoursesType = object : TypeToken<List<ExternalCourse>>() {}.type
+                val externalCoursesList: List<ExternalCourse> = gson.fromJson(jsonDocuments, externalCoursesType)
+                Log.d(tag, "JSONList: $externalCoursesList")
+                callback(externalCoursesList)
+            } catch (e: Exception) {
+                callback(emptyList())
+            }
+        }
+        socket.on(Events.ON_GET_EXTERNAL_COURSES_ERROR.value) { args ->
+            val response = args[0] as String
+            Log.d(tag, "Login fallado: $response")
+        }
     }
 
+
     // This method is called when we want to logout. We get the userName,
-// put in into an MessageOutput, and convert it into JSON to be sent
+    // put in into an MessageOutput, and convert it into JSON to be sent
     fun doLogout(userName: String) {
         val message = MessageInput(userName) // The server is expecting a MessageInput
         socket.emit(Events.ON_LOGOUT.value, Gson().toJson(message))

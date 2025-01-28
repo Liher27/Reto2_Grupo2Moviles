@@ -5,139 +5,114 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <View
+        android:id="@+id/gradientBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:theme="@style/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/gradientBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/background"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/loginLogo"
+        android:layout_width="210dp"
+        android:layout_height="205dp"
+        android:layout_marginTop="-40dp"
+        android:contentDescription="@string/logo_description"
+        app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/elorclass_foreground" />
 
-        <ScrollView
-            android:id="@+id/scrollView2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <TextView
+        android:id="@+id/externalCoursesTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/downloadDocuments"
+        android:textSize="34sp"
+        android:theme="@style/textBoxes"
+        app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginLogo" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/shapeGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="349dp" />
 
-                <ImageView
-                    android:id="@+id/loginLogo"
-                    android:layout_width="210dp"
-                    android:layout_height="205dp"
-                    android:layout_marginTop="-40dp"
-                    android:contentDescription="@string/logo_description"
-                    app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.496"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.053"
-                    app:srcCompat="@mipmap/elorclass_foreground" />
+    <View
+        android:id="@+id/shapeBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:theme="@style/scrollViewStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/shapeGuideline"
+        app:layout_constraintVertical_bias="1.0" />
 
-                <TextView
-                    android:id="@+id/registerTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/downloadDocuments"
-                    android:textSize="34sp"
-                    android:theme="@style/textBoxes"
-                    app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/loginLogo" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter"
+        android:textSize="30sp"
+        android:theme="@style/textBoxes"
+        app:layout_constraintBottom_toTopOf="@+id/filterSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/shapeGuideline" />
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/shapeGuideline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_begin="278dp" />
+    <Spinner
+        android:id="@+id/documentSelectionSpinner"
+        android:layout_width="277dp"
+        android:layout_height="66dp"
+        android:ems="10"
+        android:inputType="text"
+        android:theme="@style/textBoxes"
+        app:layout_constraintBottom_toTopOf="@+id/documentDownloadButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="583dp" />
 
-                <View
-                    android:id="@+id/shapeBackground"
-                    android:layout_width="0dp"
-                    android:layout_height="453dp"
-                    android:theme="@style/scrollViewStyle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/shapeGuideline"
-                    app:layout_constraintVertical_bias="0.0" />
+    <Button
+        android:id="@+id/documentDownloadButton"
+        android:layout_width="256dp"
+        android:layout_height="87dp"
+        android:text="@string/download"
+        android:theme="@style/blackButton"
+        app:layout_constraintBottom_toBottomOf="@+id/shapeBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/documentSelectionSpinner"
+        app:layout_constraintVertical_bias="0.707" />
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter"
-                    android:textSize="30sp"
-                    android:theme="@style/textBoxes"
-                    app:layout_constraintBottom_toTopOf="@+id/filterSpinner"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/shapeGuideline" />
-
-                <Spinner
-                    android:id="@+id/documentSelectionSpinner"
-                    android:layout_width="277dp"
-                    android:layout_height="66dp"
-                    android:ems="10"
-                    android:theme="@style/textBoxes"
-                    android:inputType="text"
-                    app:layout_constraintBottom_toTopOf="@+id/documentDownloadButton"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guideline6" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_begin="466dp" />
-
-                <Button
-                    android:id="@+id/documentDownloadButton"
-                    android:layout_width="256dp"
-                    android:layout_height="87dp"
-                    android:text="@string/download"
-                    android:theme="@style/blackButton"
-                    app:layout_constraintBottom_toBottomOf="@+id/shapeBackground"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.496"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/documentSelectionSpinner"
-                    app:layout_constraintVertical_bias="0.707" />
-
-                <Spinner
-                    android:id="@+id/filterSpinner"
-                    android:layout_width="277dp"
-                    android:layout_height="66dp"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:theme="@style/textBoxes"
-                    android:entries="@array/filter_arrays"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline6"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Spinner
+        android:id="@+id/filterSpinner"
+        android:layout_width="277dp"
+        android:layout_height="66dp"
+        android:ems="10"
+        android:entries="@array/filter_arrays"
+        android:inputType="text"
+        android:theme="@style/textBoxes"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

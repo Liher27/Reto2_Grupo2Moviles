@@ -42,7 +42,7 @@
                 app:srcCompat="@mipmap/elorclass_foreground" />
 
             <TextView
-                android:id="@+id/registerTitle"
+                android:id="@+id/externalCoursesTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/studentSchedule"
@@ -68,7 +68,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/shapeBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/externalCoursesTitle" />
 
             <View
                 android:id="@+id/shapeBackground"

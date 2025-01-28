@@ -14,7 +14,7 @@
     <string name="surname">Surname</string>
     <string name="second_surname">Second surname</string>
     <string name="dni">DNI</string>
-    <string name="direction">Dirección</string>
+    <string name="direction">Address</string>
     <string name="telephone1">Telephone 1</string>
     <string name="telephone2">Telephone 2</string>
     <string name="formative_info">Formative information</string>
