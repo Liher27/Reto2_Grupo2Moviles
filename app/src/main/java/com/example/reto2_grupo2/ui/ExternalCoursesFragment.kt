@@ -23,8 +23,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-
-
 const val MAPVIEW_BUNDLE_KEY = "MapViewBundleKey"
 const val ACCESS_FINE_LOCATION_CODE = 100
 
@@ -109,8 +107,16 @@ class ExternalCoursesFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun putUbi(externalCourse: ExternalCourse) {
-        externalCourseUbi
+        val latitudeLong = externalCourse.latitude.toDouble()
+        val longitudeLong = externalCourse.longitude.toDouble()
 
+
+        val latLng = LatLng(latitudeLong, longitudeLong)
+
+        val marker = MarkerOptions().position(latLng).title(externalCourse.title)
+        externalCourseUbi.getMapAsync { map ->
+            map.addMarker(marker)
+        }
     }
 
     private fun putInfo(externalCourse: ExternalCourse) {

@@ -70,10 +70,12 @@ class MainFrame : AppCompatActivity() {
         if (existingFragment != null) {
             fM.beginTransaction()
                 .replace(R.id.frameLayout, existingFragment)
+                .addToBackStack(null)
                 .commit()
         } else {
             fM.beginTransaction()
                 .replace(R.id.frameLayout, fragment, fragment::class.java.simpleName)
+                .addToBackStack(null)
                 .commit()
         }
     }

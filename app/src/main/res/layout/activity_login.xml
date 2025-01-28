@@ -45,25 +45,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="184dp" />
+        app:layout_constraintGuide_begin="249dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="453dp" />
+        app:layout_constraintGuide_begin="490dp" />
 
     <ImageView
         android:id="@+id/loginLogo"
-        android:layout_width="261dp"
-        android:layout_height="256dp"
+        android:layout_width="210dp"
+        android:layout_height="205dp"
+        android:layout_marginTop="-40dp"
         android:contentDescription="@string/logo_description"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.38"
         app:srcCompat="@mipmap/elorclass_foreground"
         tools:ignore="VisualLintBounds" />
 
@@ -112,14 +112,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="245dp" />
+        app:layout_constraintGuide_begin="298dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="365dp" />
+        app:layout_constraintGuide_begin="397dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline5"
