@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/externalCoursesTitle"
+                android:id="@+id/registerTitle"
                 android:layout_width="208dp"
                 android:layout_height="51dp"
                 android:text="@string/registrate"
@@ -133,6 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:focusable="false"
                 android:inputType="text"
                 android:minHeight="48dp"
                 android:theme="@style/textBoxes"
@@ -147,6 +148,7 @@
                 android:id="@+id/intensiveCheck"
                 android:layout_width="304dp"
                 android:layout_height="55dp"
+                android:clickable="false"
                 android:text="@string/dual_intensive"
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/scholarInfoGuidelineEnd"
@@ -450,6 +452,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
+                android:focusable="false"
                 android:minHeight="48dp"
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/intensiveCheck"
