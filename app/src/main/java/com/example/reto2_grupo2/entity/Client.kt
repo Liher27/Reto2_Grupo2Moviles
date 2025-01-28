@@ -2,19 +2,23 @@ package com.example.reto2_grupo2.entity
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity
 data class Client
     (
-    val userId:Int,
-    val userName:String,
-    val surname:String,
-    val secondSurname :String,
-    val pass:String,
-    val dni:String,
-    val direction:String,
-    val telephone :Int,
-    val userType:Boolean,
-    val registered:Boolean):Parcelable {
+    @PrimaryKey(autoGenerate = true) val userId: Int,
+    val userName: String,
+    val surname: String,
+    val secondSurname: String,
+    val pass: String,
+    val dni: String,
+    val direction: String,
+    val telephone: Int,
+    val userType: Boolean,
+    val registered: Boolean
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString().toString(),
@@ -46,7 +50,7 @@ data class Client
             dest.writeBoolean(userType)
             dest.writeBoolean(registered)
         }
-        }
+    }
 
 
     companion object CREATOR : Parcelable.Creator<Client> {

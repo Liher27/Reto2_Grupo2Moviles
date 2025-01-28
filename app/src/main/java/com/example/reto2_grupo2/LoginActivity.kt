@@ -11,8 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
-import java.util.Locale
 import com.example.reto2_grupo2.socketIO.SocketClient
+import kotlinx.coroutines.DelicateCoroutinesApi
+import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
 
@@ -22,7 +23,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var registerTextButton: TextView
     private lateinit var rememberMe: CheckBox
     private lateinit var forgotPassword: TextView
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
         rememberMe = findViewById(R.id.rememberMeCheck)
         registerTextButton = findViewById(R.id.registerTextButton)
 
-
+        val client = getROOMClient()
 
 
         registerTextButton.setOnClickListener {
@@ -68,6 +68,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton = findViewById(R.id.registerButton)
         loginButton.setOnClickListener {
+
 
             if (userTextField.text.isNotEmpty() || passwordTextField.text.isNotEmpty()) {
                 socketClient!!.doLogin(
@@ -84,6 +85,11 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    /*private fun getROOMClient(): Client {
+       // return ClientDao.getClient()
+    }*/
 
     private fun setLocale(languageCode: String, context: Context) {
         val locale = Locale(languageCode)

@@ -14,6 +14,8 @@ activity = "1.10.0"
 constraintlayout = "2.2.0"
 navigationFragmentKtx = "2.8.5"
 navigationUiKtx = "2.8.5"
+roomCommon = "2.6.1"
+roomKtx = "2.6.1"
 
 [libraries]
 google-maps-sdk = "com.google.android.gms:play-services-maps:19.0.0"
@@ -35,6 +37,8 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 socket-io-client = { module = "io.socket:socket.io-client", version = "2.1.1" }
 engine-io-client = { module = "io.socket:engine.io-client", version = "2.1.0" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

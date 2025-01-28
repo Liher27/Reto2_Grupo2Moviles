@@ -12,12 +12,11 @@ import com.example.reto2_grupo2.MainFrame
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
-
 import com.example.reto2_grupo2.entity.Course
+import com.example.reto2_grupo2.entity.ExternalCourse
 import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
-
-import com.example.reto2_grupo2.entity.ExternalCourse
+import com.example.reto2_grupo2.entity.room.ClientDatabase
 import com.example.reto2_grupo2.socketIO.config.Events
 import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
@@ -25,6 +24,10 @@ import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
 import io.socket.client.Socket
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
@@ -32,9 +35,9 @@ class SocketClient(private val activity: Activity) {
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
-    private lateinit var rootData : RootData
-    private lateinit var userClient :Client
-    private lateinit var userStudent :Student
+    private lateinit var rootData: RootData
+    private lateinit var userClient: Client
+    private lateinit var userStudent: Student
     private lateinit var userCourse: Course
 
     constructor(fragment: Fragment) : this(fragment.requireActivity()) {
@@ -178,12 +181,12 @@ class SocketClient(private val activity: Activity) {
             val message = response.getString("message")
             // Now we can use Gson to parse the message into a JsonObject
             val gson = Gson()
-             rootData = gson.fromJson(message, RootData::class.java)
+            rootData = gson.fromJson(message, RootData::class.java)
             Log.d(tag, "JSON: $rootData")
 
 
             val client = rootData.loginClient
-             userClient = Client(
+            userClient = Client(
                 client.userId,
                 client.userName,
                 client.surname,
@@ -195,24 +198,28 @@ class SocketClient(private val activity: Activity) {
                 client.userType,
                 client.registered
             )
+
+            //Añadimos a la base de datos el cliente
+            saveClientInROOM(userClient)
+
             val student = rootData.student
-             userStudent = Student(
+            userStudent = Student(
                 student.userId,
                 student.userYear,
                 student.intensiveDual
             )
 
             val course = rootData.course
-             userCourse = Course(
+            userCourse = Course(
                 course.title,
                 course.email,
                 course.courseDescription
             )
             val intent = Intent(context, MainFrame::class.java).apply {
-                putExtra("user", userClient).
-                putExtra("studentInfo",userStudent).
-                putExtra("userCourse",userCourse)
+                putExtra("user", userClient).putExtra("studentInfo", userStudent)
+                    .putExtra("userCourse", userCourse)
             }
+
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
@@ -262,14 +269,28 @@ class SocketClient(private val activity: Activity) {
                 course.courseDescription
             )
             val intent = Intent(context, RegisterActivity::class.java).apply {
-                putExtra("user", userClient).
-                putExtra("studentInfo",userStudent).
-                putExtra("userCourse",userCourse)
+                putExtra("user", userClient).putExtra("studentInfo", userStudent)
+                    .putExtra("userCourse", userCourse)
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun saveClientInROOM(userClient: Client) {
+        //Creamos la instancia de la base de datos
+        val db = ClientDatabase(context)
+        GlobalScope.launch(Dispatchers.IO) {
+            //Si hay un usuario en la base de datos, lo eliminamos primero
+            if(db.clientDao().getAll().isNotEmpty()){
+                db.clientDao().deleteClients()
+            }
+            //Añadimos el cliente a la base de datos
+            userClient.let { db.clientDao().insert(it) }
+        }
+    }
+
     fun doRegister(
         userName: String,
         password: String,
@@ -296,7 +317,7 @@ class SocketClient(private val activity: Activity) {
         )
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
 
-        socket.on(Events.ON_REGISTER_SUCCESS.value){ args ->
+        socket.on(Events.ON_REGISTER_SUCCESS.value) { args ->
             val response = args[0] as String
             Log.d(tag, "Received ON_REQUEST_SUCCESS event: $response")
             activity.runOnUiThread {
@@ -307,14 +328,13 @@ class SocketClient(private val activity: Activity) {
 
 
         }
-        socket.on(Events.ON_REGISTER_FAIL.value){ args ->
+        socket.on(Events.ON_REGISTER_FAIL.value) { args ->
             val response = args[0] as String
             Log.d(tag, "Received ON_REQUEST_FALL event: $response")
 
 
-
         }
-        socket.on(Events.ON_REGISTER_SAME_PASSWORD.value){ args ->
+        socket.on(Events.ON_REGISTER_SAME_PASSWORD.value) { args ->
             val response = args[0] as String
             Log.d(tag, "Received ON_REGISTER_SAME_PASSWORD event: $response")
 
@@ -390,7 +410,8 @@ class SocketClient(private val activity: Activity) {
             try {
                 val gson = Gson()
                 val externalCoursesType = object : TypeToken<List<ExternalCourse>>() {}.type
-                val externalCoursesList: List<ExternalCourse> = gson.fromJson(jsonDocuments, externalCoursesType)
+                val externalCoursesList: List<ExternalCourse> =
+                    gson.fromJson(jsonDocuments, externalCoursesType)
                 Log.d(tag, "JSONList: $externalCoursesList")
                 callback(externalCoursesList)
             } catch (e: Exception) {

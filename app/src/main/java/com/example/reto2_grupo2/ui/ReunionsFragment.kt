@@ -28,6 +28,7 @@ class ReunionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
     }
 
     companion object {

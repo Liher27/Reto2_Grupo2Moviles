@@ -150,6 +150,7 @@
                     android:id="@+id/externalCoursesSpinner"
                     android:layout_width="207dp"
                     android:layout_height="64dp"
+                    android:theme="@style/textBoxes"
                     app:layout_constraintBottom_toTopOf="@+id/guideline15"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.504"

@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.core.ktx)
