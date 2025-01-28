@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton
 import com.example.reto2_grupo2.entity.Client
+import com.example.reto2_grupo2.entity.Course
+import com.example.reto2_grupo2.entity.Student
 import kotlin.properties.Delegates
 
 class RegisterActivity : AppCompatActivity() {
@@ -134,7 +136,17 @@ class RegisterActivity : AppCompatActivity() {
             secondSurnameTextField.setText(client.secondSurname)
             dniTextField.setText(client.dni)
             directionTextField.setText(client.direction)
+            telephone1TextField.setText(client.telephone.toString())
 
+        }
+        val course: Course? = intent.getParcelableExtra("userCourse")
+        if(course != null){
+            courseNameTextField.setText(course.title)
+        }
+        val student: Student? = intent.getParcelableExtra("studentInfo")
+        if(student != null){
+            cycleNameTextField.setText(student.userYear.toString())
+            gradoDobleCheck.isChecked = student.intensiveDual
         }
     }
 }
