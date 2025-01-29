@@ -2,6 +2,7 @@ package com.example.reto2_grupo2
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -11,8 +12,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
+import com.example.reto2_grupo2.entity.room.ClientDatabase
 import com.example.reto2_grupo2.socketIO.SocketClient
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
@@ -57,8 +62,7 @@ class LoginActivity : AppCompatActivity() {
         rememberMe = findViewById(R.id.rememberMeCheck)
         registerTextButton = findViewById(R.id.registerTextButton)
 
-        //val client = getROOMClient()
-
+        getROOMClient()
 
         registerTextButton.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
@@ -69,11 +73,11 @@ class LoginActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.registerButton)
         loginButton.setOnClickListener {
 
-
             if (userTextField.text.isNotEmpty() || passwordTextField.text.isNotEmpty()) {
                 socketClient!!.doLogin(
                     userTextField.text.toString(),
-                    passwordTextField.text.toString()
+                    passwordTextField.text.toString(),
+                    rememberMe.isChecked
                 )
 
             } else {
@@ -87,15 +91,29 @@ class LoginActivity : AppCompatActivity() {
     }
 
     @OptIn(DelicateCoroutinesApi::class)
-    /*private fun getROOMClient(): Client {
-       // return ClientDao.getClient()
-    }*/
+    private fun getROOMClient() {
+        //Creamos la instancia de la base de datos
+        val db = ClientDatabase(this)
+        //Recuperamos el cliente de la base de datos
+        GlobalScope.launch(Dispatchers.IO) {
+            val credentials = db.clientDao().getOne()
+            if (credentials.userName.isNotEmpty() && credentials.pass.isNotEmpty()) {
+                runOnUiThread {
+                    userTextField.setText(credentials.userName)
+                    passwordTextField.setText(credentials.pass)
+                }
+            }
+        }
+    }
 
-    private fun setLocale(languageCode: String, context: Context) {
+    private fun setLocale(languageCode: String, context: Context): Context {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
-        val config = context.resources.configuration
+
+        val config = Configuration(context.resources.configuration)
         config.setLocale(locale)
-        context.resources.updateConfiguration(config, context.resources.displayMetrics)
+
+        return context.createConfigurationContext(config)
     }
+
 }

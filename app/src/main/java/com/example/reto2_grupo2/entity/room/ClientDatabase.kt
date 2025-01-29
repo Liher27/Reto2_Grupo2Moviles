@@ -4,9 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.reto2_grupo2.entity.Client
 
-@Database(entities = [Client::class], version = 1)
+@Database(entities = [LoginForROOM::class], version = 1)
 abstract class ClientDatabase : RoomDatabase() {
 
     companion object {

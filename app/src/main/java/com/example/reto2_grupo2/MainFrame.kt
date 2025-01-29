@@ -32,9 +32,11 @@ class MainFrame : AppCompatActivity() {
         val client: Client? = intent.getParcelableExtra("user")
         if (client?.userType == true) {
             setContentView(mainFrameBinding.root)
+            replaceFragment(ProfessorMainFragment.newInstance(client))
             bottomNavigationView = mainFrameBinding.bottomNavigationView
         } else {
             setContentView(studentFrame.root)
+            replaceFragment(StudentMainFragment.newInstance(client))
             bottomNavigationView = studentFrame.bottomNavigationView
         }
 

@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
@@ -25,6 +27,7 @@ class ProfileFragment : Fragment() {
     private lateinit var newPasswordTxt: EditText
     private lateinit var repeatNewPasswordTxt: EditText
     private var client: Client? = null
+    private lateinit var changePasswordButton: Button
     private val socketClient = SocketClientSingleton.socketClient
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -36,8 +39,7 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.profile_fragment, container, false)
     }
@@ -53,8 +55,25 @@ class ProfileFragment : Fragment() {
         newPasswordTxt = view.findViewById(R.id.newPasswordTxt)
         repeatNewPasswordTxt = view.findViewById(R.id.repeatNewPasswordTxt)
 
+        changePasswordButton = view.findViewById(R.id.button)
+
         setupLanguageSpinner()
         setupThemeSpinner()
+
+        changePasswordButton.setOnClickListener {
+            if (oldPasswordTxt.text.toString() == client?.pass) {
+                if (newPasswordTxt.text.toString() == repeatNewPasswordTxt.text.toString()) {
+                    socketClient?.changePassword(
+                        client,
+                        newPasswordTxt.text.toString()
+                    )
+                } else Toast.makeText(
+                    requireContext(), "Las nuevas contraseñas no coinciden", Toast.LENGTH_SHORT
+                ).show()
+            } else Toast.makeText(requireContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT)
+                .show()
+
+        }
 
         val savedTheme = sharedPreferences.getString("selected_theme", "light")
         themeSpinner.setSelection(

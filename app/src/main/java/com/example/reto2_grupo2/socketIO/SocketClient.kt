@@ -17,6 +17,7 @@ import com.example.reto2_grupo2.entity.ExternalCourse
 import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
 import com.example.reto2_grupo2.entity.room.ClientDatabase
+import com.example.reto2_grupo2.entity.room.LoginForROOM
 import com.example.reto2_grupo2.socketIO.config.Events
 import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
@@ -31,7 +32,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.21:2888"
+    private val ipPort = "http://192.168.1.147:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -169,7 +170,7 @@ class SocketClient(private val activity: Activity) {
 
     // This method is called when we want to login. We get the userName,
     // put in into an MessageOutput, and convert it into JSON to be sent
-    fun doLogin(userName: String, password: String) {
+    fun doLogin(userName: String, password: String, rememberMe: Boolean) {
         val loginData = mapOf(
             "message" to userName,
             "userPass" to password
@@ -200,7 +201,8 @@ class SocketClient(private val activity: Activity) {
             )
 
             //Añadimos a la base de datos el cliente
-            saveClientInROOM(userClient)
+            if (rememberMe)
+                saveClientInROOM(userClient)
 
             val student = rootData.student
             userStudent = Student(
@@ -283,11 +285,14 @@ class SocketClient(private val activity: Activity) {
         val db = ClientDatabase(context)
         GlobalScope.launch(Dispatchers.IO) {
             //Si hay un usuario en la base de datos, lo eliminamos primero
-            if(db.clientDao().getAll().isNotEmpty()){
+            if (db.clientDao().getAll().isNotEmpty()) {
                 db.clientDao().deleteClients()
             }
+
+            val loginForRoom = LoginForROOM(userClient.userName, userClient.pass)
+
             //Añadimos el cliente a la base de datos
-            userClient.let { db.clientDao().insert(it) }
+            loginForRoom.let { db.clientDao().insert(it) }
         }
     }
 
@@ -434,5 +439,28 @@ class SocketClient(private val activity: Activity) {
         // Log traces
 
         Log.d(tag, "Attempt of logout - $message")
+    }
+
+    fun changePassword(client: Client?, newPassword: String) {
+        val userData = mapOf(
+            "userId" to client?.userId,
+            "newPassword" to newPassword
+        )
+        socket.emit(Events.ON_CHANGE_PASSWORD.value, Gson().toJson(userData))
+
+        socket.on(Events.ON_CHANGE_PASSWORD_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            client?.pass = newPassword
+            saveClientInROOM(client!!)
+        }
+        socket.on(Events.ON_CHANGE_PASSWORD_FAIL.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "No se ha podido cambiar la contraseña", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 }
