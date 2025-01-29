@@ -130,6 +130,7 @@ class RegisterActivity : AppCompatActivity() {
                             userTextField.text.toString(),
                             passwordTextField.text.toString(),
                             surnameTextField.text.toString(),
+                            secondSurnameTextField.text.toString(),
                             dniTextField.text.toString(),
                             directionTextField.text.toString(),
                             telephoneInt,

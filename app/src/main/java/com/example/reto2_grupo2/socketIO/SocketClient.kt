@@ -28,7 +28,7 @@ import kotlin.properties.Delegates
 
 class SocketClient (private val activity: Activity) {
 
-    private val ipPort = "http://10.5.104.21:2888"
+    private val ipPort = "http://192.168.56.1:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var name :String = ""
     private lateinit var context: Context
@@ -209,11 +209,12 @@ class SocketClient (private val activity: Activity) {
     }
 
 
-    fun doRegister(userName: String,password: String,surname:String,dni:String,direction: String,telephone:Int,year:Char,courseName:String,dual:Boolean){
+    fun doRegister(userName: String,password: String,surname:String,secondSurname:String,dni:String,direction: String,telephone:Int,year:Char,courseName:String,dual:Boolean){
         val registerData = mapOf(
             "username" to userName,
             "userpass" to password,
             "surname" to surname,
+            "secondsurname" to secondSurname,
             "dni" to dni,
             "direction" to direction,
             "telephone" to telephone,
