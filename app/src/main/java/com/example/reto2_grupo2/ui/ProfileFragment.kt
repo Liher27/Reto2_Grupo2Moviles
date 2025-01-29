@@ -36,6 +36,8 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         client = arguments?.getParcelable(ARG_CLIENT, Client::class.java)
+        sharedPreferences =
+            requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
     }
 
     override fun onCreateView(
@@ -97,9 +99,6 @@ class ProfileFragment : Fragment() {
 
 
     private fun setupThemeSpinner() {
-        sharedPreferences =
-            requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-
         themeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, p2: Int, p3: Long) {
                 val selectedTheme = when (p2) {
@@ -129,9 +128,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupLanguageSpinner() {
-        sharedPreferences =
-            requireContext().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-
         languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, p2: Int, p3: Long) {
                 val selectedLanguage = when (p2) {

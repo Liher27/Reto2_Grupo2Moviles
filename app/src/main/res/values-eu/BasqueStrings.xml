@@ -48,4 +48,13 @@
     <string name="repeat_new_password">Errepikatu zure pasahitz berria</string>
     <string name="themeSettingsTitle">Gaia aldatu</string>
     <string name="forgotPassword">Nire pasahitza ahaztu dut</string>
+    <string name="accept">Onartu</string>
+    <string name="cancel">Ezeztatu</string>
+    <string name="forcedAccept">Derrigortu batzarra</string>
+    <string name="createReunion">Sortu batzarra</string>
+    <string name="theme">Tema</string>
+    <string name="reason">Arrazoia:</string>
+    <string name="dateAndHour">Data eta ordua:</string>
+    <string name="classString">Gela:</string>
+    <string name="professors">Irakasleak:</string>
 </resources>

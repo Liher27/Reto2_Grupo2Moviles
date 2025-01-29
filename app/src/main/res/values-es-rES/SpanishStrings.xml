@@ -48,4 +48,13 @@
     <string name="repeat_new_password">Repite tu nueva contraseña</string>
     <string name="themeSettingsTitle">Cambiar tema</string>
     <string name="forgotPassword">He olvidado mi contraseña</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="forcedAccept">Reunion forzosa</string>
+    <string name="createReunion">Crea una reunion</string>
+    <string name="theme">Tema:</string>
+    <string name="reason">Asunto:</string>
+    <string name="dateAndHour">Fecha y hora:</string>
+    <string name="classString">Aula:</string>
+    <string name="professors">Profesores:</string>
 </resources>

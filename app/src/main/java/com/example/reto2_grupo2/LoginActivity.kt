@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -31,12 +32,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
         val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-
         if (sharedPreferences.contains("selected_theme")) {
             val selectedTheme = sharedPreferences.getString("selected_theme", "light")
             if (selectedTheme == "light") {
@@ -53,6 +49,8 @@ class LoginActivity : AppCompatActivity() {
                 setLocale(selectedLanguage, this)
             }
         }
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
 
         forgotPassword = findViewById(R.id.forgotPassword)
         socketClient = SocketClient(this)
@@ -106,14 +104,12 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun setLocale(languageCode: String, context: Context): Context {
+    private fun setLocale(languageCode: String, context: Context) {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
-
-        val config = Configuration(context.resources.configuration)
+        val config = context.resources.configuration
         config.setLocale(locale)
-
-        return context.createConfigurationContext(config)
+        context.resources.updateConfiguration(config, context.resources.displayMetrics)
     }
 
 }
