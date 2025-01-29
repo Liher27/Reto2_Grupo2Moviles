@@ -57,4 +57,8 @@
     <string name="dateAndHour">Date and hour:</string>
     <string name="classString">Classroom:</string>
     <string name="professors">Professors:</string>
+    <string name="add_theme">Add a theme…</string>
+    <string name="add_reason">Add a reason…</string>
+    <string name="add_date">Add a date…</string>
+    <string name="add_hour">Hour</string>
 </resources>

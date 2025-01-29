@@ -14,6 +14,7 @@ import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.ExternalCourse
+import com.example.reto2_grupo2.entity.Reunion
 import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
 import com.example.reto2_grupo2.entity.room.ClientDatabase
@@ -461,6 +462,31 @@ class SocketClient(private val activity: Activity) {
                 Toast.makeText(context, "No se ha podido cambiar la contraseña", Toast.LENGTH_SHORT)
                     .show()
             }
+        }
+    }
+
+    fun getReunions(client: Client?, callback: (List<Reunion>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_GET_REUNIONS.value, jsonData)
+        socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
+            val jsonDocuments = args[0] as String
+            Log.d(tag, "JSONDocuments: $jsonDocuments")
+            try {
+                val gson = Gson()
+                val reunionType = object : TypeToken<List<Reunion>>() {}.type
+                val reunionList: List<Reunion> =
+                    gson.fromJson(jsonDocuments, reunionType)
+                Log.d(tag, "JSONList: $reunionList")
+                callback(reunionList)
+            } catch (e: Exception) {
+                callback(emptyList())
+            }
+        }
+        socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
+            val response = args[0] as String
+            Log.d(tag, "Login fallado: $response")
         }
     }
 }

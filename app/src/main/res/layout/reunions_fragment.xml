@@ -45,8 +45,10 @@
                 android:contentDescription="@string/logo_description"
                 app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.539"
                 app:srcCompat="@mipmap/elorclass_foreground" />
 
             <TextView
@@ -58,8 +60,10 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginLogo" />
+                app:layout_constraintTop_toBottomOf="@+id/loginLogo"
+                app:layout_constraintVertical_bias="1.0" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/shapeGuideline"
@@ -82,7 +86,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/selectionSpinner"
                 android:layout_width="0dp"
                 android:layout_height="89dp"
                 android:theme="@style/textBoxes"
@@ -105,7 +109,7 @@
                 android:text="@string/filter"
                 android:textSize="35sp"
                 android:theme="@style/textBoxes"
-                app:layout_constraintBottom_toTopOf="@+id/spinner"
+                app:layout_constraintBottom_toTopOf="@+id/selectionSpinner"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/shapeGuideline" />
@@ -125,44 +129,44 @@
                 app:layout_constraintGuide_begin="968dp" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/acceptButton"
                 android:layout_width="0dp"
                 android:layout_height="82dp"
                 android:text="@string/accept"
                 android:theme="@style/blackButton"
                 app:layout_constraintBottom_toTopOf="@+id/guideline12"
-                app:layout_constraintEnd_toStartOf="@+id/button3"
+                app:layout_constraintEnd_toStartOf="@+id/cancelButton"
                 app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline11"
                 tools:ignore="VisualLintButtonSize" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/cancelButton"
                 android:layout_width="0dp"
                 android:layout_height="82dp"
                 android:text="@string/cancel"
                 android:theme="@style/blackButton"
                 app:layout_constraintBottom_toTopOf="@+id/guideline12"
-                app:layout_constraintEnd_toStartOf="@+id/button4"
-                app:layout_constraintStart_toEndOf="@+id/button2"
+                app:layout_constraintEnd_toStartOf="@+id/forceButton"
+                app:layout_constraintStart_toEndOf="@+id/acceptButton"
                 app:layout_constraintTop_toTopOf="@+id/guideline11"
                 tools:ignore="VisualLintButtonSize" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/forceButton"
                 android:layout_width="0dp"
                 android:layout_height="82dp"
                 android:text="@string/forcedAccept"
                 android:theme="@style/forceButton"
                 app:layout_constraintBottom_toTopOf="@+id/guideline12"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button3"
+                app:layout_constraintStart_toEndOf="@+id/cancelButton"
                 app:layout_constraintTop_toTopOf="@+id/guideline11"
                 tools:ignore="VisualLintButtonSize" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/reunionTextView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:theme="@style/textBoxes"
@@ -258,8 +262,8 @@
                 tools:ignore="TextContrastCheck" />
 
             <EditText
-                android:id="@+id/editTextText"
-                android:layout_width="304dp"
+                android:id="@+id/themeText"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/add_theme"
@@ -268,10 +272,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline18"
                 app:layout_constraintTop_toTopOf="@+id/guideline17"
-                tools:ignore="Autofill, TextContrastCheck" />
+                tools:ignore="Autofill, TextContrastCheck,VisualLintTextFieldSize" />
 
             <EditText
-                android:id="@+id/editTextText2"
+                android:id="@+id/reasonText"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:ems="10"
@@ -284,20 +288,23 @@
                 tools:ignore="Autofill,VisualLintTextFieldSize, TextContrastCheck" />
 
             <EditText
-                android:id="@+id/editTextText3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/dateText"
+                android:layout_width="165dp"
+                android:layout_height="50dp"
                 android:ems="10"
                 android:hint="@string/add_date"
-                android:inputType="text"
+                android:inputType="date"
                 app:layout_constraintBottom_toTopOf="@+id/guideline20"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/hourText"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/dateAndHourTextView"
                 app:layout_constraintStart_toStartOf="@+id/guideline18"
                 app:layout_constraintTop_toTopOf="@+id/guideline21"
+                app:layout_constraintVertical_bias="0.509"
                 tools:ignore="Autofill,VisualLintTextFieldSize, TextContrastCheck" />
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/classSpiner"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline23"
@@ -313,7 +320,7 @@
                 app:layout_constraintGuide_begin="1499dp" />
 
             <Spinner
-                android:id="@+id/spinner3"
+                android:id="@+id/professorsSpinner"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline19"
@@ -322,7 +329,7 @@
                 app:layout_constraintTop_toTopOf="@+id/guideline23" />
 
             <Button
-                android:id="@+id/button5"
+                android:id="@+id/createReunionButton"
                 android:layout_width="300dp"
                 android:layout_height="0dp"
                 android:text="@string/continuar"
@@ -353,6 +360,18 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="1272dp" />
 
+            <EditText
+                android:id="@+id/hourText"
+                android:layout_width="99dp"
+                android:layout_height="51dp"
+                android:hint="@string/add_hour"
+                android:inputType="number"
+                app:layout_constraintBottom_toTopOf="@+id/guideline20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/dateText"
+                app:layout_constraintTop_toTopOf="@+id/guideline21"
+                tools:ignore="Autofill,TextContrastCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

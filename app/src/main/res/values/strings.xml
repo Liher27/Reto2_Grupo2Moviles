@@ -67,7 +67,8 @@
     <string name="dateAndHour">Fecha y hora</string>
     <string name="classString">Aula</string>
     <string name="professors">Profesores</string>
-    <string name="add_theme">Añade un tema</string>
-    <string name="add_reason">Añade un asunto...</string>
-    <string name="add_date">Añade una fecha...</string>
+    <string name="add_theme">Añade un tema…</string>
+    <string name="add_reason">Añade un asunto…</string>
+    <string name="add_date">Añade una fecha…</string>
+    <string name="add_hour">Hora</string>
 </resources>
