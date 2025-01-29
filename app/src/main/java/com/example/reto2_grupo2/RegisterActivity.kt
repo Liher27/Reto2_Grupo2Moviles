@@ -117,13 +117,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun credentialsOk(): Boolean {
-        var ret = false
-
-        return ret
-
-    }
-
     private fun preloadInfo() {
         val client: Client? = intent.getParcelableExtra("user")
         if (client != null) {

@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://192.168.1.147:2888"
+    private val ipPort = "http://10.5.104.48:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -41,10 +41,6 @@ class SocketClient(private val activity: Activity) {
     private lateinit var userClient: Client
     private lateinit var userStudent: Student
     private lateinit var userCourse: Course
-
-    constructor(fragment: Fragment) : this(fragment.requireActivity()) {
-        this.fragment = fragment
-    }
 
     // For log purposes
     private var tag = "socket.io"

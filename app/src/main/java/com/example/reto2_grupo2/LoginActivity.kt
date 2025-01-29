@@ -2,9 +2,7 @@ package com.example.reto2_grupo2
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -95,10 +93,12 @@ class LoginActivity : AppCompatActivity() {
         //Recuperamos el cliente de la base de datos
         GlobalScope.launch(Dispatchers.IO) {
             val credentials = db.clientDao().getOne()
-            if (credentials.userName.isNotEmpty() && credentials.pass.isNotEmpty()) {
-                runOnUiThread {
-                    userTextField.setText(credentials.userName)
-                    passwordTextField.setText(credentials.pass)
+            if (credentials != null) {
+                if (credentials.userName.isNotEmpty() && credentials.pass.isNotEmpty()) {
+                    runOnUiThread {
+                        userTextField.setText(credentials.userName)
+                        passwordTextField.setText(credentials.pass)
+                    }
                 }
             }
         }
