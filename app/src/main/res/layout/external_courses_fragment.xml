@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -42,16 +41,16 @@
                     android:contentDescription="@string/logo_description"
                     app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.496"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.053"
+                    app:layout_constraintVertical_bias="0.5"
                     app:srcCompat="@mipmap/elorclass_foreground" />
 
                 <TextView
-                    android:id="@+id/registerTitle"
+                    android:id="@+id/externalCoursesTitle"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:text="@string/externalCourses"
                     android:textSize="34sp"
                     android:theme="@style/textBoxes"
@@ -81,23 +80,23 @@
                     app:layout_constraintVertical_bias="0.0" />
 
                 <com.google.android.gms.maps.MapView
-                    android:id="@+id/mapView"
+                    android:id="@+id/externalCourseUbi"
                     android:layout_width="match_parent"
                     android:layout_height="297dp"
                     android:contentDescription="@string/app_name"
                     app:layout_constraintBottom_toTopOf="@+id/guideline14"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/directionTitle" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/directionTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/direction"
-                    android:theme="@style/textBoxes"
                     android:textSize="30sp"
-                    app:layout_constraintBottom_toTopOf="@+id/mapView"
+                    android:theme="@style/textBoxes"
+                    app:layout_constraintBottom_toTopOf="@+id/externalCourseUbi"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/guideline13"
@@ -124,37 +123,38 @@
                     android:orientation="horizontal"
                     app:layout_constraintGuide_begin="471dp" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView"
+                <TextView
+                    android:id="@+id/externalCourseInfoText"
                     android:layout_width="match_parent"
-                    android:layout_height="291dp"
-                    style="@style/CustomCardViewStyle"
+                    android:layout_height="295dp"
+                    android:textSize="20sp"
+                    android:theme="@style/textBoxes"
                     app:layout_constraintBottom_toTopOf="@+id/guideline13"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guideline15"/>
+                    app:layout_constraintTop_toTopOf="@+id/guideline15" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/externalCourseFilteringTitle"
                     android:layout_width="133dp"
                     android:layout_height="54dp"
                     android:text="@string/filter"
+                    android:textSize="40sp"
                     android:theme="@style/textBoxes"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toTopOf="@+id/spinner"
+                    app:layout_constraintBottom_toTopOf="@+id/externalCoursesSpinner"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/shapeGuideline" />
 
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:id="@+id/externalCoursesSpinner"
                     android:layout_width="207dp"
                     android:layout_height="64dp"
                     app:layout_constraintBottom_toTopOf="@+id/guideline15"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.833"
+                    app:layout_constraintHorizontal_bias="0.504"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/externalCourseFilteringTitle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

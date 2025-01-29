@@ -11,6 +11,9 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton
+import com.example.reto2_grupo2.entity.Client
+import com.example.reto2_grupo2.entity.Course
+import com.example.reto2_grupo2.entity.Student
 import kotlin.properties.Delegates
 
 class RegisterActivity : AppCompatActivity() {
@@ -57,6 +60,11 @@ class RegisterActivity : AppCompatActivity() {
         gradoDobleCheck = findViewById(R.id.intensiveCheck)
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
+
+        preloadInfo()
+
+
+
 
         val socketClient = SocketClientSingleton.socketClient
 
@@ -133,10 +141,7 @@ class RegisterActivity : AppCompatActivity() {
                             secondSurnameTextField.text.toString(),
                             dniTextField.text.toString(),
                             directionTextField.text.toString(),
-                            telephoneInt,
-                            yearchar,
-                            courseNameTextField.text.toString(),
-                            dual
+                            telephoneInt
                         )
                     }
 
@@ -176,5 +181,27 @@ class RegisterActivity : AppCompatActivity() {
 
         return ret
 
+    }
+
+    private fun preloadInfo(){
+        val client: Client? = intent.getParcelableExtra("user")
+        if (client != null) {
+            nameTextField.setText(client.userName)
+            surnameTextField.setText(client.surname)
+            secondSurnameTextField.setText(client.secondSurname)
+            dniTextField.setText(client.dni)
+            directionTextField.setText(client.direction)
+            telephone1TextField.setText(client.telephone.toString())
+
+        }
+        val course: Course? = intent.getParcelableExtra("userCourse")
+        if(course != null){
+            courseNameTextField.setText(course.title)
+        }
+        val student: Student? = intent.getParcelableExtra("studentInfo")
+        if(student != null){
+            cycleNameTextField.setText(student.userYear.toString())
+            gradoDobleCheck.isChecked = student.intensiveDual
+        }
     }
 }

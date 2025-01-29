@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         forgotPassword = findViewById(R.id.forgotPassword)
-        socketClient =SocketClient(this)
+        socketClient = SocketClient(this)
         socketClient!!.connect()
         userTextField = findViewById(R.id.userNameTxt)
         passwordTextField = findViewById(R.id.passwordTxt)
@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
             finish()
-            }
+        }
 
         loginButton = findViewById(R.id.registerButton)
         loginButton.setOnClickListener {
@@ -83,12 +83,6 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
             }
         }
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        socketClient!!.disconnect()
     }
 
     private fun setLocale(languageCode: String, context: Context) {

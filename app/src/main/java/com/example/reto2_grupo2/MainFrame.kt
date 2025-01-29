@@ -10,7 +10,7 @@ import com.example.reto2_grupo2.ui.DocumentsDownloadFragment
 import com.example.reto2_grupo2.ui.ExternalCoursesFragment
 import com.example.reto2_grupo2.ui.ProfessorMainFragment
 import com.example.reto2_grupo2.ui.ProfileFragment
-import com.example.reto2_grupo2.ui.Reunions_fragment
+import com.example.reto2_grupo2.ui.ReunionsFragment
 import com.example.reto2_grupo2.ui.StudentMainFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -29,7 +29,7 @@ class MainFrame : AppCompatActivity() {
         setContentView(studentFrame.root)
         bottomNavigationView = studentFrame.bottomNavigationView
 
-        val client:Client? = intent.getParcelableExtra("user")
+        val client: Client? = intent.getParcelableExtra("user")
         if (client?.userType == true) {
             setContentView(mainFrameBinding.root)
             bottomNavigationView = mainFrameBinding.bottomNavigationView
@@ -41,33 +41,43 @@ class MainFrame : AppCompatActivity() {
 
 
         bottomNavigationView.setOnItemSelectedListener { item ->
-            handleBottomNavigation(item.itemId,client?.userType)
+            handleBottomNavigation(item.itemId, client?.userType, client)
             true
         }
     }
 
 
-    private fun handleBottomNavigation(itemId: Int, userType: Boolean?) {
+    private fun handleBottomNavigation(itemId: Int, userType: Boolean?, client: Client?) {
         when (itemId) {
             R.id.home -> {
                 if (userType == true) {
-                    replaceFragment(ProfessorMainFragment())
+                    replaceFragment(ProfessorMainFragment.newInstance(client))
                 } else {
-                    replaceFragment(StudentMainFragment())
+                    replaceFragment(StudentMainFragment.newInstance(client))
                 }
             }
 
-            R.id.reunions -> replaceFragment(Reunions_fragment())
-            R.id.user -> replaceFragment(ProfileFragment())
-            R.id.documents_download -> replaceFragment(DocumentsDownloadFragment())
-            R.id.external_courses -> replaceFragment(ExternalCoursesFragment())
+            R.id.reunions -> replaceFragment(ReunionsFragment.newInstance(client))
+            R.id.user -> replaceFragment(ProfileFragment.newInstance(client))
+            R.id.documents_download -> replaceFragment(DocumentsDownloadFragment.newInstance(client))
+            R.id.external_courses -> replaceFragment(ExternalCoursesFragment.newInstance(client))
         }
     }
 
     private fun replaceFragment(fragment: Fragment) {
         val fM = supportFragmentManager
-        val fT = fM.beginTransaction()
-        fT.replace(R.id.frameLayout, fragment)
-        fT.commit()
+        val existingFragment = fM.findFragmentByTag(fragment::class.java.simpleName)
+        if (existingFragment != null) {
+            fM.beginTransaction()
+                .replace(R.id.frameLayout, existingFragment)
+                .addToBackStack(null)
+                .commit()
+        } else {
+            fM.beginTransaction()
+                .replace(R.id.frameLayout, fragment, fragment::class.java.simpleName)
+                .addToBackStack(null)
+                .commit()
+        }
     }
+
 }

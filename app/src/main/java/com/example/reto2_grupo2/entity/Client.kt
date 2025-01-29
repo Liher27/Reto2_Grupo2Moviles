@@ -6,10 +6,10 @@ import android.os.Parcelable
 data class Client
     (
     val userId:Int,
-    val name:String,
+    val userName:String,
     val surname:String,
     val secondSurname :String,
-    val password:String,
+    val pass:String,
     val dni:String,
     val direction:String,
     val telephone :Int,
@@ -36,10 +36,10 @@ data class Client
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.let {
             dest.writeInt(userId)
-            dest.writeString(name)
+            dest.writeString(userName)
             dest.writeString(surname)
             dest.writeString(secondSurname)
-            dest.writeString(password)
+            dest.writeString(pass)
             dest.writeString(dni)
             dest.writeString(direction)
             dest.writeInt(telephone)

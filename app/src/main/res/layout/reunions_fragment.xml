@@ -43,7 +43,7 @@
                 app:srcCompat="@mipmap/elorclass_foreground" />
 
             <TextView
-                android:id="@+id/registerTitle"
+                android:id="@+id/externalCoursesTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/reunions"

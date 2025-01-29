@@ -13,37 +13,26 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
+import com.example.reto2_grupo2.Singleton.SocketClientSingleton
+import com.example.reto2_grupo2.entity.Client
+import com.example.reto2_grupo2.socketIO.SocketClient
 import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
     private lateinit var languageSpinner: Spinner
     private lateinit var themeSpinner: Spinner
     private lateinit var oldPasswordTxt: EditText
     private lateinit var newPasswordTxt: EditText
     private lateinit var repeatNewPasswordTxt: EditText
+    private var client: Client? = null
+    private val socketClient = SocketClientSingleton.socketClient
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        client = arguments?.getParcelable(ARG_CLIENT, Client::class.java)
     }
 
     override fun onCreateView(
@@ -156,22 +145,13 @@ class ProfileFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        private const val ARG_CLIENT = "client"
+        fun newInstance(client: Client?): ProfileFragment {
+            val fragment = ProfileFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_CLIENT, client)
+            fragment.arguments = args
+            return fragment
+        }
     }
 }
