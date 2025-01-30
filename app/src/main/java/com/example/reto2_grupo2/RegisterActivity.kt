@@ -10,11 +10,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.reto2_grupo2.Singleton.SocketClientSingleton
+import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.Student
 import kotlin.properties.Delegates
+
+
+private const val REQUEST_CODE_RECORD_IMAGE = 1
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -40,8 +43,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var regusterCheckButton: Button
     private var dual by Delegates.notNull<Boolean>()
 
-    private val REQUEST_CODE_RECORD_IMAGE = 1
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -62,11 +63,6 @@ class RegisterActivity : AppCompatActivity() {
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
 
         preloadInfo()
-
-
-
-
-        val socketClient = SocketClientSingleton.socketClient
 
         backButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
@@ -125,7 +121,7 @@ class RegisterActivity : AppCompatActivity() {
 
                     dual = gradoDobleCheck.isChecked
                     if (socketClient != null) {
-                        socketClient.doRegister(
+                        socketClient?.doRegister(
                             nameTextField.text.toString(),
                             passwordTextField.text.toString(),
                             surnameTextField.text.toString(),
@@ -167,14 +163,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun credentialsOk(): Boolean {
-        var ret = false
-
-        return ret
-
-    }
-
-    private fun preloadInfo(){
+    private fun preloadInfo() {
         val client: Client? = intent.getParcelableExtra("user")
         if (client != null) {
             nameTextField.setText(client.userName)
@@ -186,11 +175,11 @@ class RegisterActivity : AppCompatActivity() {
 
         }
         val course: Course? = intent.getParcelableExtra("userCourse")
-        if(course != null){
+        if (course != null) {
             courseNameTextField.setText(course.title)
         }
         val student: Student? = intent.getParcelableExtra("studentInfo")
-        if(student != null){
+        if (student != null) {
             cycleNameTextField.setText(student.userYear.toString())
             gradoDobleCheck.isChecked = student.intensiveDual
         }

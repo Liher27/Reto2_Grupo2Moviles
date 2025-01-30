@@ -1,11 +1,11 @@
 package com.example.reto2_grupo2.socketIO.config
 
 enum class Events(val value: String) {
-    ON_LOGIN ("onLogin"),
-    ON_GET_ALL ("onGetAll"),
-    ON_LOGOUT ("onLogout"),
-    ON_LOGIN_ANSWER ("onLoginAnswer"),
-    ON_GET_ALL_ANSWER ("onGetAllAnswer"),
+    ON_LOGIN("onLogin"),
+    ON_GET_ALL("onGetAll"),
+    ON_LOGOUT("onLogout"),
+    ON_LOGIN_ANSWER("onLoginAnswer"),
+    ON_GET_ALL_ANSWER("onGetAllAnswer"),
     ON_LOGIN_SUCCESS("onLoginSuccess"),
     ON_LOGIN_FAIL("onLoginFail"),
     ON_FILTER_BY_COURSE("onFilterByCourse"),
@@ -24,6 +24,11 @@ enum class Events(val value: String) {
     ON_REGISTER_SAME_PASSWORD("onRegisterSamePassword"),
     ON_GET_EXTERNAL_COURSES_ANSWER("onExternalCourseAnswer"),
     ON_GET_EXTERNAL_COURSES_ERROR("onExternalCourseError"),
-    ON_GET_EXTERNAL_COURSES("onExternalCourse");
-
+    ON_GET_EXTERNAL_COURSES("onExternalCourse"),
+    ON_CHANGE_PASSWORD("onChangePassword"),
+    ON_CHANGE_PASSWORD_FAIL("onChangePasswordFail"),
+    ON_CHANGE_PASSWORD_ANSWER("onChangePasswordAnswer"),
+    ON_GET_REUNIONS_ANSWER("onGetReunionsAnswer"),
+    ON_GET_REUNIONS_ERROR("onGetReunionsError"),
+    ON_GET_REUNIONS("onGetReunions");
 }

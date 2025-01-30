@@ -1,6 +1,7 @@
 package com.example.reto2_grupo2
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.databinding.ProfessorMainFrameBinding
@@ -32,13 +33,13 @@ class MainFrame : AppCompatActivity() {
         val client: Client? = intent.getParcelableExtra("user")
         if (client?.userType == true) {
             setContentView(mainFrameBinding.root)
+            replaceFragment(ProfessorMainFragment.newInstance(client))
             bottomNavigationView = mainFrameBinding.bottomNavigationView
         } else {
             setContentView(studentFrame.root)
+            replaceFragment(StudentMainFragment.newInstance(client))
             bottomNavigationView = studentFrame.bottomNavigationView
         }
-
-
 
         bottomNavigationView.setOnItemSelectedListener { item ->
             handleBottomNavigation(item.itemId, client?.userType, client)
@@ -48,21 +49,20 @@ class MainFrame : AppCompatActivity() {
 
 
     private fun handleBottomNavigation(itemId: Int, userType: Boolean?, client: Client?) {
-        when (itemId) {
-            R.id.home -> {
-                if (userType == true) {
-                    replaceFragment(ProfessorMainFragment.newInstance(client))
-                } else {
-                    replaceFragment(StudentMainFragment.newInstance(client))
-                }
-            }
+        val fragment = when (itemId) {
+            R.id.home -> if (userType == true) ProfessorMainFragment.newInstance(client) else StudentMainFragment.newInstance(
+                client
+            )
 
-            R.id.reunions -> replaceFragment(ReunionsFragment.newInstance(client))
-            R.id.user -> replaceFragment(ProfileFragment.newInstance(client))
-            R.id.documents_download -> replaceFragment(DocumentsDownloadFragment.newInstance(client))
-            R.id.external_courses -> replaceFragment(ExternalCoursesFragment.newInstance(client))
+            R.id.reunions -> ReunionsFragment.newInstance(client)
+            R.id.user -> ProfileFragment.newInstance(client)
+            R.id.documents_download -> DocumentsDownloadFragment.newInstance(client)
+            R.id.external_courses -> ExternalCoursesFragment.newInstance(client)
+            else -> return
         }
+        replaceFragment(fragment)
     }
+
 
     private fun replaceFragment(fragment: Fragment) {
         val fM = supportFragmentManager

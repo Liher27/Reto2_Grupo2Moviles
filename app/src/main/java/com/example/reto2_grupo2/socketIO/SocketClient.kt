@@ -12,24 +12,28 @@ import com.example.reto2_grupo2.MainFrame
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
-
 import com.example.reto2_grupo2.entity.Course
-import com.example.reto2_grupo2.entity.RootData
-import com.example.reto2_grupo2.entity.Student
-
 import com.example.reto2_grupo2.entity.ExternalCourse
 import com.example.reto2_grupo2.entity.Professor
+import com.example.reto2_grupo2.entity.RootData
+import com.example.reto2_grupo2.entity.Student
 import com.example.reto2_grupo2.socketIO.config.Events
-import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONObject
+import com.example.reto2_grupo2.entity.Reunion
+import com.example.reto2_grupo2.entity.room.ClientDatabase
+import com.example.reto2_grupo2.entity.room.LoginForROOM
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://192.168.56.1:2888"
+    private val ipPort = "http://10.5.104.48:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -38,10 +42,6 @@ class SocketClient(private val activity: Activity) {
     private lateinit var userStudent: Student
     private lateinit var userCourse: Course
     private lateinit var userProfessor: Professor
-
-    constructor(fragment: Fragment) : this(fragment.requireActivity()) {
-        this.fragment = fragment
-    }
 
     // For log purposes
     private var tag = "socket.io"
@@ -97,25 +97,6 @@ class SocketClient(private val activity: Activity) {
                 "id: $id, name: $name, surname: $surname, 2ndSurname:$secondSurname,pass: $pass,dni:$dni,direction:$direction,telephone:$telephone  tipo:$type, registered:$registered"
             )
 
-            // Create a Client object (or any other appropriate model class)
-            val client = Client(
-                id,
-                name,
-                surname,
-                secondSurname,
-                pass,
-                dni,
-                direction,
-                telephone,
-                type,
-                registered
-            )
-
-            // Display the result in the UI
-            /* activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login: $client")
-             Log.d(tag, "Answer to Login: $client")*/
-
-
         }
 
 
@@ -156,19 +137,12 @@ class SocketClient(private val activity: Activity) {
         Log.d(tag, "Connecting to server...")
     }
 
-    // This method is called when we want to disconnect from the server
-    fun disconnect() {
-        socket.disconnect()
-
-        // Log traces
-        Log.d(tag, "Disconnecting from server...")
-    }
 
     // Custom events
 
     // This method is called when we want to login. We get the userName,
     // put in into an MessageOutput, and convert it into JSON to be sent
-    fun doLogin(userName: String, password: String) {
+    fun doLogin(userName: String, password: String, rememberMe : Boolean) {
         val loginData = mapOf(
             "message" to userName,
             "userPass" to password
@@ -228,6 +202,9 @@ class SocketClient(private val activity: Activity) {
                     putExtra("studentInfo", userStudent)
                         .putExtra("userCourse", userCourse)
                 }
+            }
+            if (rememberMe) {
+                saveClientInROOM(userClient)
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
@@ -299,6 +276,26 @@ class SocketClient(private val activity: Activity) {
             context.startActivity(intent)
         }
     }
+
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun saveClientInROOM(userClient: Client) {
+        //Creamos la instancia de la base de datos
+        val db = ClientDatabase(context)
+        GlobalScope.launch(Dispatchers.IO) {
+            //Si hay un usuario en la base de datos, lo eliminamos primero
+            if (db.clientDao().getAll().isNotEmpty()) {
+                db.clientDao().deleteClients()
+            }
+
+            val loginForRoom = LoginForROOM(userClient.userName, userClient.pass)
+
+            //Añadimos el cliente a la base de datos
+            loginForRoom.let { db.clientDao().insert(it) }
+        }
+    }
+
+
     fun doRegister(
         userName: String,
         password: String,
@@ -319,7 +316,7 @@ class SocketClient(private val activity: Activity) {
         )
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
 
-        socket.on(Events.ON_REGISTER_SUCCESS.value){ args ->
+        socket.on(Events.ON_REGISTER_SUCCESS.value) { args ->
             val response = args[0] as String
             Log.d(tag, "Received ON_REQUEST_SUCCESS event: $response")
             activity.runOnUiThread {
@@ -330,14 +327,13 @@ class SocketClient(private val activity: Activity) {
 
 
         }
-        socket.on(Events.ON_REGISTER_FAIL.value){ args ->
+        socket.on(Events.ON_REGISTER_FAIL.value) { args ->
             val response = args[0] as String
             Log.d(tag, "Received ON_REQUEST_FALL event: $response")
 
 
-
         }
-        socket.on(Events.ON_REGISTER_SAME_PASSWORD.value){ args ->
+        socket.on(Events.ON_REGISTER_SAME_PASSWORD.value) { args ->
             val response = args[0] as String
             Log.d(tag, "Received ON_REGISTER_SAME_PASSWORD event: $response")
 
@@ -413,7 +409,8 @@ class SocketClient(private val activity: Activity) {
             try {
                 val gson = Gson()
                 val externalCoursesType = object : TypeToken<List<ExternalCourse>>() {}.type
-                val externalCoursesList: List<ExternalCourse> = gson.fromJson(jsonDocuments, externalCoursesType)
+                val externalCoursesList: List<ExternalCourse> =
+                    gson.fromJson(jsonDocuments, externalCoursesType)
                 Log.d(tag, "JSONList: $externalCoursesList")
                 callback(externalCoursesList)
             } catch (e: Exception) {
@@ -429,12 +426,52 @@ class SocketClient(private val activity: Activity) {
 
     // This method is called when we want to logout. We get the userName,
     // put in into an MessageOutput, and convert it into JSON to be sent
-    fun doLogout(userName: String) {
-        val message = MessageInput(userName) // The server is expecting a MessageInput
-        socket.emit(Events.ON_LOGOUT.value, Gson().toJson(message))
+    fun changePassword(client: Client?, newPassword: String) {
+        val userData = mapOf(
+            "userId" to client?.userId,
+            "newPassword" to newPassword
+        )
+        socket.emit(Events.ON_CHANGE_PASSWORD.value, Gson().toJson(userData))
 
-        // Log traces
+        socket.on(Events.ON_CHANGE_PASSWORD_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            client?.pass = newPassword
+            saveClientInROOM(client!!)
+        }
+        socket.on(Events.ON_CHANGE_PASSWORD_FAIL.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "No se ha podido cambiar la contraseña", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
 
-        Log.d(tag, "Attempt of logout - $message")
+    fun getReunions(client: Client?, callback: (List<Reunion>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_GET_REUNIONS.value, jsonData)
+
+        socket.off(Events.ON_GET_REUNIONS_ANSWER.value)
+
+        socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
+            val jsonDocuments = args[0] as String
+             try {
+                 val gson = Gson()
+                 val reunionType = object : TypeToken<List<Reunion>>() {}.type
+                 val reunionList: List<Reunion> =
+                     gson.fromJson(jsonDocuments, reunionType)
+                 callback(reunionList)
+             } catch (e: Exception) {
+                 callback(emptyList())
+             }
+        }
+        socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
+            val response = args[0] as String
+            Log.d(tag, "Login fallado: $response")
+        }
     }
 }

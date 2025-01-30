@@ -85,7 +85,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/oldPasswordTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.272"
+                app:layout_constraintHorizontal_bias="0.27"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline8"
                 tools:ignore="TextSizeCheck" />
@@ -100,24 +100,25 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/repeatPasswordTitle"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.14"
+                app:layout_constraintHorizontal_bias="0.10"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/newPasswordTitle"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/repeatPasswordTitle"
-                android:layout_width="381dp"
-                android:layout_height="55dp"
+                android:layout_width="333dp"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
                 android:text="@string/repeat_new_password"
                 android:textSize="20sp"
-                android:gravity="center_vertical"
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/repeatNewPasswordTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.42"
+                app:layout_constraintHorizontal_bias="0.27"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/newPasswordTxt" />
+                app:layout_constraintTop_toBottomOf="@+id/newPasswordTxt"
+                tools:ignore="TextSizeCheck,TextContrastCheck" />
 
             <EditText
                 android:id="@+id/repeatNewPasswordTxt"
@@ -129,22 +130,22 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/button"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintHorizontal_bias="0.14"
                 app:layout_constraintTop_toBottomOf="@+id/repeatPasswordTitle"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
             <TextView
                 android:id="@+id/newPasswordTitle"
-                android:layout_width="351dp"
-                android:layout_height="59dp"
+                android:layout_width="333dp"
+                android:layout_height="56dp"
                 android:gravity="center_vertical"
                 android:text="@string/insert_new_password"
                 android:textSize="20sp"
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/newPasswordTxt"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.313"
+                app:layout_constraintHorizontal_bias="0.27"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/oldPasswordTxt"
                 tools:ignore="TextSizeCheck" />
@@ -159,7 +160,7 @@
                 android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/newPasswordTitle"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.14"
+                app:layout_constraintHorizontal_bias="0.1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/oldPasswordTitle"
                 tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
@@ -248,7 +249,7 @@
                 android:theme="@style/blackButton"
                 app:layout_constraintBottom_toTopOf="@+id/guideline9"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.189"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/repeatNewPasswordTxt" />
         </androidx.constraintlayout.widget.ConstraintLayout>
