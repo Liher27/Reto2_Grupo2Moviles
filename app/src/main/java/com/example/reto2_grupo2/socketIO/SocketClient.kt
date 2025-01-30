@@ -2,15 +2,10 @@ package com.example.reto2_grupo2.socketIO
 
 import android.app.Activity
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.SharedPreferences
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.LoginActivity
 import com.example.reto2_grupo2.MainFrame
@@ -188,7 +183,6 @@ class SocketClient(private val activity: Activity) {
             rootData = gson.fromJson(message, RootData::class.java)
             Log.d(tag, "JSON: $rootData")
 
-            // Log the values for debugging
 
             val client = rootData.loginClient
             userClient = Client(
@@ -323,10 +317,9 @@ class SocketClient(private val activity: Activity) {
             "direction" to direction,
             "telephone" to telephone
         )
-        Log.d(tag,"userName:$userName,userPass:$password")
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
 
-        socket.on(Events.ON_REGISTER_SUCCESS.value) { args ->
+        socket.on(Events.ON_REGISTER_SUCCESS.value){ args ->
             val response = args[0] as String
             Log.d(tag, "Received ON_REQUEST_SUCCESS event: $response")
             activity.runOnUiThread {
@@ -337,118 +330,111 @@ class SocketClient(private val activity: Activity) {
 
 
         }
-        socket.on(Events.ON_REGISTER_FAIL.value) { args ->
+        socket.on(Events.ON_REGISTER_FAIL.value){ args ->
             val response = args[0] as String
             Log.d(tag, "Received ON_REQUEST_FALL event: $response")
 
-        }
-            socket.on(Events.ON_REGISTER_SAME_PASSWORD.value) { args ->
-                val response = args[0] as String
-                Log.d(tag, "Received ON_REGISTER_SAME_PASSWORD event: $response")
 
-            }
-        }
-
-
-
-            fun filterByCourse(client: Client?, callback: (List<String>) -> Unit) {
-                val loginData = mapOf("message" to client)
-                val jsonData = Gson().toJson(loginData)
-
-                socket.emit(Events.ON_FILTER_BY_COURSE.value, jsonData)
-                socket.on(Events.ON_FILTER_BY_COURSE_RESPONSE.value) { args ->
-                    val jsonDocuments = args[0] as String
-                    Log.d(tag, "JSON: $jsonDocuments")
-                    try {
-                        val gson = Gson()
-                        val documentListType = object : TypeToken<List<String>>() {}.type
-                        val documentsLinks: List<String> =
-                            gson.fromJson(jsonDocuments, documentListType)
-                        callback(documentsLinks)
-                    } catch (e: Exception) {
-                        callback(emptyList())
-                    }
-                }
-            }
-
-
-            fun filterByCycle(client: Client?, callback: (List<String>) -> Unit) {
-                val loginData = mapOf("message" to client)
-                val jsonData = Gson().toJson(loginData)
-
-                socket.emit(Events.ON_FILTER_BY_CYCLE.value, jsonData)
-                socket.on(Events.ON_FILTER_BY_CYCLE_RESPONSE.value) { args ->
-                    val jsonDocuments = args[0] as String
-                    Log.d(tag, "JSON: $jsonDocuments")
-                    try {
-                        val gson = Gson()
-                        val documentListType = object : TypeToken<List<String>>() {}.type
-                        val documentsLinks: List<String> =
-                            gson.fromJson(jsonDocuments, documentListType)
-                        callback(documentsLinks)
-                    } catch (e: Exception) {
-                        callback(emptyList())
-                    }
-                }
-            }
-
-            fun filterBySubject(client: Client?, callback: (List<String>) -> Unit) {
-                val loginData = mapOf("message" to client)
-                val jsonData = Gson().toJson(loginData)
-
-                socket.emit(Events.ON_FILTER_BY_SUBJECT.value, jsonData)
-                socket.on(Events.ON_FILTER_BY_SUBJECT_RESPONSE.value) { args ->
-                    val jsonDocuments = args[0] as String
-                    Log.d(tag, "JSON: $jsonDocuments")
-                    try {
-                        val gson = Gson()
-                        val documentListType = object : TypeToken<List<String>>() {}.type
-                        val documentsLinks: List<String> =
-                            gson.fromJson(jsonDocuments, documentListType)
-                        callback(documentsLinks)
-                    } catch (e: Exception) {
-                        callback(emptyList())
-                    }
-                }
-            }
-
-            fun getExternalCourses(client: Client?, callback: (List<ExternalCourse>) -> Unit) {
-                val loginData = mapOf("message" to client)
-                val jsonData = Gson().toJson(loginData)
-
-                socket.emit(Events.ON_GET_EXTERNAL_COURSES.value, jsonData)
-                socket.on(Events.ON_GET_EXTERNAL_COURSES_ANSWER.value) { args ->
-                    val jsonDocuments = args[0] as String
-                    Log.d(tag, "JSONDocuments: $jsonDocuments")
-                    try {
-                        val gson = Gson()
-                        val externalCoursesType = object : TypeToken<List<ExternalCourse>>() {}.type
-                        val externalCoursesList: List<ExternalCourse> =
-                            gson.fromJson(jsonDocuments, externalCoursesType)
-                        Log.d(tag, "JSONList: $externalCoursesList")
-                        callback(externalCoursesList)
-                    } catch (e: Exception) {
-                        callback(emptyList())
-                    }
-                }
-                socket.on(Events.ON_GET_EXTERNAL_COURSES_ERROR.value) { args ->
-                    val response = args[0] as String
-                    Log.d(tag, "Login fallado: $response")
-                }
-            }
-
-
-            // This method is called when we want to logout. We get the userName,
-            // put in into an MessageOutput, and convert it into JSON to be sent
-            fun doLogout(userName: String) {
-                val message = MessageInput(userName) // The server is expecting a MessageInput
-                socket.emit(Events.ON_LOGOUT.value, Gson().toJson(message))
-
-                // Log traces
-
-                Log.d(tag, "Attempt of logout - $message")
-            }
 
         }
+        socket.on(Events.ON_REGISTER_SAME_PASSWORD.value){ args ->
+            val response = args[0] as String
+            Log.d(tag, "Received ON_REGISTER_SAME_PASSWORD event: $response")
+
+        }
+    }
+
+    fun filterByCourse(client: Client?, callback: (List<String>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_FILTER_BY_COURSE.value, jsonData)
+        socket.on(Events.ON_FILTER_BY_COURSE_RESPONSE.value) { args ->
+            val jsonDocuments = args[0] as String
+            Log.d(tag, "JSON: $jsonDocuments")
+            try {
+                val gson = Gson()
+                val documentListType = object : TypeToken<List<String>>() {}.type
+                val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
+                callback(documentsLinks)
+            } catch (e: Exception) {
+                callback(emptyList())
+            }
+        }
+    }
 
 
+    fun filterByCycle(client: Client?, callback: (List<String>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_FILTER_BY_CYCLE.value, jsonData)
+        socket.on(Events.ON_FILTER_BY_CYCLE_RESPONSE.value) { args ->
+            val jsonDocuments = args[0] as String
+            Log.d(tag, "JSON: $jsonDocuments")
+            try {
+                val gson = Gson()
+                val documentListType = object : TypeToken<List<String>>() {}.type
+                val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
+                callback(documentsLinks)
+            } catch (e: Exception) {
+                callback(emptyList())
+            }
+        }
+    }
+
+    fun filterBySubject(client: Client?, callback: (List<String>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_FILTER_BY_SUBJECT.value, jsonData)
+        socket.on(Events.ON_FILTER_BY_SUBJECT_RESPONSE.value) { args ->
+            val jsonDocuments = args[0] as String
+            Log.d(tag, "JSON: $jsonDocuments")
+            try {
+                val gson = Gson()
+                val documentListType = object : TypeToken<List<String>>() {}.type
+                val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
+                callback(documentsLinks)
+            } catch (e: Exception) {
+                callback(emptyList())
+            }
+        }
+    }
+
+    fun getExternalCourses(client: Client?, callback: (List<ExternalCourse>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_GET_EXTERNAL_COURSES.value, jsonData)
+        socket.on(Events.ON_GET_EXTERNAL_COURSES_ANSWER.value) { args ->
+            val jsonDocuments = args[0] as String
+            Log.d(tag, "JSONDocuments: $jsonDocuments")
+            try {
+                val gson = Gson()
+                val externalCoursesType = object : TypeToken<List<ExternalCourse>>() {}.type
+                val externalCoursesList: List<ExternalCourse> = gson.fromJson(jsonDocuments, externalCoursesType)
+                Log.d(tag, "JSONList: $externalCoursesList")
+                callback(externalCoursesList)
+            } catch (e: Exception) {
+                callback(emptyList())
+            }
+        }
+        socket.on(Events.ON_GET_EXTERNAL_COURSES_ERROR.value) { args ->
+            val response = args[0] as String
+            Log.d(tag, "Login fallado: $response")
+        }
+    }
+
+
+    // This method is called when we want to logout. We get the userName,
+    // put in into an MessageOutput, and convert it into JSON to be sent
+    fun doLogout(userName: String) {
+        val message = MessageInput(userName) // The server is expecting a MessageInput
+        socket.emit(Events.ON_LOGOUT.value, Gson().toJson(message))
+
+        // Log traces
+
+        Log.d(tag, "Attempt of logout - $message")
+    }
+}
