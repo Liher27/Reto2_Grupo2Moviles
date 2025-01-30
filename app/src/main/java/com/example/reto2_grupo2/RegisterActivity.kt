@@ -4,10 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
@@ -36,6 +38,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var passwordTextField: EditText
     private lateinit var repeatPasswordTextField: EditText
+    private lateinit var scholarInfoTitleView : TextView
+    private lateinit var cicleTitleView : TextView
+    private lateinit var courseTitleView : TextView
 
     private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
@@ -64,6 +69,7 @@ class RegisterActivity : AppCompatActivity() {
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
 
+        init()
         preloadInfo()
 
 
@@ -129,9 +135,9 @@ class RegisterActivity : AppCompatActivity() {
                     if (socketClient != null) {
                         socketClient?.doRegister(
                             nameTextField.text.toString(),
-                            passwordTextField.text.toString(),
                             surnameTextField.text.toString(),
                             secondSurnameTextField.text.toString(),
+                            passwordTextField.text.toString(),
                             dniTextField.text.toString(),
                             directionTextField.text.toString(),
                             telephoneInt
@@ -174,6 +180,20 @@ class RegisterActivity : AppCompatActivity() {
 
         return ret
 
+    }
+
+    private fun init(){
+        val client: Client? = intent.getParcelableExtra("user")
+        if (client != null) {
+            if(client.userType){
+                cicleTitleView.visibility = View.GONE
+                courseTitleView.visibility = View.GONE
+                scholarInfoTitleView.visibility = View.GONE
+                courseNameTextField.visibility = View.GONE
+                cycleNameTextField.visibility = View.GONE
+                gradoDobleCheck.visibility = View.GONE
+            }
+        }
     }
 
     private fun preloadInfo(){

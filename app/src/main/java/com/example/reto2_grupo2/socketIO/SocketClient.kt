@@ -296,8 +296,6 @@ class SocketClient(private val activity: Activity) {
             loginForRoom.let { db.clientDao().insert(it) }
         }
     }
-
-
     fun doRegister(
         userName: String,
         surname: String,
@@ -426,11 +424,7 @@ class SocketClient(private val activity: Activity) {
     }
 
 
-    fun doLogout(userName: String) {
-        val message = MessageInput(userName) // The server is expecting a MessageInput
-        socket.emit(Events.ON_LOGOUT.value, Gson().toJson(message))
-        // This method is called when we want to logout. We get the userName,
-        // put in into an MessageOutput, and convert it into JSON to be sent
+
         fun changePassword(client: Client?, newPassword: String) {
             val userData = mapOf(
                 "userId" to client?.userId,
@@ -484,4 +478,4 @@ class SocketClient(private val activity: Activity) {
             }
         }
     }
-}
+
