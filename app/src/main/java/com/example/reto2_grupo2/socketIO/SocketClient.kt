@@ -30,7 +30,7 @@ import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
 
-    private val ipPort = "http://10.5.104.35:2888"
+    private val ipPort = "http://10.5.104.34:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -310,10 +310,8 @@ class SocketClient(private val activity: Activity) {
         secondSurname: String,
         dni: String,
         direction: String,
-        telephone: Int,
-        year: Char,
-        courseName: String,
-        dual: Boolean
+        telephone: Int
+
     ) {
         val registerData = mapOf(
             "username" to userName,
@@ -322,10 +320,7 @@ class SocketClient(private val activity: Activity) {
             "secondsurname" to secondSurname,
             "dni" to dni,
             "direction" to direction,
-            "telephone" to telephone,
-            "year" to year,
-            "courseName" to courseName,
-            "dual" to dual
+            "telephone" to telephone
         )
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
 
