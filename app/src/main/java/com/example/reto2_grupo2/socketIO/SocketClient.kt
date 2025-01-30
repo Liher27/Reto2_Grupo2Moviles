@@ -18,6 +18,7 @@ import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
 
 import com.example.reto2_grupo2.entity.ExternalCourse
+import com.example.reto2_grupo2.entity.Professor
 import com.example.reto2_grupo2.socketIO.config.Events
 import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
@@ -28,14 +29,15 @@ import io.socket.client.Socket
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.21:2888"
+    private val ipPort = "http://192.168.56.1:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
-    private lateinit var rootData : RootData
-    private lateinit var userClient :Client
-    private lateinit var userStudent :Student
+    private lateinit var rootData: RootData
+    private lateinit var userClient: Client
+    private lateinit var userStudent: Student
     private lateinit var userCourse: Course
+    private lateinit var userProfessor: Professor
 
     constructor(fragment: Fragment) : this(fragment.requireActivity()) {
         this.fragment = fragment
@@ -178,12 +180,12 @@ class SocketClient(private val activity: Activity) {
             val message = response.getString("message")
             // Now we can use Gson to parse the message into a JsonObject
             val gson = Gson()
-             rootData = gson.fromJson(message, RootData::class.java)
+            rootData = gson.fromJson(message, RootData::class.java)
             Log.d(tag, "JSON: $rootData")
 
 
             val client = rootData.loginClient
-             userClient = Client(
+            userClient = Client(
                 client.userId,
                 client.userName,
                 client.surname,
@@ -195,23 +197,37 @@ class SocketClient(private val activity: Activity) {
                 client.userType,
                 client.registered
             )
-            val student = rootData.student
-             userStudent = Student(
-                student.userId,
-                student.userYear,
-                student.intensiveDual
-            )
+            if(userClient.userType){
+                val professor = rootData.professor
+                userProfessor = Professor(
+                    professor.userId
+                )
 
-            val course = rootData.course
-             userCourse = Course(
-                course.title,
-                course.email,
-                course.courseDescription
-            )
+            }else {
+                val student = rootData.student
+                userStudent = Student(
+                    student.userId,
+                    student.userYear,
+                    student.intensiveDual
+                )
+
+                val course = rootData.course
+                userCourse = Course(
+                    course.title,
+                    course.email,
+                    course.courseDescription
+                )
+            }
+
+
             val intent = Intent(context, MainFrame::class.java).apply {
-                putExtra("user", userClient).
-                putExtra("studentInfo",userStudent).
-                putExtra("userCourse",userCourse)
+                putExtra("user", userClient)
+                if(userClient.userType){
+                    putExtra("professorInfo", userProfessor)
+                }else{
+                    putExtra("studentInfo", userStudent)
+                        .putExtra("userCourse", userCourse)
+                }
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
@@ -248,23 +264,36 @@ class SocketClient(private val activity: Activity) {
                 client.userType,
                 client.registered
             )
-            val student = rootData.student
-            userStudent = Student(
-                student.userId,
-                student.userYear,
-                student.intensiveDual
-            )
+            if(userClient.userType){
+                val professor = rootData.professor
+                userProfessor = Professor(
+                    professor.userId
+                )
 
-            val course = rootData.course
-            userCourse = Course(
-                course.title,
-                course.email,
-                course.courseDescription
-            )
+            }else {
+                val student = rootData.student
+                userStudent = Student(
+                    student.userId,
+                    student.userYear,
+                    student.intensiveDual
+                )
+
+                val course = rootData.course
+                userCourse = Course(
+                    course.title,
+                    course.email,
+                    course.courseDescription
+                )
+            }
             val intent = Intent(context, RegisterActivity::class.java).apply {
-                putExtra("user", userClient).
-                putExtra("studentInfo",userStudent).
-                putExtra("userCourse",userCourse)
+                putExtra("user", userClient)
+                if(userClient.userType){
+                    putExtra("professorInfo", userProfessor)
+                }else{
+                    putExtra("studentInfo", userStudent)
+                        .putExtra("userCourse", userCourse)
+                }
+
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
@@ -278,9 +307,6 @@ class SocketClient(private val activity: Activity) {
         dni: String,
         direction: String,
         telephone: Int,
-        year: Char,
-        courseName: String,
-        dual: Boolean
     ) {
         val registerData = mapOf(
             "username" to userName,
@@ -289,10 +315,7 @@ class SocketClient(private val activity: Activity) {
             "secondsurname" to secondSurname,
             "dni" to dni,
             "direction" to direction,
-            "telephone" to telephone,
-            "year" to year,
-            "courseName" to courseName,
-            "dual" to dual
+            "telephone" to telephone
         )
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
 

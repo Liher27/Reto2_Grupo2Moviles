@@ -46,6 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+
         userTextField = findViewById(R.id.loginTxt)
         nameTextField = findViewById(R.id.nameTxt)
         surnameTextField = findViewById(R.id.surname1Txt)
@@ -91,7 +92,52 @@ class RegisterActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.registerUserButton)
         // if (credentialsOk()) {
         registerButton.setOnClickListener {
+            if ( nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
+                || dniTextField.text.isEmpty() || directionTextField.text.isEmpty() || telephone1TextField.text.isEmpty() ||
+                 repeatPasswordTextField.text.toString()
+                    .isEmpty()
+            ) {
 
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "Hay campos que están vacíos",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                if (passwordTextField.text.toString() != repeatPasswordTextField.text.toString()) {
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        "Las contraseñas no son las mismas",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+
+                    val telephoneInt = try {
+                        telephone1TextField.text.toString().toInt()
+                    } catch (e: NumberFormatException) {
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            "El teléfono no es válido",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
+
+                    dual = gradoDobleCheck.isChecked
+                    if (socketClient != null) {
+                        socketClient.doRegister(
+                            nameTextField.text.toString(),
+                            passwordTextField.text.toString(),
+                            surnameTextField.text.toString(),
+                            secondSurnameTextField.text.toString(),
+                            dniTextField.text.toString(),
+                            directionTextField.text.toString(),
+                            telephoneInt
+                        )
+                    }
+
+                }
+            }
         }
 
 
