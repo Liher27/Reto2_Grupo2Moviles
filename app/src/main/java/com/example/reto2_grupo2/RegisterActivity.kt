@@ -4,13 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
@@ -18,6 +15,9 @@ import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.Student
 import kotlin.properties.Delegates
+
+
+private const val REQUEST_CODE_RECORD_IMAGE = 1
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -36,9 +36,6 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var passwordTextField: EditText
     private lateinit var repeatPasswordTextField: EditText
-    private lateinit var scholarInfoTitleView : TextView
-    private lateinit var cicleTitle : TextView
-    private lateinit var courseTitle : TextView
 
     private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
@@ -66,15 +63,8 @@ class RegisterActivity : AppCompatActivity() {
         gradoDobleCheck = findViewById(R.id.intensiveCheck)
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
-        scholarInfoTitleView = findViewById(R.id.scholarInfoTitle)
-        cicleTitle = findViewById(R.id.cicleTitleTxt)
-        courseTitle = findViewById(R.id.courseTitleTxt)
-
-
-        init()
 
         preloadInfo()
-
 
 
 
@@ -135,13 +125,13 @@ class RegisterActivity : AppCompatActivity() {
                         return@setOnClickListener
                     }
 
-
+                    dual = gradoDobleCheck.isChecked
                     if (socketClient != null) {
                         socketClient?.doRegister(
                             nameTextField.text.toString(),
+                            passwordTextField.text.toString(),
                             surnameTextField.text.toString(),
                             secondSurnameTextField.text.toString(),
-                            passwordTextField.text.toString(),
                             dniTextField.text.toString(),
                             directionTextField.text.toString(),
                             telephoneInt
@@ -184,21 +174,6 @@ class RegisterActivity : AppCompatActivity() {
 
         return ret
 
-    }
-
-    private fun init() {
-        val client: Client? = intent.getParcelableExtra("user")
-        if (client != null) {
-            if(client.userType){
-                courseNameTextField.visibility = View.GONE
-                cycleNameTextField.visibility = View.GONE
-                gradoDobleCheck.visibility = View.GONE
-                scholarInfoTitleView.visibility = View.GONE
-                cicleTitle.visibility = View.GONE
-                courseTitle.visibility = View.GONE
-
-            }
-        }
     }
 
     private fun preloadInfo(){
