@@ -6,6 +6,7 @@ import android.os.Parcelable
 
 data class Reunion(
     val reunionId: Int,
+    val professor: Professor,
     val title: String,
     val affair: String,
     val day: String,
@@ -16,6 +17,7 @@ data class Reunion(
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
+        parcel.readParcelable(Professor::class.java.classLoader) ?: Professor(0),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -31,6 +33,7 @@ data class Reunion(
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeInt(reunionId)
+        dest.writeParcelable(professor, flags)
         dest.writeString(title)
         dest.writeString(affair)
         dest.writeString(day)

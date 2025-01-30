@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton
@@ -37,6 +38,9 @@ class ReunionsFragment : Fragment() {
 
     private lateinit var professorSpinner: Spinner
     private lateinit var selectionSpinner: Spinner
+
+    private var reunionId: Int = 0
+    private var reunionOwnerId: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +75,42 @@ class ReunionsFragment : Fragment() {
         selectionSpinner = view.findViewById(R.id.selectionSpinner)
 
         fillReunions(client)
+
+        acceptButton.setOnClickListener {
+            if (reunionText.text.isNotEmpty()) {
+                socketClient?.acceptReunion(reunionId)
+                fillReunions(client)
+            } else
+                Toast.makeText(requireContext(), "No hay reuniones pendientes", Toast.LENGTH_SHORT)
+                    .show()
+        }
+
+        cancelButton.setOnClickListener {
+            if (reunionText.text.isNotEmpty()) {
+                socketClient?.cancelReunion(reunionId)
+                fillReunions(client)
+            } else
+                Toast.makeText(requireContext(), "No hay reuniones pendientes", Toast.LENGTH_SHORT)
+                    .show()
+        }
+
+        forceAcceptButton.setOnClickListener {
+            if (reunionText.text.isNotEmpty()) {
+                if (reunionOwnerId == client?.userId) {
+                    socketClient?.forceAcceptReunion(reunionId)
+                    fillReunions(client)
+                } else
+                    Toast.makeText(
+                        requireContext(),
+                        "No eres el dueño de la reunion",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+            } else
+                Toast.makeText(requireContext(), "No hay reuniones pendientes", Toast.LENGTH_SHORT)
+                    .show()
+        }
+
 
     }
 
@@ -117,23 +157,42 @@ class ReunionsFragment : Fragment() {
     }
 
     private fun showReunion(reunion: Reunion) {
+        reunionId = reunion.reunionId
+
+        reunionOwnerId = reunion.professor.userId
+
+        //Si la reunion esta en un estado importante, no debe cambiarse mas veces.
+        if (reunion.reunionState == 11 || reunion.reunionState == 0 || reunion.reunionState == 10) {
+            acceptButton.visibility = View.GONE
+            cancelButton.visibility = View.GONE
+            forceAcceptButton.visibility = View.GONE
+        } else {
+            acceptButton.visibility = View.VISIBLE
+            cancelButton.visibility = View.VISIBLE
+            forceAcceptButton.visibility = View.VISIBLE
+        }
+
         val reunionState = when (reunion.reunionState) {
+            11 -> "Forzada"
             10 -> "Aceptada"
             0 -> "Rechazada"
             else -> "Pendiente"
         }
+
+        val owner =
+            if (reunion.professor.userId == client?.userId) "TU" else reunion.professor.userId
+
         val professorsId = reunion.assistants.map { it.professor.userId }
         reunionText.text = String.format(
-            "%s \n \n %s \n Dia: %s Hora: %s \n Aula: %s \n Estado de la reunion: %s \n Asistentes: %s",
+            "%s \n \n %s \n Dia: %s Hora: %s \n Aula: %s \n Estado de la reunion: %s \n Asistentes: %s \n Dueño de la reunion: %s",
             reunion.title,
             reunion.affair,
             reunion.day,
             reunion.hour,
             reunion.class_,
             reunionState,
-            professorsId
+            professorsId,
+            owner
         )
     }
-
-
 }
