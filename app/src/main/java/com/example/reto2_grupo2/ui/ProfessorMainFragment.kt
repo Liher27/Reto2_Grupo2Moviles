@@ -4,24 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
+import com.example.reto2_grupo2.Singleton.SocketClientSingleton
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.socketIO.SocketClient
-import java.util.Calendar
 
 class ProfessorMainFragment : Fragment() {
     private var client: Client? = null
-    private var socketClient: SocketClient? = null
-    private lateinit var calendarView: CalendarView
+    private val socketClient = SocketClientSingleton.socketClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         client = arguments?.getParcelable(ARG_CLIENT, Client::class.java)
-        socketClient = SocketClient(this)
-        socketClient!!.connect()
     }
 
     override fun onCreateView(
@@ -32,15 +27,7 @@ class ProfessorMainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        calendarView = view.findViewById(R.id.calendarView)
 
-
-        calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val calendar = Calendar.getInstance()
-            calendar.set(year, month, dayOfMonth)
-
-
-        }
     }
 
     companion object {

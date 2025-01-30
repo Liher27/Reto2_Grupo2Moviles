@@ -11,6 +11,9 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton
+import com.example.reto2_grupo2.entity.Client
+import com.example.reto2_grupo2.entity.Course
+import com.example.reto2_grupo2.entity.Student
 import kotlin.properties.Delegates
 
 class RegisterActivity : AppCompatActivity() {
@@ -58,6 +61,11 @@ class RegisterActivity : AppCompatActivity() {
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
 
+        preloadInfo()
+
+
+
+
         val socketClient = SocketClientSingleton.socketClient
 
         backButton = findViewById(R.id.backButton)
@@ -84,9 +92,9 @@ class RegisterActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.registerUserButton)
         // if (credentialsOk()) {
         registerButton.setOnClickListener {
-            if (userTextField.text.isEmpty() || nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
+            if ( nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
                 || dniTextField.text.isEmpty() || directionTextField.text.isEmpty() || telephone1TextField.text.isEmpty() ||
-                telephone2TextField.text.isEmpty() || courseNameTextField.text.isEmpty() || cycleNameTextField.text.isEmpty() || repeatPasswordTextField.text.toString()
+                 repeatPasswordTextField.text.toString()
                     .isEmpty()
             ) {
 
@@ -114,29 +122,17 @@ class RegisterActivity : AppCompatActivity() {
                         ).show()
                         return@setOnClickListener
                     }
-                    val yearchar = if (cycleNameTextField.text.isNotEmpty()) {
-                        cycleNameTextField.text.toString()[0]
-                    } else {
-                        Toast.makeText(
-                            this@RegisterActivity,
-                            "El nombre del curso está vacío",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@setOnClickListener
-                    }
+
                     dual = gradoDobleCheck.isChecked
                     if (socketClient != null) {
                         socketClient.doRegister(
-                            userTextField.text.toString(),
+                            nameTextField.text.toString(),
                             passwordTextField.text.toString(),
                             surnameTextField.text.toString(),
                             secondSurnameTextField.text.toString(),
                             dniTextField.text.toString(),
                             directionTextField.text.toString(),
-                            telephoneInt,
-                            yearchar,
-                            courseNameTextField.text.toString(),
-                            dual
+                            telephoneInt
                         )
                     }
 
@@ -176,5 +172,27 @@ class RegisterActivity : AppCompatActivity() {
 
         return ret
 
+    }
+
+    private fun preloadInfo(){
+        val client: Client? = intent.getParcelableExtra("user")
+        if (client != null) {
+            nameTextField.setText(client.userName)
+            surnameTextField.setText(client.surname)
+            secondSurnameTextField.setText(client.secondSurname)
+            dniTextField.setText(client.dni)
+            directionTextField.setText(client.direction)
+            telephone1TextField.setText(client.telephone.toString())
+
+        }
+        val course: Course? = intent.getParcelableExtra("userCourse")
+        if(course != null){
+            courseNameTextField.setText(course.title)
+        }
+        val student: Student? = intent.getParcelableExtra("studentInfo")
+        if(student != null){
+            cycleNameTextField.setText(student.userYear.toString())
+            gradoDobleCheck.isChecked = student.intensiveDual
+        }
     }
 }

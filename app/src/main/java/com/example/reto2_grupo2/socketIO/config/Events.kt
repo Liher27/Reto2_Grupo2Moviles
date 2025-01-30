@@ -18,10 +18,12 @@ enum class Events(val value: String) {
     ON_LOGIN_STUDENT("onLoginStudent"),
     ON_LOGIN_PROFESSOR("onLoginProfessor"),
     ON_REGISTER("onRegister"),
+    ON_REGISTER_SUCCESS("onRegisterSuccess"),
+    ON_REGISTER_FAIL("onRegisterFail"),
     ON_REGISTER_ANSWER("onRegisterAnswer"),
     ON_REGISTER_SAME_PASSWORD("onRegisterSamePassword"),
-    ON_EXTERNAL_COURSE_ANSWER("onExternalCourseAnswer"),
-    ON_EXTERNAL_COURSE_ERROR("onExternalCourseError"),
-    ON_EXTERNAL_COURSE("onExternalCourse");
+    ON_GET_EXTERNAL_COURSES_ANSWER("onExternalCourseAnswer"),
+    ON_GET_EXTERNAL_COURSES_ERROR("onExternalCourseError"),
+    ON_GET_EXTERNAL_COURSES("onExternalCourse");
 
 }
