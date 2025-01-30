@@ -535,4 +535,37 @@ class SocketClient(private val activity: Activity) {
             }
         }
     }
+
+    fun createReunion(
+        reunionThemeText: String,
+        reunionReasonText: String,
+        reunionDateText: String,
+        reunionHourText: Int,
+        reunionClassText: String,
+        reunionProfessorText: String,
+        reunionProfessorId: Int?
+    ) {
+        val reunionFields = mapOf(
+            "reunionTheme" to reunionThemeText,
+            "reunionReason" to reunionReasonText,
+            "reunionDate" to reunionDateText,
+            "reunionHour" to reunionHourText,
+            "reunionClass" to reunionClassText,
+            "reunionProfessors" to reunionProfessorText,
+            "reunionProfessorId" to reunionProfessorId
+        )
+        socket.emit(Events.ON_CREATE_REUNION.value, Gson().toJson(reunionFields))
+        socket.on(Events.ON_CREATE_REUNION_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Reunion creada correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        socket.on(Events.ON_CREATE_REUNION_ERROR.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "No se ha podido crear la reunión", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
 }

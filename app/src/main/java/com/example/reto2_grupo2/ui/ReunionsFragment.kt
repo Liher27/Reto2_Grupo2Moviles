@@ -1,12 +1,14 @@
 package com.example.reto2_grupo2.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -23,13 +25,12 @@ class ReunionsFragment : Fragment() {
 
     private lateinit var reunionText: TextView
 
-    private lateinit var themeTextView: TextView
-    private lateinit var reasonTextView: TextView
-    private lateinit var dateAndHourTextView: TextView
-    private lateinit var classTextView: TextView
-    private lateinit var professorTextView: TextView
-    private lateinit var hourTextView: TextView
-    private lateinit var dateText: TextView
+    private lateinit var reunionThemeText: EditText
+    private lateinit var reunionReasonText: EditText
+    private lateinit var reunionDateText: EditText
+    private lateinit var reunionClassText: EditText
+    private lateinit var reunionProfessorText: EditText
+    private lateinit var reunionHourText: EditText
 
     private lateinit var acceptButton: Button
     private lateinit var cancelButton: Button
@@ -39,8 +40,7 @@ class ReunionsFragment : Fragment() {
     private lateinit var professorSpinner: Spinner
     private lateinit var selectionSpinner: Spinner
 
-    private var reunionId: Int = 0
-    private var reunionOwnerId: Int = 0
+    private lateinit var selectedReunion: Reunion
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,14 +57,6 @@ class ReunionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        reunionText = view.findViewById(R.id.reunionText)
-        themeTextView = view.findViewById(R.id.themeTextView)
-        reasonTextView = view.findViewById(R.id.reasonTextView)
-        dateAndHourTextView = view.findViewById(R.id.dateAndHourTextView)
-        classTextView = view.findViewById(R.id.classTextView)
-        professorTextView = view.findViewById(R.id.professorTextView)
-        hourTextView = view.findViewById(R.id.hourText)
-        dateText = view.findViewById(R.id.dateText)
 
         createReunionButton = view.findViewById(R.id.createReunionButton)
         acceptButton = view.findViewById(R.id.acceptButton)
@@ -78,16 +70,15 @@ class ReunionsFragment : Fragment() {
 
         acceptButton.setOnClickListener {
             if (reunionText.text.isNotEmpty()) {
-                socketClient?.acceptReunion(reunionId)
+                socketClient?.acceptReunion(selectedReunion.reunionId)
                 fillReunions(client)
             } else
                 Toast.makeText(requireContext(), "No hay reuniones pendientes", Toast.LENGTH_SHORT)
                     .show()
         }
-
         cancelButton.setOnClickListener {
             if (reunionText.text.isNotEmpty()) {
-                socketClient?.cancelReunion(reunionId)
+                socketClient?.cancelReunion(selectedReunion.reunionId)
                 fillReunions(client)
             } else
                 Toast.makeText(requireContext(), "No hay reuniones pendientes", Toast.LENGTH_SHORT)
@@ -96,8 +87,8 @@ class ReunionsFragment : Fragment() {
 
         forceAcceptButton.setOnClickListener {
             if (reunionText.text.isNotEmpty()) {
-                if (reunionOwnerId == client?.userId) {
-                    socketClient?.forceAcceptReunion(reunionId)
+                if (selectedReunion.professor.userId == client?.userId) {
+                    socketClient?.forceAcceptReunion(selectedReunion.reunionId)
                     fillReunions(client)
                 } else
                     Toast.makeText(
@@ -111,7 +102,21 @@ class ReunionsFragment : Fragment() {
                     .show()
         }
 
-
+        createReunionButton.setOnClickListener {
+            if (reunionThemeText.text.isNotEmpty() && reunionReasonText.text.isNotEmpty() && reunionDateText.text.isNotEmpty() &&
+                reunionClassText.text.isNotEmpty() && reunionProfessorText.text.isNotEmpty() && reunionHourText.text.isNotEmpty()
+            ) {
+                socketClient?.createReunion(
+                    reunionThemeText.text.toString(),
+                    reunionReasonText.text.toString(),
+                    reunionDateText.text.toString(),
+                    reunionHourText.text.toString().toInt(),
+                    reunionClassText.text.toString(),
+                    reunionProfessorText.text.toString(),
+                    client?.userId
+                )
+            }
+        }
     }
 
     private fun fillReunions(client: Client?) {
@@ -157,10 +162,8 @@ class ReunionsFragment : Fragment() {
     }
 
     private fun showReunion(reunion: Reunion) {
-        reunionId = reunion.reunionId
-
-        reunionOwnerId = reunion.professor.userId
-
+        selectedReunion = reunion
+        Log.d("reunionStatus", selectedReunion.title)
         //Si la reunion esta en un estado importante, no debe cambiarse mas veces.
         if (reunion.reunionState == 11 || reunion.reunionState == 0 || reunion.reunionState == 10) {
             acceptButton.visibility = View.GONE

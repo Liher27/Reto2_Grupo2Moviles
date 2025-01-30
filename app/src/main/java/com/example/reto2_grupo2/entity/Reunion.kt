@@ -13,7 +13,7 @@ data class Reunion(
     val class_: String,
     val reunionState: Int,
     val hour: Int,
-    val assistants: List<Assistant>
+    val assistants: List<Assistant>,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -24,7 +24,7 @@ data class Reunion(
         parcel.readString().toString(),
         parcel.readInt(),
         parcel.readInt(),
-        parcel.createTypedArrayList(Assistant.CREATOR) ?: emptyList()
+        parcel.createTypedArrayList(Assistant.CREATOR) ?: emptyList(),
     )
 
     override fun describeContents(): Int {
