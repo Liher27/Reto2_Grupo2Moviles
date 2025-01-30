@@ -1,61 +1,27 @@
-package com.example.reto2_grupo2.entity
-
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Assistant
-    (
-    val userId: Int,
-    val userName: String,
-    val surname: String,
-    val secondSurname: String,
-    var pass: String,
-    val dni: String,
-    val direction: String,
-    val telephone: Int,
-    val userType: Boolean,
-    val registered: Boolean
+data class Assistant(
+    val professor: Professor
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readInt(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readInt(),
-        parcel.readBoolean(),
-        parcel.readBoolean()
-    ) {
-    }
+        parcel.readParcelable(Professor::class.java.classLoader) ?: Professor(0)
+    )
 
     override fun describeContents(): Int {
-        TODO("Not yet implemented")
+        return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.let {
-            dest.writeInt(userId)
-            dest.writeString(userName)
-            dest.writeString(surname)
-            dest.writeString(secondSurname)
-            dest.writeString(pass)
-            dest.writeString(dni)
-            dest.writeString(direction)
-            dest.writeInt(telephone)
-            dest.writeBoolean(userType)
-            dest.writeBoolean(registered)
-        }
+        dest.writeParcelable(professor, flags)
     }
 
-
-    companion object CREATOR : Parcelable.Creator<Client> {
-        override fun createFromParcel(parcel: Parcel): Client {
-            return Client(parcel)
+    companion object CREATOR : Parcelable.Creator<Assistant> {
+        override fun createFromParcel(parcel: Parcel): Assistant {
+            return Assistant(parcel)
         }
 
-        override fun newArray(size: Int): Array<Client?> {
+        override fun newArray(size: Int): Array<Assistant?> {
             return arrayOfNulls(size)
         }
     }

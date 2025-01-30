@@ -1,20 +1,18 @@
 package com.example.reto2_grupo2.entity
 
+import Assistant
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Reunion
-    (
-    val userId: Int,
-    val userName: String,
-    val surname: String,
-    val secondSurname: String,
-    var pass: String,
-    val dni: String,
-    val direction: String,
-    val telephone: Int,
-    val userType: Boolean,
-    val registered: Boolean
+data class Reunion(
+    val reunionId: Int,
+    val title: String,
+    val affair: String,
+    val day: String,
+    val class_: String,
+    val reunionState: Int,
+    val hour: Int,
+    val assistants: List<Assistant>
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -22,40 +20,32 @@ data class Reunion
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
-        parcel.readString().toString(),
-        parcel.readString().toString(),
         parcel.readInt(),
-        parcel.readBoolean(),
-        parcel.readBoolean()
-    ) {
-    }
+        parcel.readInt(),
+        parcel.createTypedArrayList(Assistant.CREATOR) ?: emptyList()
+    )
 
     override fun describeContents(): Int {
-        TODO("Not yet implemented")
+        return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.let {
-            dest.writeInt(userId)
-            dest.writeString(userName)
-            dest.writeString(surname)
-            dest.writeString(secondSurname)
-            dest.writeString(pass)
-            dest.writeString(dni)
-            dest.writeString(direction)
-            dest.writeInt(telephone)
-            dest.writeBoolean(userType)
-            dest.writeBoolean(registered)
-        }
+        dest.writeInt(reunionId)
+        dest.writeString(title)
+        dest.writeString(affair)
+        dest.writeString(day)
+        dest.writeString(class_)
+        dest.writeInt(reunionState)
+        dest.writeInt(hour)
+        dest.writeTypedList(assistants)
     }
 
-
-    companion object CREATOR : Parcelable.Creator<Client> {
-        override fun createFromParcel(parcel: Parcel): Client {
-            return Client(parcel)
+    companion object CREATOR : Parcelable.Creator<Reunion> {
+        override fun createFromParcel(parcel: Parcel): Reunion {
+            return Reunion(parcel)
         }
 
-        override fun newArray(size: Int): Array<Client?> {
+        override fun newArray(size: Int): Array<Reunion?> {
             return arrayOfNulls(size)
         }
     }
