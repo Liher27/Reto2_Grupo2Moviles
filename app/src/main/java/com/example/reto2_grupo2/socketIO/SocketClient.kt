@@ -18,7 +18,6 @@ import com.example.reto2_grupo2.entity.Professor
 import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
 import com.example.reto2_grupo2.socketIO.config.Events
-import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
@@ -34,7 +33,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.21:2888"
+    private val ipPort = "http://10.5.104.48:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -98,25 +97,6 @@ class SocketClient(private val activity: Activity) {
                 "id: $id, name: $name, surname: $surname, 2ndSurname:$secondSurname,pass: $pass,dni:$dni,direction:$direction,telephone:$telephone  tipo:$type, registered:$registered"
             )
 
-            // Create a Client object (or any other appropriate model class)
-            val client = Client(
-                id,
-                name,
-                surname,
-                secondSurname,
-                pass,
-                dni,
-                direction,
-                telephone,
-                type,
-                registered
-            )
-
-            // Display the result in the UI
-            /* activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login: $client")
-             Log.d(tag, "Answer to Login: $client")*/
-
-
         }
 
 
@@ -157,19 +137,12 @@ class SocketClient(private val activity: Activity) {
         Log.d(tag, "Connecting to server...")
     }
 
-    // This method is called when we want to disconnect from the server
-    fun disconnect() {
-        socket.disconnect()
-
-        // Log traces
-        Log.d(tag, "Disconnecting from server...")
-    }
 
     // Custom events
 
     // This method is called when we want to login. We get the userName,
     // put in into an MessageOutput, and convert it into JSON to be sent
-    fun doLogin(userName: String, password: String, rememberMe: Boolean) {
+    fun doLogin(userName: String, password: String, rememberMe : Boolean) {
         val loginData = mapOf(
             "message" to userName,
             "userPass" to password
@@ -198,13 +171,13 @@ class SocketClient(private val activity: Activity) {
                 client.userType,
                 client.registered
             )
-            if (userClient.userType) {
+            if(userClient.userType){
                 val professor = rootData.professor
                 userProfessor = Professor(
                     professor.userId
                 )
 
-            } else {
+            }else {
                 val student = rootData.student
                 userStudent = Student(
                     student.userId,
@@ -220,17 +193,18 @@ class SocketClient(private val activity: Activity) {
                 )
             }
 
-            if (rememberMe)
-                saveClientInROOM(userClient)
 
             val intent = Intent(context, MainFrame::class.java).apply {
                 putExtra("user", userClient)
-                if (userClient.userType) {
+                if(userClient.userType){
                     putExtra("professorInfo", userProfessor)
-                } else {
+                }else{
                     putExtra("studentInfo", userStudent)
                         .putExtra("userCourse", userCourse)
                 }
+            }
+            if (rememberMe) {
+                saveClientInROOM(userClient)
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
@@ -302,6 +276,7 @@ class SocketClient(private val activity: Activity) {
             context.startActivity(intent)
         }
     }
+
 
     @OptIn(DelicateCoroutinesApi::class)
     private fun saveClientInROOM(userClient: Client) {
@@ -451,15 +426,6 @@ class SocketClient(private val activity: Activity) {
 
     // This method is called when we want to logout. We get the userName,
     // put in into an MessageOutput, and convert it into JSON to be sent
-    fun doLogout(userName: String) {
-        val message = MessageInput(userName) // The server is expecting a MessageInput
-        socket.emit(Events.ON_LOGOUT.value, Gson().toJson(message))
-
-        // Log traces
-
-        Log.d(tag, "Attempt of logout - $message")
-    }
-
     fun changePassword(client: Client?, newPassword: String) {
         val userData = mapOf(
             "userId" to client?.userId,
