@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://192.168.1.147:2888"
+    private val ipPort = "http://10.5.104.48:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -471,13 +471,11 @@ class SocketClient(private val activity: Activity) {
 
         socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
             val jsonDocuments = args[0] as String
-            Log.d(tag, "JSONDocuments: $jsonDocuments")
              try {
                  val gson = Gson()
                  val reunionType = object : TypeToken<List<Reunion>>() {}.type
                  val reunionList: List<Reunion> =
                      gson.fromJson(jsonDocuments, reunionType)
-                 Log.d(tag, "JSONList: $reunionList")
                  callback(reunionList)
              } catch (e: Exception) {
                  callback(emptyList())

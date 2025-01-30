@@ -122,6 +122,7 @@ class ReunionsFragment : Fragment() {
             0 -> "Rechazada"
             else -> "Pendiente"
         }
+        val professorsId = reunion.assistants.map { it.professor.userId }
         reunionText.text = String.format(
             "%s \n \n %s \n Dia: %s Hora: %s \n Aula: %s \n Estado de la reunion: %s \n Asistentes: %s",
             reunion.title,
@@ -130,7 +131,7 @@ class ReunionsFragment : Fragment() {
             reunion.hour,
             reunion.class_,
             reunionState,
-            reunion.assistants.map { it.professor }
+            professorsId
         )
     }
 
