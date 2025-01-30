@@ -29,7 +29,7 @@ import io.socket.client.Socket
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://192.168.56.1:2888"
+    private val ipPort = "http://10.5.104.21:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -43,10 +43,8 @@ class SocketClient(private val activity: Activity) {
         this.fragment = fragment
     }
 
-    // For log purposes
     private var tag = "socket.io"
 
-    // We add here ALL the events we are eager to LISTEN from the server
     init {
         context = fragment?.requireContext() ?: activity
         // Event called when the socket connects
@@ -62,24 +60,13 @@ class SocketClient(private val activity: Activity) {
         socket.on(Socket.EVENT_CONNECT_ERROR) { args ->
             Log.e(tag, "Error al conectar: ${args[0]}")
         }
-
-
-        // Event called when the socket gets an answer from a login attempt.
-        // We get the message and print it. Note: this event is called after
-        // We try to login
         socket.on(Events.ON_LOGIN_ANSWER.value) { args ->
-            // Ensure args[0] is a MessageOutput (which contains a JSON string)
             val response = args[0] as JSONObject
-
-            // The response contains a JSON string under the "message" key
             val message = response.getString("message")
 
-            // Now we can use Gson to parse the message into a JsonObject
             val gson = Gson()
             val jsonObject = gson.fromJson(message, JsonObject::class.java)
 
-
-            // Extract values from the JsonObject
             val id = jsonObject["userId"].asInt
             val name = jsonObject["userName"].asString
             val surname = jsonObject["surname"].asString
@@ -97,45 +84,15 @@ class SocketClient(private val activity: Activity) {
                 "id: $id, name: $name, surname: $surname, 2ndSurname:$secondSurname,pass: $pass,dni:$dni,direction:$direction,telephone:$telephone  tipo:$type, registered:$registered"
             )
 
-            // Create a Client object (or any other appropriate model class)
-            val client = Client(
-                id,
-                name,
-                surname,
-                secondSurname,
-                pass,
-                dni,
-                direction,
-                telephone,
-                type,
-                registered
-            )
-
-            // Display the result in the UI
-            /* activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login: $client")
-             Log.d(tag, "Answer to Login: $client")*/
-
-
         }
 
 
-        // Event called when the socket gets an answer from a getAll.
-        // We get the message and print it.
+
         socket.on(Events.ON_GET_ALL_ANSWER.value) { args ->
 
-            // The response from the server is a JSON
+
             val response = args[0] as JSONObject
-
-            // The answer should be like this:
-            // [
-            // {"id":0,"name":"patata","surname":"potato","pass":"pass","edad":20},
-            // {"id":1,"name":"patata2","surname":"potato2","pass":"pass2","edad":22},
-            // {"id":2,"name":"patata3","surname":"potato3","pass":"pass3","edad":23}
-            // ]
-            // We extract the field 'message'
             val message = response.getString("message") as String
-
-            // We parse the JSON. Note we use Alumno to parse the server response
             val gson = Gson()
             val itemType = object : TypeToken<List<Client>>() {}.type
             val list = gson.fromJson<List<Client>>(message, itemType)
@@ -145,10 +102,6 @@ class SocketClient(private val activity: Activity) {
             Log.d(tag, "Answer to getAll: $list")
         }
     }
-
-    // Default events
-
-    // This method is called when we want to establish a connection with the server
     fun connect() {
         socket.connect()
 
@@ -156,7 +109,6 @@ class SocketClient(private val activity: Activity) {
         Log.d(tag, "Connecting to server...")
     }
 
-    // This method is called when we want to disconnect from the server
     fun disconnect() {
         socket.disconnect()
 
@@ -164,10 +116,6 @@ class SocketClient(private val activity: Activity) {
         Log.d(tag, "Disconnecting from server...")
     }
 
-    // Custom events
-
-    // This method is called when we want to login. We get the userName,
-    // put in into an MessageOutput, and convert it into JSON to be sent
     fun doLogin(userName: String, password: String) {
         val loginData = mapOf(
             "message" to userName,
@@ -301,22 +249,23 @@ class SocketClient(private val activity: Activity) {
     }
     fun doRegister(
         userName: String,
-        password: String,
         surname: String,
         secondSurname: String,
+        password: String,
         dni: String,
         direction: String,
         telephone: Int,
     ) {
         val registerData = mapOf(
             "username" to userName,
-            "userpass" to password,
             "surname" to surname,
             "secondsurname" to secondSurname,
+            "userpass" to password,
             "dni" to dni,
             "direction" to direction,
             "telephone" to telephone
         )
+        Log.d(tag,"name:$userName,surname:$surname,secondsurname:$secondSurname,userpass:$password")
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
 
         socket.on(Events.ON_REGISTER_SUCCESS.value){ args ->
@@ -427,8 +376,7 @@ class SocketClient(private val activity: Activity) {
     }
 
 
-    // This method is called when we want to logout. We get the userName,
-    // put in into an MessageOutput, and convert it into JSON to be sent
+
     fun doLogout(userName: String) {
         val message = MessageInput(userName) // The server is expecting a MessageInput
         socket.emit(Events.ON_LOGOUT.value, Gson().toJson(message))
