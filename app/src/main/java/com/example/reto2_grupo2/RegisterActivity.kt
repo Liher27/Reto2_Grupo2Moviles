@@ -92,9 +92,9 @@ class RegisterActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.registerUserButton)
         // if (credentialsOk()) {
         registerButton.setOnClickListener {
-            if (userTextField.text.isEmpty() || nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
+            if ( nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
                 || dniTextField.text.isEmpty() || directionTextField.text.isEmpty() || telephone1TextField.text.isEmpty() ||
-                telephone2TextField.text.isEmpty() || courseNameTextField.text.isEmpty() || cycleNameTextField.text.isEmpty() || repeatPasswordTextField.text.toString()
+                 repeatPasswordTextField.text.toString()
                     .isEmpty()
             ) {
 
@@ -122,20 +122,11 @@ class RegisterActivity : AppCompatActivity() {
                         ).show()
                         return@setOnClickListener
                     }
-                    val yearchar = if (cycleNameTextField.text.isNotEmpty()) {
-                        cycleNameTextField.text.toString()[0]
-                    } else {
-                        Toast.makeText(
-                            this@RegisterActivity,
-                            "El nombre del curso está vacío",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@setOnClickListener
-                    }
+
                     dual = gradoDobleCheck.isChecked
                     if (socketClient != null) {
                         socketClient.doRegister(
-                            userTextField.text.toString(),
+                            nameTextField.text.toString(),
                             passwordTextField.text.toString(),
                             surnameTextField.text.toString(),
                             secondSurnameTextField.text.toString(),

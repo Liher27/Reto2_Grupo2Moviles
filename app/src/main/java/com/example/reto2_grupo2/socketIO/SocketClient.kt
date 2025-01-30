@@ -23,6 +23,7 @@ import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
 
 import com.example.reto2_grupo2.entity.ExternalCourse
+import com.example.reto2_grupo2.entity.Professor
 import com.example.reto2_grupo2.socketIO.config.Events
 import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
@@ -33,7 +34,7 @@ import io.socket.client.Socket
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.21:2888"
+    private val ipPort = "http://192.168.56.1:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -41,6 +42,7 @@ class SocketClient(private val activity: Activity) {
     private lateinit var userClient: Client
     private lateinit var userStudent: Student
     private lateinit var userCourse: Course
+    private lateinit var userProfessor: Professor
 
     constructor(fragment: Fragment) : this(fragment.requireActivity()) {
         this.fragment = fragment
@@ -201,22 +203,37 @@ class SocketClient(private val activity: Activity) {
                 client.userType,
                 client.registered
             )
-            val student = rootData.student
-            userStudent = Student(
-                student.userId,
-                student.userYear,
-                student.intensiveDual
-            )
+            if(userClient.userType){
+                val professor = rootData.professor
+                userProfessor = Professor(
+                    professor.userId
+                )
 
-            val course = rootData.course
-            userCourse = Course(
-                course.title,
-                course.email,
-                course.courseDescription
-            )
+            }else {
+                val student = rootData.student
+                userStudent = Student(
+                    student.userId,
+                    student.userYear,
+                    student.intensiveDual
+                )
+
+                val course = rootData.course
+                userCourse = Course(
+                    course.title,
+                    course.email,
+                    course.courseDescription
+                )
+            }
+
+
             val intent = Intent(context, MainFrame::class.java).apply {
-                putExtra("user", userClient).putExtra("studentInfo", userStudent)
-                    .putExtra("userCourse", userCourse)
+                putExtra("user", userClient)
+                if(userClient.userType){
+                    putExtra("professorInfo", userProfessor)
+                }else{
+                    putExtra("studentInfo", userStudent)
+                        .putExtra("userCourse", userCourse)
+                }
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
@@ -253,28 +270,41 @@ class SocketClient(private val activity: Activity) {
                 client.userType,
                 client.registered
             )
-            val student = rootData.student
-            userStudent = Student(
-                student.userId,
-                student.userYear,
-                student.intensiveDual
-            )
+            if(userClient.userType){
+                val professor = rootData.professor
+                userProfessor = Professor(
+                    professor.userId
+                )
 
-            val course = rootData.course
-            userCourse = Course(
-                course.title,
-                course.email,
-                course.courseDescription
-            )
+            }else {
+                val student = rootData.student
+                userStudent = Student(
+                    student.userId,
+                    student.userYear,
+                    student.intensiveDual
+                )
+
+                val course = rootData.course
+                userCourse = Course(
+                    course.title,
+                    course.email,
+                    course.courseDescription
+                )
+            }
             val intent = Intent(context, RegisterActivity::class.java).apply {
-                putExtra("user", userClient).putExtra("studentInfo", userStudent)
-                    .putExtra("userCourse", userCourse)
+                putExtra("user", userClient)
+                if(userClient.userType){
+                    putExtra("professorInfo", userProfessor)
+                }else{
+                    putExtra("studentInfo", userStudent)
+                        .putExtra("userCourse", userCourse)
+                }
+
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }
-
     fun doRegister(
         userName: String,
         password: String,
@@ -292,8 +322,8 @@ class SocketClient(private val activity: Activity) {
             "dni" to dni,
             "direction" to direction,
             "telephone" to telephone
-
         )
+        Log.d(tag,"userName:$userName,userPass:$password")
         socket.emit(Events.ON_REGISTER_ANSWER.value, Gson().toJson(registerData))
 
         socket.on(Events.ON_REGISTER_SUCCESS.value) { args ->
@@ -311,18 +341,15 @@ class SocketClient(private val activity: Activity) {
             val response = args[0] as String
             Log.d(tag, "Received ON_REQUEST_FALL event: $response")
 
-
-            // This method is called when we want to getAll the Alumno.
-            fun doGetAll() {
-                socket.emit(Events.ON_GET_ALL.value)
-
-            }
+        }
             socket.on(Events.ON_REGISTER_SAME_PASSWORD.value) { args ->
                 val response = args[0] as String
                 Log.d(tag, "Received ON_REGISTER_SAME_PASSWORD event: $response")
 
-                Log.d(tag, "Attempt of getAll...")
             }
+        }
+
+
 
             fun filterByCourse(client: Client?, callback: (List<String>) -> Unit) {
                 val loginData = mapOf("message" to client)
@@ -423,5 +450,5 @@ class SocketClient(private val activity: Activity) {
             }
 
         }
-    }
-}
+
+
