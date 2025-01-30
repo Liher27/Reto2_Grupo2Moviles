@@ -1,5 +1,6 @@
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.reto2_grupo2.entity.Professor
 
 data class Assistant(
     val professor: Professor

@@ -1,3 +1,5 @@
+package com.example.reto2_grupo2.entity
+
 import android.os.Parcel
 import android.os.Parcelable
 
