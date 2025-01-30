@@ -12,12 +12,14 @@ import com.example.reto2_grupo2.MainFrame
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
+
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.ExternalCourse
 import com.example.reto2_grupo2.entity.Professor
 import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
 import com.example.reto2_grupo2.socketIO.config.Events
+import com.example.reto2_grupo2.socketIO.model.MessageInput
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
@@ -33,7 +35,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.48:2888"
+    private val ipPort = "http://192.168.56.1:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -142,7 +144,7 @@ class SocketClient(private val activity: Activity) {
 
     // This method is called when we want to login. We get the userName,
     // put in into an MessageOutput, and convert it into JSON to be sent
-    fun doLogin(userName: String, password: String, rememberMe : Boolean) {
+    fun doLogin(userName: String, password: String, rememberMe: Boolean) {
         val loginData = mapOf(
             "message" to userName,
             "userPass" to password
@@ -171,13 +173,13 @@ class SocketClient(private val activity: Activity) {
                 client.userType,
                 client.registered
             )
-            if(userClient.userType){
+            if (userClient.userType) {
                 val professor = rootData.professor
                 userProfessor = Professor(
                     professor.userId
                 )
 
-            }else {
+            } else {
                 val student = rootData.student
                 userStudent = Student(
                     student.userId,
@@ -196,9 +198,9 @@ class SocketClient(private val activity: Activity) {
 
             val intent = Intent(context, MainFrame::class.java).apply {
                 putExtra("user", userClient)
-                if(userClient.userType){
+                if (userClient.userType) {
                     putExtra("professorInfo", userProfessor)
-                }else{
+                } else {
                     putExtra("studentInfo", userStudent)
                         .putExtra("userCourse", userCourse)
                 }
@@ -241,13 +243,13 @@ class SocketClient(private val activity: Activity) {
                 client.userType,
                 client.registered
             )
-            if(userClient.userType){
+            if (userClient.userType) {
                 val professor = rootData.professor
                 userProfessor = Professor(
                     professor.userId
                 )
 
-            }else {
+            } else {
                 val student = rootData.student
                 userStudent = Student(
                     student.userId,
@@ -264,9 +266,9 @@ class SocketClient(private val activity: Activity) {
             }
             val intent = Intent(context, RegisterActivity::class.java).apply {
                 putExtra("user", userClient)
-                if(userClient.userType){
+                if (userClient.userType) {
                     putExtra("professorInfo", userProfessor)
-                }else{
+                } else {
                     putExtra("studentInfo", userStudent)
                         .putExtra("userCourse", userCourse)
                 }
@@ -294,22 +296,20 @@ class SocketClient(private val activity: Activity) {
             loginForRoom.let { db.clientDao().insert(it) }
         }
     }
-
-
     fun doRegister(
         userName: String,
-        password: String,
         surname: String,
         secondSurname: String,
+        password: String,
         dni: String,
         direction: String,
         telephone: Int,
     ) {
         val registerData = mapOf(
             "username" to userName,
-            "userpass" to password,
             "surname" to surname,
             "secondsurname" to secondSurname,
+            "userpass" to password,
             "dni" to dni,
             "direction" to direction,
             "telephone" to telephone
@@ -424,54 +424,58 @@ class SocketClient(private val activity: Activity) {
     }
 
 
-    // This method is called when we want to logout. We get the userName,
-    // put in into an MessageOutput, and convert it into JSON to be sent
-    fun changePassword(client: Client?, newPassword: String) {
-        val userData = mapOf(
-            "userId" to client?.userId,
-            "newPassword" to newPassword
-        )
-        socket.emit(Events.ON_CHANGE_PASSWORD.value, Gson().toJson(userData))
 
-        socket.on(Events.ON_CHANGE_PASSWORD_ANSWER.value) {
-            activity.runOnUiThread {
-                Toast.makeText(context, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT)
-                    .show()
+        fun changePassword(client: Client?, newPassword: String) {
+            val userData = mapOf(
+                "userId" to client?.userId,
+                "newPassword" to newPassword
+            )
+            socket.emit(Events.ON_CHANGE_PASSWORD.value, Gson().toJson(userData))
+
+            socket.on(Events.ON_CHANGE_PASSWORD_ANSWER.value) {
+                activity.runOnUiThread {
+                    Toast.makeText(context, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT)
+                        .show()
+                }
+                client?.pass = newPassword
+                saveClientInROOM(client!!)
             }
-            client?.pass = newPassword
-            saveClientInROOM(client!!)
+            socket.on(Events.ON_CHANGE_PASSWORD_FAIL.value) {
+                activity.runOnUiThread {
+                    Toast.makeText(
+                        context,
+                        "No se ha podido cambiar la contraseña",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
         }
-        socket.on(Events.ON_CHANGE_PASSWORD_FAIL.value) {
-            activity.runOnUiThread {
-                Toast.makeText(context, "No se ha podido cambiar la contraseña", Toast.LENGTH_SHORT)
-                    .show()
+
+        fun getReunions(client: Client?, callback: (List<Reunion>) -> Unit) {
+            val loginData = mapOf("message" to client)
+            val jsonData = Gson().toJson(loginData)
+
+            socket.emit(Events.ON_GET_REUNIONS.value, jsonData)
+
+            socket.off(Events.ON_GET_REUNIONS_ANSWER.value)
+
+            socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
+                val jsonDocuments = args[0] as String
+                try {
+                    val gson = Gson()
+                    val reunionType = object : TypeToken<List<Reunion>>() {}.type
+                    val reunionList: List<Reunion> =
+                        gson.fromJson(jsonDocuments, reunionType)
+                    callback(reunionList)
+                } catch (e: Exception) {
+                    callback(emptyList())
+                }
+            }
+            socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
+                val response = args[0] as String
+                Log.d(tag, "Login fallado: $response")
             }
         }
     }
 
-    fun getReunions(client: Client?, callback: (List<Reunion>) -> Unit) {
-        val loginData = mapOf("message" to client)
-        val jsonData = Gson().toJson(loginData)
-
-        socket.emit(Events.ON_GET_REUNIONS.value, jsonData)
-
-        socket.off(Events.ON_GET_REUNIONS_ANSWER.value)
-
-        socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
-            val jsonDocuments = args[0] as String
-             try {
-                 val gson = Gson()
-                 val reunionType = object : TypeToken<List<Reunion>>() {}.type
-                 val reunionList: List<Reunion> =
-                     gson.fromJson(jsonDocuments, reunionType)
-                 callback(reunionList)
-             } catch (e: Exception) {
-                 callback(emptyList())
-             }
-        }
-        socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
-            val response = args[0] as String
-            Log.d(tag, "Login fallado: $response")
-        }
-    }
-}

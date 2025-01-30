@@ -4,10 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
@@ -36,12 +38,17 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var passwordTextField: EditText
     private lateinit var repeatPasswordTextField: EditText
+    private lateinit var scholarInfoTitleView : TextView
+    private lateinit var cicleTitleView : TextView
+    private lateinit var courseTitleView : TextView
 
     private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
     private lateinit var registerButton: Button
     private lateinit var regusterCheckButton: Button
     private var dual by Delegates.notNull<Boolean>()
+
+    private val REQUEST_CODE_RECORD_IMAGE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +69,12 @@ class RegisterActivity : AppCompatActivity() {
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
 
+        init()
         preloadInfo()
+
+
+
+
 
         backButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
@@ -123,9 +135,9 @@ class RegisterActivity : AppCompatActivity() {
                     if (socketClient != null) {
                         socketClient?.doRegister(
                             nameTextField.text.toString(),
-                            passwordTextField.text.toString(),
                             surnameTextField.text.toString(),
                             secondSurnameTextField.text.toString(),
+                            passwordTextField.text.toString(),
                             dniTextField.text.toString(),
                             directionTextField.text.toString(),
                             telephoneInt
@@ -163,7 +175,28 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun preloadInfo() {
+    private fun credentialsOk(): Boolean {
+        var ret = false
+
+        return ret
+
+    }
+
+    private fun init(){
+        val client: Client? = intent.getParcelableExtra("user")
+        if (client != null) {
+            if(client.userType){
+                cicleTitleView.visibility = View.GONE
+                courseTitleView.visibility = View.GONE
+                scholarInfoTitleView.visibility = View.GONE
+                courseNameTextField.visibility = View.GONE
+                cycleNameTextField.visibility = View.GONE
+                gradoDobleCheck.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun preloadInfo(){
         val client: Client? = intent.getParcelableExtra("user")
         if (client != null) {
             nameTextField.setText(client.userName)
@@ -175,11 +208,11 @@ class RegisterActivity : AppCompatActivity() {
 
         }
         val course: Course? = intent.getParcelableExtra("userCourse")
-        if (course != null) {
+        if(course != null){
             courseNameTextField.setText(course.title)
         }
         val student: Student? = intent.getParcelableExtra("studentInfo")
-        if (student != null) {
+        if(student != null){
             cycleNameTextField.setText(student.userYear.toString())
             gradoDobleCheck.isChecked = student.intensiveDual
         }
