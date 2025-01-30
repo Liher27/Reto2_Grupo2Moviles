@@ -1,6 +1,7 @@
 package com.example.reto2_grupo2.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,6 @@ import java.util.Locale
 
 class ProfessorMainFragment : Fragment() {
     private var client: Client? = null
-    private val socketClient = SocketClientSingleton.socketClient
     private lateinit var calendarView: CalendarView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +37,8 @@ class ProfessorMainFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         calendarView = view.findViewById(R.id.calendarView)
         val cardTitle = view.findViewById<TextView>(R.id.cardTitle)
         val textOfTheDay = view.findViewById<TextView>(R.id.textView5)
@@ -57,9 +59,19 @@ class ProfessorMainFragment : Fragment() {
 
             Toast.makeText(requireContext(), "Fecha seleccionada: $selectedDate", Toast.LENGTH_SHORT).show()
 
-            cardTitle.text = ""
+            SocketClientSingleton.socketClient?.getScheduleSubjects(client) { links ->
+                requireActivity().runOnUiThread {
+                    if (links.isNotEmpty()) {
+                        cardTitle.text = links.joinToString("\n") { "📄 $it" }
+                    } else {
+                        cardTitle.text = "No hay documentos para esta fecha."
+                    }
+                }
+            }
         }
     }
+
+
 
     companion object {
         private const val ARG_CLIENT = "client"

@@ -415,6 +415,27 @@ class SocketClient(private val activity: Activity) {
             }
         }
     }
+    fun getScheduleSubjects(client: Client?, callback: (List<String>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_FILTER_BY_SCHEDULE.value, jsonData)
+        socket.on(Events.ON_FILTER_BY_SCHEDULE_RESPONSE.value) { args ->
+            val jsonDocuments = args[0] as String
+            Log.d(tag, "JSON: $jsonDocuments")
+            try {
+                val gson = Gson()
+                val documentListType = object : TypeToken<List<String>>() {}.type
+                val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
+                callback(documentsLinks)
+            } catch (e: Exception) {
+                socket.on(Events.ON_FILTER_ERROR.value) {
+                    Log.e(tag, "Failed to parse JSON", e)
+                }
+                callback(emptyList())
+            }
+        }
+    }
 
     fun getExternalCourses(client: Client?, callback: (List<ExternalCourse>) -> Unit) {
         val loginData = mapOf("message" to client)

@@ -1,5 +1,4 @@
 package com.example.reto2_grupo2.ui
-
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton
 import com.example.reto2_grupo2.entity.Client
-import com.example.reto2_grupo2.socketIO.SocketClient
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
