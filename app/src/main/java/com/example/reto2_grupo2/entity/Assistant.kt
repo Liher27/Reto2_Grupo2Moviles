@@ -6,7 +6,7 @@ data class Assistant(
     val professor: Professor
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readParcelable(Professor::class.java.classLoader) ?: Professor(0)
+        parcel.readParcelable(Professor::class.java.classLoader) ?: Professor(99, "Unknown")
     )
 
     override fun describeContents(): Int {

@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.48:2888"
+    private val ipPort = "http://192.168.1.147:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -174,7 +174,8 @@ class SocketClient(private val activity: Activity) {
             if (userClient.userType) {
                 val professor = rootData.professor
                 userProfessor = Professor(
-                    professor.userId
+                    professor.userId,
+                    professor.name
                 )
 
             } else {
@@ -244,7 +245,8 @@ class SocketClient(private val activity: Activity) {
             if (userClient.userType) {
                 val professor = rootData.professor
                 userProfessor = Professor(
-                    professor.userId
+                    professor.userId,
+                    professor.name
                 )
 
             } else {
@@ -449,7 +451,7 @@ class SocketClient(private val activity: Activity) {
         }
     }
 
-    fun getReunions(client: Client?, callback: (List<Reunion>) -> Unit) {
+    fun getReunions(client: Client?, callback: (List<Reunion>, List<Professor>) -> Unit) {
         val loginData = mapOf("message" to client)
         val jsonData = Gson().toJson(loginData)
 
@@ -459,15 +461,18 @@ class SocketClient(private val activity: Activity) {
 
         socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
             val jsonDocuments = args[0] as String
-            Log.d(tag, "JSON: $jsonDocuments")
+            val jsonDocuments2 = args[1] as String
             try {
                 val gson = Gson()
                 val reunionType = object : TypeToken<List<Reunion>>() {}.type
                 val reunionList: List<Reunion> =
                     gson.fromJson(jsonDocuments, reunionType)
-                callback(reunionList)
+                val professorsTpe = object : TypeToken<List<Professor>>() {}.type
+                val professorsList: List<Professor> =
+                    gson.fromJson(jsonDocuments2, professorsTpe)
+                callback(reunionList, professorsList)
             } catch (e: Exception) {
-                callback(emptyList())
+                callback(emptyList(), emptyList())
             }
         }
         socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
@@ -542,7 +547,7 @@ class SocketClient(private val activity: Activity) {
         reunionDateText: String,
         reunionHourText: Int,
         reunionClassText: String,
-        reunionProfessorText: String,
+        reunionProfessorText: ArrayList<Professor>,
         reunionProfessorId: Int?
     ) {
         val reunionFields = mapOf(
@@ -554,6 +559,7 @@ class SocketClient(private val activity: Activity) {
             "reunionProfessors" to reunionProfessorText,
             "reunionProfessorId" to reunionProfessorId
         )
+        Log.d("reunionFields", Gson().toJson(reunionFields))
         socket.emit(Events.ON_CREATE_REUNION.value, Gson().toJson(reunionFields))
         socket.on(Events.ON_CREATE_REUNION_ANSWER.value) {
             activity.runOnUiThread {

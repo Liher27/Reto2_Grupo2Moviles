@@ -17,7 +17,7 @@ data class Reunion(
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
-        parcel.readParcelable(Professor::class.java.classLoader) ?: Professor(0),
+        parcel.readParcelable(Professor::class.java.classLoader) ?: Professor(99, "Unknown"),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),

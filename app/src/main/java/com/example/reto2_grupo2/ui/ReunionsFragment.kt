@@ -16,7 +16,10 @@ import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton
 import com.example.reto2_grupo2.entity.Client
+import com.example.reto2_grupo2.entity.Professor
 import com.example.reto2_grupo2.entity.Reunion
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ReunionsFragment : Fragment() {
     private var client: Client? = null
@@ -29,7 +32,6 @@ class ReunionsFragment : Fragment() {
     private lateinit var reunionReasonText: EditText
     private lateinit var reunionDateText: EditText
     private lateinit var reunionClassText: EditText
-    private lateinit var reunionProfessorText: EditText
     private lateinit var reunionHourText: EditText
 
     private lateinit var acceptButton: Button
@@ -41,6 +43,8 @@ class ReunionsFragment : Fragment() {
     private lateinit var selectionSpinner: Spinner
 
     private lateinit var selectedReunion: Reunion
+
+    val reunionProfessors = ArrayList<Professor>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,11 +61,18 @@ class ReunionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        reunionText = view.findViewById(R.id.reunionText)
 
         createReunionButton = view.findViewById(R.id.createReunionButton)
         acceptButton = view.findViewById(R.id.acceptButton)
         cancelButton = view.findViewById(R.id.cancelButton)
         forceAcceptButton = view.findViewById(R.id.forceButton)
+
+        reunionThemeText = view.findViewById(R.id.themeText)
+        reunionReasonText = view.findViewById(R.id.reasonText)
+        reunionDateText = view.findViewById(R.id.dateText)
+        reunionClassText = view.findViewById(R.id.classText)
+        reunionHourText = view.findViewById(R.id.hourText)
 
         professorSpinner = view.findViewById(R.id.professorsSpinner)
         selectionSpinner = view.findViewById(R.id.selectionSpinner)
@@ -103,24 +114,49 @@ class ReunionsFragment : Fragment() {
         }
 
         createReunionButton.setOnClickListener {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
             if (reunionThemeText.text.isNotEmpty() && reunionReasonText.text.isNotEmpty() && reunionDateText.text.isNotEmpty() &&
-                reunionClassText.text.isNotEmpty() && reunionProfessorText.text.isNotEmpty() && reunionHourText.text.isNotEmpty()
+                reunionClassText.text.isNotEmpty() && reunionProfessors.isNotEmpty() && reunionHourText.text.isNotEmpty()
             ) {
+                val date = dateFormat.parse(reunionDateText.text.toString())
+
+                if (date == null) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Formato de fecha inválido (yyyy-MM-dd)",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+
+                val hour = reunionHourText.text.toString().toInt()
+                if (hour !in 0..23) {
+                    Toast.makeText(
+                        requireContext(),
+                        "La hora debe estar entre 0 y 23",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
                 socketClient?.createReunion(
                     reunionThemeText.text.toString(),
                     reunionReasonText.text.toString(),
                     reunionDateText.text.toString(),
                     reunionHourText.text.toString().toInt(),
                     reunionClassText.text.toString(),
-                    reunionProfessorText.text.toString(),
+                    reunionProfessors,
                     client?.userId
                 )
+            } else {
+                Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
 
     private fun fillReunions(client: Client?) {
-        socketClient?.getReunions(client) { reunions ->
+        socketClient?.getReunions(client) { reunions, professors ->
             val title = reunions.map { it.title }.toMutableList()
             requireActivity().runOnUiThread {
                 val adapter = ArrayAdapter(
@@ -130,6 +166,16 @@ class ReunionsFragment : Fragment() {
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 selectionSpinner.adapter = adapter
+
+                val professorsNames = professors.map { it.name }.toMutableList()
+
+                val adapter2 = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    professorsNames
+                )
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                professorSpinner.adapter = adapter2
             }
 
             selectionSpinner.onItemSelectedListener =
@@ -146,7 +192,70 @@ class ReunionsFragment : Fragment() {
                     override fun onNothingSelected(parent: AdapterView<*>?) {
                     }
                 }
+            reunionProfessors.clear()
+            professorSpinner.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        //Si no se encuentra en la lista, lo añadimos
+                        professors[position].let { reunionProfessors.add(it) }
+                        Toast.makeText(
+                            requireContext(),
+                            "Profesor añadido!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                    }
+                }
         }
+    }
+
+    private fun showReunion(reunion: Reunion) {
+        selectedReunion = reunion
+        //Si la reunion esta en un estado importante, no debe cambiarse mas veces.
+        if (reunion.reunionState == 11 || reunion.reunionState == 0 || reunion.reunionState == 10) {
+            acceptButton.visibility = View.GONE
+            cancelButton.visibility = View.GONE
+            forceAcceptButton.visibility = View.GONE
+        } else {
+            acceptButton.visibility = View.VISIBLE
+            cancelButton.visibility = View.VISIBLE
+            forceAcceptButton.visibility = View.VISIBLE
+        }
+
+        //Cambiamos el texto de la reunion variando de su estado
+        val reunionState = when (reunion.reunionState) {
+            11 -> "Forzada"
+            10 -> "Aceptada"
+            0 -> "Rechazada"
+            else -> "Pendiente"
+        }
+
+        //Mostramos el nombre del dueño de la reunion
+        val owner = reunion.professor.name
+
+        //Mostramos los nombres de los profesores de la reunion
+        val professors = reunion.assistants.map { it.professor.name }.joinToString(", ")
+
+        //Añadimos todo en un string
+        reunionText.text = String.format(
+            "%s \n \n %s \n Dia: %s Hora: %s \n Aula: %s \n Estado de la reunion: %s \n Asistentes: %s \n Dueño de la reunion: %s",
+            reunion.title,
+            reunion.affair,
+            reunion.day,
+            reunion.hour,
+            reunion.class_,
+            reunionState,
+            professors,
+            owner
+        )
     }
 
     companion object {
@@ -159,43 +268,5 @@ class ReunionsFragment : Fragment() {
             fragment.arguments = args
             return fragment
         }
-    }
-
-    private fun showReunion(reunion: Reunion) {
-        selectedReunion = reunion
-        Log.d("reunionStatus", selectedReunion.title)
-        //Si la reunion esta en un estado importante, no debe cambiarse mas veces.
-        if (reunion.reunionState == 11 || reunion.reunionState == 0 || reunion.reunionState == 10) {
-            acceptButton.visibility = View.GONE
-            cancelButton.visibility = View.GONE
-            forceAcceptButton.visibility = View.GONE
-        } else {
-            acceptButton.visibility = View.VISIBLE
-            cancelButton.visibility = View.VISIBLE
-            forceAcceptButton.visibility = View.VISIBLE
-        }
-
-        val reunionState = when (reunion.reunionState) {
-            11 -> "Forzada"
-            10 -> "Aceptada"
-            0 -> "Rechazada"
-            else -> "Pendiente"
-        }
-
-        val owner =
-            if (reunion.professor.userId == client?.userId) "TU" else reunion.professor.userId
-
-        val professorsId = reunion.assistants.map { it.professor.userId }
-        reunionText.text = String.format(
-            "%s \n \n %s \n Dia: %s Hora: %s \n Aula: %s \n Estado de la reunion: %s \n Asistentes: %s \n Dueño de la reunion: %s",
-            reunion.title,
-            reunion.affair,
-            reunion.day,
-            reunion.hour,
-            reunion.class_,
-            reunionState,
-            professorsId,
-            owner
-        )
     }
 }
