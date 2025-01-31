@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.48:2888"
+    private val ipPort = "http://192.168.56.1:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -297,21 +297,20 @@ class SocketClient(private val activity: Activity) {
         }
     }
 
-
     fun doRegister(
         userName: String,
-        password: String,
         surname: String,
         secondSurname: String,
+        password: String,
         dni: String,
         direction: String,
         telephone: Int,
     ) {
         val registerData = mapOf(
             "username" to userName,
-            "userpass" to password,
             "surname" to surname,
             "secondsurname" to secondSurname,
+            "userpass" to password,
             "dni" to dni,
             "direction" to direction,
             "telephone" to telephone
@@ -426,8 +425,6 @@ class SocketClient(private val activity: Activity) {
     }
 
 
-    // This method is called when we want to logout. We get the userName,
-    // put in into an MessageOutput, and convert it into JSON to be sent
     fun changePassword(client: Client?, newPassword: String) {
         val userData = mapOf(
             "userId" to client?.userId,
@@ -445,9 +442,39 @@ class SocketClient(private val activity: Activity) {
         }
         socket.on(Events.ON_CHANGE_PASSWORD_FAIL.value) {
             activity.runOnUiThread {
-                Toast.makeText(context, "No se ha podido cambiar la contraseña", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    context,
+                    "No se ha podido cambiar la contraseña",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
+        }
+    }
+
+    fun getReunions(client: Client?, callback: (List<Reunion>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_GET_REUNIONS.value, jsonData)
+
+        socket.off(Events.ON_GET_REUNIONS_ANSWER.value)
+
+        socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
+            val jsonDocuments = args[0] as String
+            try {
+                val gson = Gson()
+                val reunionType = object : TypeToken<List<Reunion>>() {}.type
+                val reunionList: List<Reunion> =
+                    gson.fromJson(jsonDocuments, reunionType)
+                callback(reunionList)
+            } catch (e: Exception) {
+                callback(emptyList())
+            }
+        }
+        socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
+            val response = args[0] as String
+            Log.d(tag, "Login fallado: $response")
         }
     }
 
@@ -595,3 +622,5 @@ class SocketClient(private val activity: Activity) {
         }
     }
 }
+
+
