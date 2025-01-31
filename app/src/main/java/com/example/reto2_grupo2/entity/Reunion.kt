@@ -6,23 +6,25 @@ import android.os.Parcelable
 
 data class Reunion(
     val reunionId: Int,
+    val professor: Professor,
     val title: String,
     val affair: String,
     val day: String,
     val class_: String,
     val reunionState: Int,
     val hour: Int,
-    val assistants: List<Assistant>
+    val assistants: List<Assistant>,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
+        parcel.readParcelable(Professor::class.java.classLoader) ?: Professor(99, "Unknown"),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readInt(),
         parcel.readInt(),
-        parcel.createTypedArrayList(Assistant.CREATOR) ?: emptyList()
+        parcel.createTypedArrayList(Assistant.CREATOR) ?: emptyList(),
     )
 
     override fun describeContents(): Int {
@@ -31,6 +33,7 @@ data class Reunion(
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeInt(reunionId)
+        dest.writeParcelable(professor, flags)
         dest.writeString(title)
         dest.writeString(affair)
         dest.writeString(day)

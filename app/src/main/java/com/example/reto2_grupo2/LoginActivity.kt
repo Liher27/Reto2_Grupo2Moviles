@@ -88,6 +88,17 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
             }
         }
+
+        forgotPassword.setOnClickListener {
+            if (userTextField.text.isNotEmpty())
+                socketClient!!.forgotPassword(userTextField.text.toString())
+            else
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Por favor, ingrese un nombre de usuario",
+                    Toast.LENGTH_SHORT
+                ).show()
+        }
     }
 
     @OptIn(DelicateCoroutinesApi::class)

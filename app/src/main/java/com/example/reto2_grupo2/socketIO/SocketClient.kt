@@ -15,26 +15,25 @@ import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.ExternalCourse
 import com.example.reto2_grupo2.entity.Professor
+import com.example.reto2_grupo2.entity.Reunion
 import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
+import com.example.reto2_grupo2.entity.room.ClientDatabase
+import com.example.reto2_grupo2.entity.room.LoginForROOM
 import com.example.reto2_grupo2.socketIO.config.Events
-
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
 import io.socket.client.Socket
-import org.json.JSONObject
-import com.example.reto2_grupo2.entity.Reunion
-import com.example.reto2_grupo2.entity.room.ClientDatabase
-import com.example.reto2_grupo2.entity.room.LoginForROOM
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://192.168.56.1:2888"
+    private val ipPort = "http://10.5.104.48:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -170,7 +169,8 @@ class SocketClient(private val activity: Activity) {
             if (userClient.userType) {
                 val professor = rootData.professor
                 userProfessor = Professor(
-                    professor.userId
+                    professor.userId,
+                    professor.name
                 )
 
             } else {
@@ -240,7 +240,8 @@ class SocketClient(private val activity: Activity) {
             if (userClient.userType) {
                 val professor = rootData.professor
                 userProfessor = Professor(
-                    professor.userId
+                    professor.userId,
+                    professor.name
                 )
 
             } else {
@@ -290,6 +291,7 @@ class SocketClient(private val activity: Activity) {
             loginForRoom.let { db.clientDao().insert(it) }
         }
     }
+
     fun doRegister(
         userName: String,
         surname: String,
@@ -418,58 +420,202 @@ class SocketClient(private val activity: Activity) {
     }
 
 
+    fun changePassword(client: Client?, newPassword: String) {
+        val userData = mapOf(
+            "userId" to client?.userId,
+            "newPassword" to newPassword
+        )
+        socket.emit(Events.ON_CHANGE_PASSWORD.value, Gson().toJson(userData))
 
-        fun changePassword(client: Client?, newPassword: String) {
-            val userData = mapOf(
-                "userId" to client?.userId,
-                "newPassword" to newPassword
-            )
-            socket.emit(Events.ON_CHANGE_PASSWORD.value, Gson().toJson(userData))
-
-            socket.on(Events.ON_CHANGE_PASSWORD_ANSWER.value) {
-                activity.runOnUiThread {
-                    Toast.makeText(context, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                client?.pass = newPassword
-                saveClientInROOM(client!!)
+        socket.on(Events.ON_CHANGE_PASSWORD_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Contraseña cambiada correctamente", Toast.LENGTH_SHORT)
+                    .show()
             }
-            socket.on(Events.ON_CHANGE_PASSWORD_FAIL.value) {
-                activity.runOnUiThread {
-                    Toast.makeText(
-                        context,
-                        "No se ha podido cambiar la contraseña",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                }
-            }
+            client?.pass = newPassword
+            saveClientInROOM(client!!)
         }
-
-        fun getReunions(client: Client?, callback: (List<Reunion>) -> Unit) {
-            val loginData = mapOf("message" to client)
-            val jsonData = Gson().toJson(loginData)
-
-            socket.emit(Events.ON_GET_REUNIONS.value, jsonData)
-
-            socket.off(Events.ON_GET_REUNIONS_ANSWER.value)
-
-            socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
-                val jsonDocuments = args[0] as String
-                try {
-                    val gson = Gson()
-                    val reunionType = object : TypeToken<List<Reunion>>() {}.type
-                    val reunionList: List<Reunion> =
-                        gson.fromJson(jsonDocuments, reunionType)
-                    callback(reunionList)
-                } catch (e: Exception) {
-                    callback(emptyList())
-                }
-            }
-            socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
-                val response = args[0] as String
-                Log.d(tag, "Login fallado: $response")
+        socket.on(Events.ON_CHANGE_PASSWORD_FAIL.value) {
+            activity.runOnUiThread {
+                Toast.makeText(
+                    context,
+                    "No se ha podido cambiar la contraseña",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
             }
         }
     }
+
+    fun getReunions(client: Client?, callback: (List<Reunion>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_GET_REUNIONS.value, jsonData)
+
+        socket.off(Events.ON_GET_REUNIONS_ANSWER.value)
+
+        socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
+            val jsonDocuments = args[0] as String
+            try {
+                val gson = Gson()
+                val reunionType = object : TypeToken<List<Reunion>>() {}.type
+                val reunionList: List<Reunion> =
+                    gson.fromJson(jsonDocuments, reunionType)
+                callback(reunionList)
+            } catch (e: Exception) {
+                callback(emptyList())
+            }
+        }
+        socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
+            val response = args[0] as String
+            Log.d(tag, "Login fallado: $response")
+        }
+    }
+
+    fun getReunions(client: Client?, callback: (List<Reunion>, List<Professor>) -> Unit) {
+        val loginData = mapOf("message" to client)
+        val jsonData = Gson().toJson(loginData)
+
+        socket.emit(Events.ON_GET_REUNIONS.value, jsonData)
+
+        socket.off(Events.ON_GET_REUNIONS_ANSWER.value)
+
+        socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
+            val jsonDocuments = args[0] as String
+            val jsonDocuments2 = args[1] as String
+            try {
+                val gson = Gson()
+                val reunionType = object : TypeToken<List<Reunion>>() {}.type
+                val reunionList: List<Reunion> =
+                    gson.fromJson(jsonDocuments, reunionType)
+                val professorsTpe = object : TypeToken<List<Professor>>() {}.type
+                val professorsList: List<Professor> =
+                    gson.fromJson(jsonDocuments2, professorsTpe)
+                callback(reunionList, professorsList)
+            } catch (e: Exception) {
+                callback(emptyList(), emptyList())
+            }
+        }
+        socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
+            val response = args[0] as String
+            Log.d(tag, "Login fallado: $response")
+        }
+    }
+
+    fun acceptReunion(reunionId: Int) {
+        val userData = mapOf(
+            "reunionId" to reunionId
+        )
+        socket.emit(Events.ON_ACCEPT_REUNION.value, Gson().toJson(userData))
+
+        socket.on(Events.ON_ACCEPT_REUNION_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Reunión aceptada correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        socket.on(Events.ON_ACCEPT_REUNION_ERROR.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "No se ha podido aceptar la reunión", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    fun cancelReunion(reunionId: Int) {
+        val userData = mapOf(
+            "reunionId" to reunionId
+        )
+        socket.emit(Events.ON_REJECT_REUNION.value, Gson().toJson(userData))
+
+        socket.on(Events.ON_REJECT_REUNION_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Reunión rechazada correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        socket.on(Events.ON_REJECT_REUNION_ERROR.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "No se ha podido rechazar la reunión", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    fun forceAcceptReunion(reunionId: Int) {
+        val userData = mapOf(
+            "reunionId" to reunionId
+        )
+        socket.emit(Events.ON_FORCE_REUNION.value, Gson().toJson(userData))
+
+        socket.on(Events.ON_FORCE_REUNION_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Reunión forzada correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        socket.on(Events.ON_FORCE_REUNION_ERROR.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "No se ha podido forzar la reunión", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    fun createReunion(
+        reunionThemeText: String,
+        reunionReasonText: String,
+        reunionDateText: String,
+        reunionHourText: Int,
+        reunionClassText: String,
+        reunionProfessorText: ArrayList<Professor>,
+        reunionProfessorId: Int?
+    ) {
+        val reunionFields = mapOf(
+            "reunionTheme" to reunionThemeText,
+            "reunionReason" to reunionReasonText,
+            "reunionDate" to reunionDateText,
+            "reunionHour" to reunionHourText,
+            "reunionClass" to reunionClassText,
+            "reunionProfessors" to reunionProfessorText,
+            "reunionProfessorId" to reunionProfessorId
+        )
+        Log.d("reunionFields", Gson().toJson(reunionFields))
+        socket.emit(Events.ON_CREATE_REUNION.value, Gson().toJson(reunionFields))
+        socket.on(Events.ON_CREATE_REUNION_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Reunion creada correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        socket.on(Events.ON_CREATE_REUNION_ERROR.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "No se ha podido crear la reunión", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    fun forgotPassword(userName: String) {
+        val userData = mapOf(
+            "message" to userName
+        )
+        socket.emit(Events.ON_FORGOT_PASSWORD.value, Gson().toJson(userData))
+
+        socket.on(Events.ON_FORGOT_PASSWORD_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Contraseña enviada correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        socket.on(Events.ON_FORGOT_PASSWORD_ERROR.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "No se ha podido enviar la contraseña", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+}
+
 
