@@ -137,11 +137,6 @@ class SocketClient(private val activity: Activity) {
         Log.d(tag, "Connecting to server...")
     }
 
-
-    // Custom events
-
-    // This method is called when we want to login. We get the userName,
-    // put in into an MessageOutput, and convert it into JSON to be sent
     fun doLogin(userName: String, password: String, rememberMe: Boolean) {
         val loginData = mapOf(
             "message" to userName,
