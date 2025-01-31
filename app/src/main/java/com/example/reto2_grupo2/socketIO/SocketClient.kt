@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://192.168.1.147:2888"
+    private val ipPort = "http://10.5.104.48:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -570,6 +570,26 @@ class SocketClient(private val activity: Activity) {
         socket.on(Events.ON_CREATE_REUNION_ERROR.value) {
             activity.runOnUiThread {
                 Toast.makeText(context, "No se ha podido crear la reunión", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    fun forgotPassword(userName: String) {
+        val userData = mapOf(
+            "message" to userName
+        )
+        socket.emit(Events.ON_FORGOT_PASSWORD.value, Gson().toJson(userData))
+
+        socket.on(Events.ON_FORGOT_PASSWORD_ANSWER.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "Contraseña enviada correctamente", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        socket.on(Events.ON_FORGOT_PASSWORD_ERROR.value) {
+            activity.runOnUiThread {
+                Toast.makeText(context, "No se ha podido enviar la contraseña", Toast.LENGTH_SHORT)
                     .show()
             }
         }

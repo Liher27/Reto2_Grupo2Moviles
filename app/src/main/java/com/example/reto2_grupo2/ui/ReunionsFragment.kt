@@ -42,6 +42,8 @@ class ReunionsFragment : Fragment() {
     private lateinit var professorSpinner: Spinner
     private lateinit var selectionSpinner: Spinner
 
+    private var isSpinnerInitialized = false
+
     private lateinit var selectedReunion: Reunion
 
     val reunionProfessors = ArrayList<Professor>()
@@ -119,35 +121,43 @@ class ReunionsFragment : Fragment() {
             if (reunionThemeText.text.isNotEmpty() && reunionReasonText.text.isNotEmpty() && reunionDateText.text.isNotEmpty() &&
                 reunionClassText.text.isNotEmpty() && reunionProfessors.isNotEmpty() && reunionHourText.text.isNotEmpty()
             ) {
-                val date = dateFormat.parse(reunionDateText.text.toString())
+                try {
+                    val date = dateFormat.parse(reunionDateText.text.toString())
 
-                if (date == null) {
+                    if (date == null) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Formato de fecha inválido (yyyy-MM-dd)",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
+
+                    val hour = reunionHourText.text.toString().toInt()
+                    if (hour !in 0..23) {
+                        Toast.makeText(
+                            requireContext(),
+                            "La hora debe estar entre 0 y 23",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
+                    socketClient?.createReunion(
+                        reunionThemeText.text.toString(),
+                        reunionReasonText.text.toString(),
+                        reunionDateText.text.toString(),
+                        reunionHourText.text.toString().toInt(),
+                        reunionClassText.text.toString(),
+                        reunionProfessors,
+                        client?.userId
+                    )
+                } catch (e: Exception) {
                     Toast.makeText(
                         requireContext(),
                         "Formato de fecha inválido (yyyy-MM-dd)",
                         Toast.LENGTH_SHORT
                     ).show()
-                    return@setOnClickListener
                 }
-
-                val hour = reunionHourText.text.toString().toInt()
-                if (hour !in 0..23) {
-                    Toast.makeText(
-                        requireContext(),
-                        "La hora debe estar entre 0 y 23",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
-                socketClient?.createReunion(
-                    reunionThemeText.text.toString(),
-                    reunionReasonText.text.toString(),
-                    reunionDateText.text.toString(),
-                    reunionHourText.text.toString().toInt(),
-                    reunionClassText.text.toString(),
-                    reunionProfessors,
-                    client?.userId
-                )
             } else {
                 Toast.makeText(requireContext(), "Rellena todos los campos", Toast.LENGTH_SHORT)
                     .show()
@@ -158,6 +168,8 @@ class ReunionsFragment : Fragment() {
     private fun fillReunions(client: Client?) {
         socketClient?.getReunions(client) { reunions, professors ->
             val title = reunions.map { it.title }.toMutableList()
+            val professorsNames = professors.map { it.name }.toMutableList()
+
             requireActivity().runOnUiThread {
                 val adapter = ArrayAdapter(
                     requireContext(),
@@ -166,8 +178,6 @@ class ReunionsFragment : Fragment() {
                 )
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 selectionSpinner.adapter = adapter
-
-                val professorsNames = professors.map { it.name }.toMutableList()
 
                 val adapter2 = ArrayAdapter(
                     requireContext(),
@@ -192,30 +202,38 @@ class ReunionsFragment : Fragment() {
                     override fun onNothingSelected(parent: AdapterView<*>?) {
                     }
                 }
-            reunionProfessors.clear()
-            professorSpinner.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        //Si no se encuentra en la lista, lo añadimos
-                        professors[position].let { reunionProfessors.add(it) }
-                        Toast.makeText(
-                            requireContext(),
-                            "Profesor añadido!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
+            professorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    // Ignore first automatic selection
+                    if (!isSpinnerInitialized) {
+                        reunionProfessors.clear()
+                        isSpinnerInitialized = true
+                        return
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                    val selectedProfessor = professors[position]
+                    if (reunionProfessors.contains(selectedProfessor)) {
+                        Toast.makeText(requireContext(), "Profesor ya añadido!", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        reunionProfessors.add(selectedProfessor)
+                        Log.d("ReunionProfessors", reunionProfessors.toString())
+                        Toast.makeText(requireContext(), "Profesor añadido!", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+
         }
     }
+
 
     private fun showReunion(reunion: Reunion) {
         selectedReunion = reunion
@@ -242,7 +260,7 @@ class ReunionsFragment : Fragment() {
         val owner = reunion.professor.name
 
         //Mostramos los nombres de los profesores de la reunion
-        val professors = reunion.assistants.map { it.professor.name }.joinToString(", ")
+        val professors = reunion.assistants.joinToString(", ") { it.professor.name }
 
         //Añadimos todo en un string
         reunionText.text = String.format(
