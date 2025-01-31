@@ -55,6 +55,9 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
 
+
+
+
         userTextField = findViewById(R.id.loginTxt)
         nameTextField = findViewById(R.id.nameTxt)
         surnameTextField = findViewById(R.id.surname1Txt)
@@ -71,10 +74,6 @@ class RegisterActivity : AppCompatActivity() {
 
         init()
         preloadInfo()
-
-
-
-
 
         backButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {

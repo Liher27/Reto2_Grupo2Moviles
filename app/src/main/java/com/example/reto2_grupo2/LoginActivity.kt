@@ -30,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         if (sharedPreferences.contains("selected_theme")) {
             val selectedTheme = sharedPreferences.getString("selected_theme", "light")
@@ -47,8 +49,10 @@ class LoginActivity : AppCompatActivity() {
                 setLocale(selectedLanguage, this)
             }
         }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
 
         forgotPassword = findViewById(R.id.forgotPassword)
         socketClient = SocketClient(this)

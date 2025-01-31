@@ -12,14 +12,13 @@ import com.example.reto2_grupo2.MainFrame
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
-
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.ExternalCourse
 import com.example.reto2_grupo2.entity.Professor
 import com.example.reto2_grupo2.entity.RootData
 import com.example.reto2_grupo2.entity.Student
 import com.example.reto2_grupo2.socketIO.config.Events
-import com.example.reto2_grupo2.socketIO.model.MessageInput
+
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
@@ -139,11 +138,6 @@ class SocketClient(private val activity: Activity) {
         Log.d(tag, "Connecting to server...")
     }
 
-
-    // Custom events
-
-    // This method is called when we want to login. We get the userName,
-    // put in into an MessageOutput, and convert it into JSON to be sent
     fun doLogin(userName: String, password: String, rememberMe: Boolean) {
         val loginData = mapOf(
             "message" to userName,
