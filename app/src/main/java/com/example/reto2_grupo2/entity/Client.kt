@@ -5,16 +5,17 @@ import android.os.Parcelable
 
 data class Client
     (
-    val userId:Int,
-    val userName:String,
-    val surname:String,
-    val secondSurname :String,
-    val pass:String,
-    val dni:String,
-    val direction:String,
-    val telephone :Int,
-    val userType:Boolean,
-    val registered:Boolean):Parcelable {
+    val userId: Int,
+    val userName: String,
+    val surname: String,
+    val secondSurname: String,
+    var pass: String,
+    val dni: String,
+    val direction: String,
+    val telephone: Int,
+    val userType: Boolean,
+    val registered: Boolean
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString().toString(),
@@ -46,7 +47,7 @@ data class Client
             dest.writeBoolean(userType)
             dest.writeBoolean(registered)
         }
-        }
+    }
 
 
     companion object CREATOR : Parcelable.Creator<Client> {

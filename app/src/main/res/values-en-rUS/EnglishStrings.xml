@@ -48,4 +48,18 @@
     <string name="repeat_new_password">Repeat your new password</string>
     <string name="themeSettingsTitle">Change theme</string>
     <string name="forgotPassword">I forgot my password</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="forcedAccept">Force reunion</string>
+    <string name="createReunion">Create a reunion</string>
+    <string name="theme">Theme:</string>
+    <string name="reason">Reason:</string>
+    <string name="dateAndHour">Date and hour:</string>
+    <string name="classString">Classroom:</string>
+    <string name="professors">Professors:</string>
+    <string name="add_theme">Add a theme…</string>
+    <string name="add_reason">Add a reason…</string>
+    <string name="add_date">Add a date…</string>
+    <string name="add_hour">Hour</string>
+    <string name="add_class">Add a class…</string>
 </resources>

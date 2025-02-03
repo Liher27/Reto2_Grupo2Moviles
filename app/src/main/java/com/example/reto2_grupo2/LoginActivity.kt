@@ -11,8 +11,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
-import java.util.Locale
+import com.example.reto2_grupo2.entity.room.ClientDatabase
 import com.example.reto2_grupo2.socketIO.SocketClient
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.Locale
 
 class LoginActivity : AppCompatActivity() {
 
@@ -24,14 +29,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var forgotPassword: TextView
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
         val sharedPreferences = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-
         if (sharedPreferences.contains("selected_theme")) {
             val selectedTheme = sharedPreferences.getString("selected_theme", "light")
             if (selectedTheme == "light") {
@@ -49,6 +50,10 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
+
         forgotPassword = findViewById(R.id.forgotPassword)
         socketClient = SocketClient(this)
         socketClient!!.connect()
@@ -57,8 +62,7 @@ class LoginActivity : AppCompatActivity() {
         rememberMe = findViewById(R.id.rememberMeCheck)
         registerTextButton = findViewById(R.id.registerTextButton)
 
-
-
+        getROOMClient()
 
         registerTextButton.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
@@ -72,7 +76,8 @@ class LoginActivity : AppCompatActivity() {
             if (userTextField.text.isNotEmpty() || passwordTextField.text.isNotEmpty()) {
                 socketClient!!.doLogin(
                     userTextField.text.toString(),
-                    passwordTextField.text.toString()
+                    passwordTextField.text.toString(),
+                    rememberMe.isChecked
                 )
 
             } else {
@@ -81,6 +86,35 @@ class LoginActivity : AppCompatActivity() {
                     "Por favor, ingrese un nombre de usuario y contraseña",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+        }
+
+        forgotPassword.setOnClickListener {
+            if (userTextField.text.isNotEmpty())
+                socketClient!!.forgotPassword(userTextField.text.toString())
+            else
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Por favor, ingrese un nombre de usuario",
+                    Toast.LENGTH_SHORT
+                ).show()
+        }
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
+    private fun getROOMClient() {
+        //Creamos la instancia de la base de datos
+        val db = ClientDatabase(this)
+        //Recuperamos el cliente de la base de datos
+        GlobalScope.launch(Dispatchers.IO) {
+            val credentials = db.clientDao().getOne()
+            if (credentials != null) {
+                if (credentials.userName.isNotEmpty() && credentials.pass.isNotEmpty()) {
+                    runOnUiThread {
+                        userTextField.setText(credentials.userName)
+                        passwordTextField.setText(credentials.pass)
+                    }
+                }
             }
         }
     }
@@ -92,4 +126,5 @@ class LoginActivity : AppCompatActivity() {
         config.setLocale(locale)
         context.resources.updateConfiguration(config, context.resources.displayMetrics)
     }
+
 }

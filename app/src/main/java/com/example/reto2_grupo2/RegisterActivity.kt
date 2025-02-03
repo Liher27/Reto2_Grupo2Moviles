@@ -4,17 +4,22 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.reto2_grupo2.Singleton.SocketClientSingleton
+import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.Student
 import kotlin.properties.Delegates
+
+
+private const val REQUEST_CODE_RECORD_IMAGE = 1
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -33,6 +38,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var passwordTextField: EditText
     private lateinit var repeatPasswordTextField: EditText
+    private lateinit var scholarInfoTitleView : TextView
+    private lateinit var cicleTitleView : TextView
+    private lateinit var courseTitleView : TextView
 
     private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
@@ -45,6 +53,9 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+
+
 
 
         userTextField = findViewById(R.id.loginTxt)
@@ -61,12 +72,8 @@ class RegisterActivity : AppCompatActivity() {
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
 
+        init()
         preloadInfo()
-
-
-
-
-        val socketClient = SocketClientSingleton.socketClient
 
         backButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
@@ -125,11 +132,11 @@ class RegisterActivity : AppCompatActivity() {
 
                     dual = gradoDobleCheck.isChecked
                     if (socketClient != null) {
-                        socketClient.doRegister(
+                        socketClient?.doRegister(
                             nameTextField.text.toString(),
-                            passwordTextField.text.toString(),
                             surnameTextField.text.toString(),
                             secondSurnameTextField.text.toString(),
+                            passwordTextField.text.toString(),
                             dniTextField.text.toString(),
                             directionTextField.text.toString(),
                             telephoneInt
@@ -172,6 +179,20 @@ class RegisterActivity : AppCompatActivity() {
 
         return ret
 
+    }
+
+    private fun init(){
+        val client: Client? = intent.getParcelableExtra("user")
+        if (client != null) {
+            if(client.userType){
+                cicleTitleView.visibility = View.GONE
+                courseTitleView.visibility = View.GONE
+                scholarInfoTitleView.visibility = View.GONE
+                courseNameTextField.visibility = View.GONE
+                cycleNameTextField.visibility = View.GONE
+                gradoDobleCheck.visibility = View.GONE
+            }
+        }
     }
 
     private fun preloadInfo(){

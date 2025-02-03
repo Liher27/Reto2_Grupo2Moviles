@@ -57,4 +57,12 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:backgroundTint">@color/black</item>
     </style>
+
+    <style name="forceButton" parent="Theme.Reto2_Grupo2">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/red</item>
+    </style>
+
+
+
 </resources>

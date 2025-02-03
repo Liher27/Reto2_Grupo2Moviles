@@ -62,7 +62,7 @@ class ProfessorMainFragment : Fragment() {
             SocketClientSingleton.socketClient?.getScheduleSubjects(client) { links ->
                 requireActivity().runOnUiThread {
                     if (links.isNotEmpty()) {
-                        cardTitle.text = links.joinToString("\n") { "📄 $it" }
+                        cardTitle.text = ""
                     } else {
                         cardTitle.text = "No hay documentos para esta fecha."
                     }
