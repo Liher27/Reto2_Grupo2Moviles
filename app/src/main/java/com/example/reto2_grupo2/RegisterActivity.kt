@@ -1,6 +1,8 @@
 package com.example.reto2_grupo2
 
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,15 +14,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.reto2_grupo2.Singleton.ConnectionChangeReceiver
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.Student
 import kotlin.properties.Delegates
-
-
-private const val REQUEST_CODE_RECORD_IMAGE = 1
-
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var userTextField: EditText
@@ -47,16 +46,14 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var registerButton: Button
     private lateinit var regusterCheckButton: Button
     private var dual by Delegates.notNull<Boolean>()
+    private lateinit var myReceiver : ConnectionChangeReceiver
 
     private val REQUEST_CODE_RECORD_IMAGE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerReceiver()
         setContentView(R.layout.activity_register)
-
-
-
-
 
         userTextField = findViewById(R.id.loginTxt)
         nameTextField = findViewById(R.id.nameTxt)
@@ -68,6 +65,9 @@ class RegisterActivity : AppCompatActivity() {
         telephone2TextField = findViewById(R.id.telephone2Txt)
         courseNameTextField = findViewById(R.id.courseTxt)
         cycleNameTextField = findViewById(R.id.cycleTxt)
+        cicleTitleView= findViewById(R.id.cicleTitleTxt)
+        courseTitleView = findViewById(R.id.courseTitleTxt)
+        scholarInfoTitleView = findViewById(R.id.scholarInfoTitle)
         gradoDobleCheck = findViewById(R.id.intensiveCheck)
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
@@ -215,5 +215,10 @@ class RegisterActivity : AppCompatActivity() {
             cycleNameTextField.setText(student.userYear.toString())
             gradoDobleCheck.isChecked = student.intensiveDual
         }
+    }
+    private fun registerReceiver() {
+        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        myReceiver = ConnectionChangeReceiver()
+        registerReceiver(myReceiver, filter)
     }
 }

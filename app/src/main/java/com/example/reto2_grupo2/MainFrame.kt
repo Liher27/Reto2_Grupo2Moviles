@@ -91,8 +91,4 @@ class MainFrame : AppCompatActivity() {
         myReceiver = ConnectionChangeReceiver()
         registerReceiver(myReceiver, filter)
     }
-
-
-
-
 }
