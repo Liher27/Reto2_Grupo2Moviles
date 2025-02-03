@@ -170,8 +170,8 @@
                 android:id="@+id/reunionText"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:theme="@style/textBoxes"
                 android:textSize="20sp"
+                android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/guideline11"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -305,10 +305,13 @@
                 app:layout_constraintVertical_bias="0.509"
                 tools:ignore="Autofill,VisualLintTextFieldSize, TextContrastCheck" />
 
-            <Spinner
-                android:id="@+id/classSpiner"
+            <EditText
+                android:id="@+id/classText"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
+                android:hint="@string/add_class"
+                android:importantForAutofill="no"
+                android:inputType="text"
                 app:layout_constraintBottom_toTopOf="@+id/guideline23"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline18"

@@ -61,4 +61,5 @@
     <string name="add_reason">Add a reason…</string>
     <string name="add_date">Add a date…</string>
     <string name="add_hour">Hour</string>
+    <string name="add_class">Add a class…</string>
 </resources>
