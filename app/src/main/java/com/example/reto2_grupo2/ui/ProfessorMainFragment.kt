@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton
 import com.example.reto2_grupo2.entity.Client
+import com.example.reto2_grupo2.entity.Schedule
+import com.example.reto2_grupo2.entity.Subject
 import com.example.reto2_grupo2.socketIO.SocketClient
 import com.example.reto2_grupo2.ui.StudentMainFragment.Companion
 import java.text.SimpleDateFormat
@@ -47,6 +49,8 @@ class ProfessorMainFragment : Fragment() {
         val dayOfWeek = SimpleDateFormat("EEEE", Locale.getDefault()).format(calendar.time)
         val dayOfTheYear = calendar.get(Calendar.DAY_OF_MONTH)
         textOfTheDay.text = "~$dayOfWeek: $dayOfTheYear"
+        val schedule: Schedule? = null;
+        val subject: Subject? = null;
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = "$dayOfMonth/${month + 1}/$year"
@@ -61,8 +65,10 @@ class ProfessorMainFragment : Fragment() {
 
             SocketClientSingleton.socketClient?.getScheduleSubjects(client) { links ->
                 requireActivity().runOnUiThread {
-                    if (links.isNotEmpty()) {
-                        cardTitle.text = ""
+                    if (schedule != null) {
+                        val scheduleDay = schedule.scheduleDay
+                        val subjectName = subject?.subjectName
+                            cardTitle.text = subjectName
                     } else {
                         cardTitle.text = "No hay documentos para esta fecha."
                     }
