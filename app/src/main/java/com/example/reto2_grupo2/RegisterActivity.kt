@@ -1,29 +1,32 @@
 package com.example.reto2_grupo2
 
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.reto2_grupo2.Singleton.ConnectionChangeReceiver
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
+import com.example.reto2_grupo2.databinding.ActivityRegisterBinding
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.Student
+import java.util.logging.Handler
 import kotlin.properties.Delegates
-
-
-private const val REQUEST_CODE_RECORD_IMAGE = 1
-
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var userTextField: EditText
     private lateinit var nameTextField: EditText
     private lateinit var surnameTextField: EditText
     private lateinit var secondSurnameTextField: EditText
@@ -41,24 +44,23 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var scholarInfoTitleView : TextView
     private lateinit var cicleTitleView : TextView
     private lateinit var courseTitleView : TextView
-
+    private lateinit var scrollView : ScrollView
     private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
     private lateinit var registerButton: Button
     private lateinit var regusterCheckButton: Button
     private var dual by Delegates.notNull<Boolean>()
+    private lateinit var myReceiver : ConnectionChangeReceiver
 
     private val REQUEST_CODE_RECORD_IMAGE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registerReceiver()
+
         setContentView(R.layout.activity_register)
 
-
-
-
-
-        userTextField = findViewById(R.id.loginTxt)
+        scrollView = findViewById(R.id.scrollView2)
         nameTextField = findViewById(R.id.nameTxt)
         surnameTextField = findViewById(R.id.surname1Txt)
         secondSurnameTextField = findViewById(R.id.surname2Txt)
@@ -68,6 +70,9 @@ class RegisterActivity : AppCompatActivity() {
         telephone2TextField = findViewById(R.id.telephone2Txt)
         courseNameTextField = findViewById(R.id.courseTxt)
         cycleNameTextField = findViewById(R.id.cycleTxt)
+        cicleTitleView= findViewById(R.id.cicleTitleTxt)
+        courseTitleView = findViewById(R.id.courseTitleTxt)
+        scholarInfoTitleView = findViewById(R.id.scholarInfoTitle)
         gradoDobleCheck = findViewById(R.id.intensiveCheck)
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
@@ -91,8 +96,10 @@ class RegisterActivity : AppCompatActivity() {
                     "Las contraseñas no son mismas",
                     Toast.LENGTH_SHORT
                 ).show()
+
             } else {
-                Toast.makeText(this@RegisterActivity, "Nothing happend", Toast.LENGTH_SHORT).show()
+                scrollCenter()
+
             }
         }
 
@@ -146,9 +153,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
-
-
-
         addPhotoButton = findViewById(R.id.addPhotoButton)
         addPhotoButton.setOnClickListener {
             val imageIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -172,13 +176,6 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Photo recording canceled", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun credentialsOk(): Boolean {
-        var ret = false
-
-        return ret
-
     }
 
     private fun init(){
@@ -216,4 +213,20 @@ class RegisterActivity : AppCompatActivity() {
             gradoDobleCheck.isChecked = student.intensiveDual
         }
     }
-}
+    private fun registerReceiver() {
+        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        myReceiver = ConnectionChangeReceiver()
+        registerReceiver(myReceiver, filter)
+    }
+    private fun scrollCenter() {
+             scrollView.post {
+            val targetView = dniTextField
+            val targetPosition = IntArray(2).apply {
+                targetView.getLocationInWindow(this)
+            }
+            val scrollViewHeight =scrollView.height
+            val scrollToY = targetPosition[1] - (scrollViewHeight/2)
+                 scrollView.smoothScrollTo(0,scrollToY)
+        }
+    }
+    }
