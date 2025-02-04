@@ -1,5 +1,6 @@
 package com.example.reto2_grupo2.socketIO
 
+import Schedule
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.55:2888"
+    private val ipPort = "http://192.168.0.2:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -403,7 +404,7 @@ class SocketClient(private val activity: Activity) {
             }
         }
     }
-    fun getScheduleSubjects(client: Client?, callback: (List<String>) -> Unit) {
+    fun getScheduleSubjects(client: Client?, callback: (List<Schedule>) -> Unit) {
         val loginData = mapOf("message" to client)
         val jsonData = Gson().toJson(loginData)
 
@@ -413,17 +414,16 @@ class SocketClient(private val activity: Activity) {
             Log.d(tag, "JSON: $jsonDocuments")
             try {
                 val gson = Gson()
-                val documentListType = object : TypeToken<List<String>>() {}.type
-                val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
-                callback(documentsLinks)
+                val listType = object : TypeToken<List<Schedule>>() {}.type
+                val schedules: List<Schedule> = gson.fromJson(jsonDocuments, listType)
+                callback(schedules)
             } catch (e: Exception) {
-                socket.on(Events.ON_FILTER_ERROR.value) {
-                    Log.e(tag, "Failed to parse JSON", e)
-                }
+                Log.e(tag, "Failed to parse JSON", e)
                 callback(emptyList())
             }
         }
     }
+
 
     fun getExternalCourses(client: Client?, callback: (List<ExternalCourse>) -> Unit) {
         val loginData = mapOf("message" to client)
