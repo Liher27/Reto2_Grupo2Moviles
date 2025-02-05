@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -31,7 +30,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/loginLogo"
+                android:id="@+id/logo"
                 android:layout_width="210dp"
                 android:layout_height="205dp"
                 android:layout_marginTop="-40dp"
@@ -43,7 +42,7 @@
                 app:srcCompat="@mipmap/elorclass_foreground" />
 
             <TextView
-                android:id="@+id/externalCoursesTitle"
+                android:id="@+id/professorScheduleTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/studentSchedule"
@@ -52,7 +51,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginLogo" />
+                app:layout_constraintTop_toBottomOf="@+id/logo" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/shapeGuideline"
@@ -69,12 +68,12 @@
                 app:layout_constraintBottom_toTopOf="@+id/shapeBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/externalCoursesTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/professorScheduleTitle" />
 
             <View
                 android:id="@+id/shapeBackground"
                 android:layout_width="0dp"
-                android:layout_height="1608dp"
+                android:layout_height="680dp"
                 android:theme="@style/scrollViewStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -82,16 +81,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView3"
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:cardBackgroundColor="#3C8AAB"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="702dp" />
+
+            <TextView
+                android:id="@+id/dayInfo4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/DayOfWeekAndNumerOfTheWeek"
+                android:theme="@style/textBoxes"
                 app:layout_constraintBottom_toTopOf="@+id/guideline12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/calendarView">
+                app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dayOneCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#3C8AAB"
+                app:layout_constraintBottom_toTopOf="@+id/dayTwoCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideline12">
 
                 <LinearLayout
                     android:layout_width="370dp"
@@ -101,7 +117,7 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/cardTitle"
+                        android:id="@+id/cardFirstClass"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/t_tulo_de_la_tarjeta"
@@ -113,22 +129,126 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline12"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dayTwoCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="792dp" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/DayOfWeekAndNumerOfTheWeek"
-                app:layout_constraintBottom_toTopOf="@+id/cardView3"
+                app:cardBackgroundColor="#3C8AAB"
+                app:layout_constraintBottom_toTopOf="@+id/dayThreeCard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+                app:layout_constraintTop_toBottomOf="@+id/dayOneCard">
+
+                <LinearLayout
+                    android:layout_width="370dp"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/todo"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/cardSecondClass"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/t_tulo_de_la_tarjeta"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dayThreeCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#3C8AAB"
+                app:layout_constraintBottom_toTopOf="@+id/dayFourCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dayTwoCard">
+
+                <LinearLayout
+                    android:layout_width="370dp"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/todo"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/cardThirdClass"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/t_tulo_de_la_tarjeta"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dayFourCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#3C8AAB"
+                app:layout_constraintBottom_toTopOf="@+id/dayFiveCard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dayThreeCard">
+
+                <LinearLayout
+                    android:layout_width="370dp"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/todo"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/cardFourthClass"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/t_tulo_de_la_tarjeta"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dayFiveCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#3C8AAB"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dayThreeCard">
+
+                <LinearLayout
+                    android:layout_width="370dp"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/todo"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/cardFifthClass"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/t_tulo_de_la_tarjeta"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

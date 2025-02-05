@@ -1,6 +1,6 @@
 package com.example.reto2_grupo2.socketIO
 
-import Schedule
+import com.example.reto2_grupo2.entity.Schedule
 import android.app.Activity
 import android.content.Context
 import android.content.Intent

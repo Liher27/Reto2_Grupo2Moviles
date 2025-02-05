@@ -1,7 +1,7 @@
+package com.example.reto2_grupo2.entity
+
 import android.os.Parcel
 import android.os.Parcelable
-import com.example.reto2_grupo2.entity.Subject
-import com.google.gson.annotations.SerializedName
 
 data class Schedule(
     val scheduleId: Int,

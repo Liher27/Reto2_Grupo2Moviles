@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -31,7 +30,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/loginLogo"
+                android:id="@+id/logo"
                 android:layout_width="210dp"
                 android:layout_height="205dp"
                 android:layout_marginTop="-40dp"
@@ -43,7 +42,7 @@
                 app:srcCompat="@mipmap/elorclass_foreground" />
 
             <TextView
-                android:id="@+id/externalCoursesTitle"
+                android:id="@+id/professorScheduleTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/ProfessorMainPanelTitle"
@@ -52,7 +51,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginLogo" />
+                app:layout_constraintTop_toBottomOf="@+id/logo" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/shapeGuideline"
@@ -70,7 +69,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/externalCoursesTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/professorScheduleTitle" />
 
             <View
                 android:id="@+id/shapeBackground"
@@ -84,14 +83,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView1"
+                android:id="@+id/dayOneCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#3C8AAB"
-                app:layout_constraintBottom_toTopOf="@+id/guideline30"
+                app:layout_constraintBottom_toTopOf="@+id/reunionsGuideline3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline29">
+                app:layout_constraintTop_toTopOf="@+id/reunionsGuideline2">
 
                 <LinearLayout
                     android:layout_width="370dp"
@@ -114,14 +113,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView2"
+                android:id="@+id/dayTwoCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#3C8AAB"
-                app:layout_constraintBottom_toTopOf="@+id/cardView3"
+                app:layout_constraintBottom_toTopOf="@+id/dayThreeCard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView1">
+                app:layout_constraintTop_toBottomOf="@+id/dayOneCard">
 
                 <LinearLayout
                     android:layout_width="370dp"
@@ -144,14 +143,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView3"
+                android:id="@+id/dayThreeCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#3C8AAB"
-                app:layout_constraintBottom_toTopOf="@+id/cardView4"
+                app:layout_constraintBottom_toTopOf="@+id/dayFourClass"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2">
+                app:layout_constraintTop_toBottomOf="@+id/dayTwoCard">
 
                 <LinearLayout
                     android:layout_width="370dp"
@@ -174,14 +173,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView4"
+                android:id="@+id/dayFourClass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#3C8AAB"
-                app:layout_constraintBottom_toTopOf="@+id/cardView5"
+                app:layout_constraintBottom_toTopOf="@+id/dayFiveCard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView3">
+                app:layout_constraintTop_toBottomOf="@+id/dayThreeCard">
 
                 <LinearLayout
                     android:layout_width="370dp"
@@ -191,7 +190,7 @@
                     android:padding="10dp">
 
                     <TextView
-                        android:id="@+id/cardFourtClass"
+                        android:id="@+id/cardFourClass"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="@string/t_tulo_de_la_tarjeta"
@@ -204,14 +203,14 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView5"
+                android:id="@+id/dayFiveCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="#3C8AAB"
-                app:layout_constraintBottom_toTopOf="@+id/guideline28"
+                app:layout_constraintBottom_toTopOf="@+id/reunionsGuideline1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView4">
+                app:layout_constraintTop_toBottomOf="@+id/dayFourClass">
 
                 <LinearLayout
                     android:layout_width="370dp"
@@ -234,35 +233,92 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/dayInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:theme="@style/textBoxes"
                 android:text="@string/DayOfWeekAndNumerOfTheWeek"
-                app:layout_constraintBottom_toTopOf="@+id/cardView1"
+                app:layout_constraintBottom_toTopOf="@+id/dayOneCard"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline28"
+                android:id="@+id/reunionsGuideline1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="1047dp" />
+                app:layout_constraintGuide_begin="1251dp" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline29"
+                android:id="@+id/reunionsGuideline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="679dp" />
+                app:layout_constraintGuide_end="1544dp" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline30"
+                android:id="@+id/reunionsGuideline3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_begin="744dp" />
+                app:layout_constraintGuide_begin="784dp" />
+
+            <TextView
+                android:id="@+id/reunionInfoGuideline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/reunions"
+                android:textSize="34sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/reunionsGuideline4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/reunionsGuideline1"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/reunionsGuideline4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="1303dp" />
+
+            <Spinner
+                android:id="@+id/reunionsSpinner"
+                android:layout_width="269dp"
+                android:layout_height="80dp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/reunionsGuideline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/reunionsGuideline4" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/reunionsGuideline5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="1400dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="1996dp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:textSize="20sp"
+                android:theme="@style/textBoxes"
+                app:layout_constraintBottom_toTopOf="@+id/guideline1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/reunionsGuideline5" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

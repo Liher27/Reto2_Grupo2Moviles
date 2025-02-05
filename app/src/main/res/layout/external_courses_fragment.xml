@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/loginLogo"
+                    android:id="@+id/logo"
                     android:layout_width="210dp"
                     android:layout_height="205dp"
                     android:layout_marginTop="-40dp"
@@ -48,7 +48,7 @@
                     app:srcCompat="@mipmap/elorclass_foreground" />
 
                 <TextView
-                    android:id="@+id/externalCoursesTitle"
+                    android:id="@+id/professorScheduleTitle"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:text="@string/externalCourses"
@@ -57,7 +57,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/shapeGuideline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/loginLogo" />
+                    app:layout_constraintTop_toBottomOf="@+id/logo" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/shapeGuideline"
