@@ -16,7 +16,7 @@
     <string name="dni">DNI</string>
     <string name="direction">Dirección</string>
     <string name="telephone1">Teléfono 1</string>
-    <string name="telephone2">Teléfono 2</string>
+    <string name="telephone2">Teléfono 2(Opciona)</string>
     <string name="formative_info">Informacion formativa</string>
     <string name="course_name">Nombre del curso</string>
     <string name="cycle_name">Nombre del ciclo</string>
