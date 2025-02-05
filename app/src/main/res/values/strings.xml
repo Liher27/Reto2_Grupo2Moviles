@@ -16,7 +16,7 @@
     <string name="dni">DNI</string>
     <string name="direction">Dirección</string>
     <string name="telephone1">Teléfono 1</string>
-    <string name="telephone2">Teléfono 2</string>
+    <string name="telephone2">Teléfono 2(Opciona)</string>
     <string name="formative_info">Informacion formativa</string>
     <string name="course_name">Nombre del curso</string>
     <string name="cycle_name">Nombre del ciclo</string>
@@ -58,6 +58,13 @@
     <string name="repeat_new_password">Repite tu nueva contraseña</string>
     <string name="themeSettingsTitle">Cambiar tema</string>
     <string name="forgotPassword">He olvidado mi contraseña</string>
+
+    <string name="weektextview">weekTextView</string>
+    <string name="t_tulo_de_la_tarjeta">Título de la tarjeta</string>
+    <string name="descripci_n_de_la_tarjeta">Descripción de la tarjeta</string>
+    <string name="todo">TODO</string>
+    <string name="DayOfWeekAndNumerOfTheWeek">Nombre Dia: Numero dia:</string>
+
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="forcedAccept">Reunion forzosa</string>
