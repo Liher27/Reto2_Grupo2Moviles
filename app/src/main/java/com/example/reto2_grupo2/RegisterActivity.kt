@@ -1,7 +1,7 @@
 package com.example.reto2_grupo2
 
 import android.content.Intent
-import android.net.Uri
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -17,7 +17,6 @@ import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.Student
 import kotlin.properties.Delegates
-
 
 private const val REQUEST_CODE_RECORD_IMAGE = 1
 
@@ -38,9 +37,9 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var passwordTextField: EditText
     private lateinit var repeatPasswordTextField: EditText
-    private lateinit var scholarInfoTitleView : TextView
-    private lateinit var cicleTitleView : TextView
-    private lateinit var courseTitleView : TextView
+    private lateinit var scholarInfoTitleView: TextView
+    private lateinit var cicleTitleView: TextView
+    private lateinit var courseTitleView: TextView
 
     private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
@@ -48,15 +47,9 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var regusterCheckButton: Button
     private var dual by Delegates.notNull<Boolean>()
 
-    private val REQUEST_CODE_RECORD_IMAGE = 1
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
-
-
-
 
         userTextField = findViewById(R.id.loginTxt)
         nameTextField = findViewById(R.id.nameTxt)
@@ -68,6 +61,9 @@ class RegisterActivity : AppCompatActivity() {
         telephone2TextField = findViewById(R.id.telephone2Txt)
         courseNameTextField = findViewById(R.id.courseTxt)
         cycleNameTextField = findViewById(R.id.cycleTxt)
+        cicleTitleView = findViewById(R.id.cicleTitleTxt)
+        courseTitleView = findViewById(R.id.courseTitleTxt)
+        scholarInfoTitleView = findViewById(R.id.scholarInfoTitle)
         gradoDobleCheck = findViewById(R.id.intensiveCheck)
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
@@ -97,11 +93,10 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         registerButton = findViewById(R.id.registerUserButton)
-        // if (credentialsOk()) {
         registerButton.setOnClickListener {
-            if ( nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
+            if (nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
                 || dniTextField.text.isEmpty() || directionTextField.text.isEmpty() || telephone1TextField.text.isEmpty() ||
-                 repeatPasswordTextField.text.toString()
+                repeatPasswordTextField.text.toString()
                     .isEmpty()
             ) {
 
@@ -150,6 +145,7 @@ class RegisterActivity : AppCompatActivity() {
 
 
         addPhotoButton = findViewById(R.id.addPhotoButton)
+        addPhotoButton = findViewById(R.id.addPhotoButton)
         addPhotoButton.setOnClickListener {
             val imageIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (imageIntent.resolveActivity(packageManager) != null) {
@@ -160,31 +156,24 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    @Deprecated("")
+    @Deprecated("Deprecated in API 23")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_RECORD_IMAGE && resultCode == RESULT_OK) {
-            val takenImage: Uri? = data?.data
+            val takenImage: Bitmap? = data?.extras?.get("data") as? Bitmap
             if (takenImage != null) {
                 val imageView = findViewById<ImageView>(R.id.imageView)
-                imageView.setImageURI(takenImage)
+                imageView.setImageBitmap(takenImage)
             } else {
                 Toast.makeText(this, "Photo recording canceled", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun credentialsOk(): Boolean {
-        var ret = false
-
-        return ret
-
-    }
-
-    private fun init(){
+    private fun init() {
         val client: Client? = intent.getParcelableExtra("user")
         if (client != null) {
-            if(client.userType){
+            if (client.userType) {
                 cicleTitleView.visibility = View.GONE
                 courseTitleView.visibility = View.GONE
                 scholarInfoTitleView.visibility = View.GONE
@@ -195,7 +184,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun preloadInfo(){
+    private fun preloadInfo() {
         val client: Client? = intent.getParcelableExtra("user")
         if (client != null) {
             nameTextField.setText(client.userName)
@@ -207,11 +196,11 @@ class RegisterActivity : AppCompatActivity() {
 
         }
         val course: Course? = intent.getParcelableExtra("userCourse")
-        if(course != null){
+        if (course != null) {
             courseNameTextField.setText(course.title)
         }
         val student: Student? = intent.getParcelableExtra("studentInfo")
-        if(student != null){
+        if (student != null) {
             cycleNameTextField.setText(student.userYear.toString())
             gradoDobleCheck.isChecked = student.intensiveDual
         }
