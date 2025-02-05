@@ -14,9 +14,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.R
-import com.example.reto2_grupo2.Singleton.SocketClientSingleton
+import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
 import com.example.reto2_grupo2.entity.Client
-import com.example.reto2_grupo2.socketIO.SocketClient
 
 
 class DocumentsDownloadFragment : Fragment() {
@@ -25,7 +24,6 @@ class DocumentsDownloadFragment : Fragment() {
     private lateinit var documentSelectionSpinner: Spinner
     private lateinit var filterSpinner: Spinner
     private var documentLink: String = ""
-    private val socketClient = SocketClientSingleton.socketClient
     private var client: Client? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

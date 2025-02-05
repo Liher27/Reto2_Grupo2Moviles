@@ -36,7 +36,7 @@
                 tools:ignore="TextSizeCheck" />
 
             <ImageView
-                android:id="@+id/loginLogo"
+                android:id="@+id/logo"
                 android:layout_width="261dp"
                 android:layout_height="256dp"
                 android:layout_marginTop="-40dp"

@@ -1,16 +1,14 @@
 package com.example.reto2_grupo2.socketIO
 
-import Schedule
+import com.example.reto2_grupo2.entity.Schedule
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.reto2_grupo2.LoginActivity
 import com.example.reto2_grupo2.MainFrame
-import com.example.reto2_grupo2.R
 import com.example.reto2_grupo2.RegisterActivity
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
@@ -23,7 +21,6 @@ import com.example.reto2_grupo2.entity.room.ClientDatabase
 import com.example.reto2_grupo2.entity.room.LoginForROOM
 import com.example.reto2_grupo2.socketIO.config.Events
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -34,7 +31,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.48:2888"
+    private val ipPort = "http://10.5.104.65:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -44,66 +41,12 @@ class SocketClient(private val activity: Activity) {
     private lateinit var userCourse: Course
     private lateinit var userProfessor: Professor
 
-
-    private var tag = "socket.io"
-
     init {
         context = fragment?.requireContext() ?: activity
-        socket.on(Socket.EVENT_CONNECT) {
-            Log.d(tag, "Connected...")
-        }
-
-        socket.on(Socket.EVENT_DISCONNECT) {
-            Log.d(tag, "Disconnected...")
-        }
-
-        socket.on(Socket.EVENT_CONNECT_ERROR) { args ->
-            Log.e(tag, "Error al conectar: intentado conectar de nuevo $args")
-        }
-
-        socket.on(Events.ON_LOGIN_ANSWER.value) { args ->
-            val response = args[0] as JSONObject
-
-            val message = response.getString("message")
-
-            // Now we can use Gson to parse the message into a JsonObject
-            val gson = Gson()
-            val jsonObject = gson.fromJson(message, JsonObject::class.java)
-
-
-            // Extract values from the JsonObject
-            val id = jsonObject["userId"].asInt
-            val name = jsonObject["userName"].asString
-            val surname = jsonObject["surname"].asString
-            val secondSurname = jsonObject["secondSurname"].asString
-            val pass = jsonObject["pass"].asString
-            val dni = jsonObject["dni"].asString
-            val direction = jsonObject["direction"].asString
-            val telephone = jsonObject["telephone"].asInt
-            val type = jsonObject["userType"].asBoolean
-            val registered = jsonObject["registered"].asBoolean
-
-            Log.d(
-                tag,
-                "id: $id, name: $name, surname: $surname, 2ndSurname:$secondSurname,pass: $pass,dni:$dni,direction:$direction,telephone:$telephone  tipo:$type, registered:$registered"
-            )
-
-        }
-        socket.on(Events.ON_GET_ALL_ANSWER.value) { args ->
-            val response = args[0] as JSONObject
-            val message = response.getString("message") as String
-            val gson = Gson()
-            val itemType = object : TypeToken<List<Client>>() {}.type
-            val list = gson.fromJson<List<Client>>(message, itemType)
-
-            activity.findViewById<TextView>(R.id.textView).append("\nAnswer to getAll:$list")
-            Log.d(tag, "Answer to getAll: $list")
-        }
     }
 
     fun connect() {
         socket.connect()
-        Log.d(tag, "Connecting to server...")
     }
 
     fun doLogin(userName: String, password: String, rememberMe: Boolean) {
@@ -119,8 +62,6 @@ class SocketClient(private val activity: Activity) {
             // Now we can use Gson to parse the message into a JsonObject
             val gson = Gson()
             rootData = gson.fromJson(message, RootData::class.java)
-            Log.d(tag, "JSON: $rootData")
-
 
             val client = rootData.loginClient
             userClient = Client(
@@ -177,9 +118,8 @@ class SocketClient(private val activity: Activity) {
 
         socket.on(Events.ON_LOGIN_FAIL.value) { args ->
             val response = args[0] as String
-            Log.d(tag, "Login fallado: $response")
             activity.runOnUiThread {
-                Toast.makeText(context, "Error: $response", Toast.LENGTH_SHORT)
+                Toast.makeText(context, response, Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -190,8 +130,6 @@ class SocketClient(private val activity: Activity) {
             // Now we can use Gson to parse the message into a JsonObject
             val gson = Gson()
             rootData = gson.fromJson(message, RootData::class.java)
-            Log.d(tag, "JSON: $rootData")
-
 
             val client = rootData.loginClient
             userClient = Client(
@@ -283,25 +221,27 @@ class SocketClient(private val activity: Activity) {
 
         socket.on(Events.ON_REGISTER_SUCCESS.value) { args ->
             val response = args[0] as String
-            Log.d(tag, "Received ON_REQUEST_SUCCESS event: $response")
             activity.runOnUiThread {
+                Toast.makeText(context, response, Toast.LENGTH_SHORT)
+                    .show()
                 val intent = Intent(context, LoginActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 context.startActivity(intent)
             }
-
-
         }
         socket.on(Events.ON_REGISTER_FAIL.value) { args ->
             val response = args[0] as String
-            Log.d(tag, "Received ON_REQUEST_FALL event: $response")
-
-
+            activity.runOnUiThread {
+                Toast.makeText(context, response, Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
         socket.on(Events.ON_REGISTER_SAME_PASSWORD.value) { args ->
             val response = args[0] as String
-            Log.d(tag, "Received ON_REGISTER_SAME_PASSWORD event: $response")
-
+            activity.runOnUiThread {
+                Toast.makeText(context, response, Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
@@ -312,16 +252,12 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_FILTER_BY_COURSE.value, jsonData)
         socket.on(Events.ON_FILTER_BY_COURSE_RESPONSE.value) { args ->
             val jsonDocuments = args[0] as String
-            Log.d(tag, "JSON: $jsonDocuments")
             try {
                 val gson = Gson()
                 val documentListType = object : TypeToken<List<String>>() {}.type
                 val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
                 callback(documentsLinks)
             } catch (e: Exception) {
-                socket.on(Events.ON_FILTER_ERROR.value) {
-                    Log.e(tag, "Failed to parse JSON", e)
-                }
                 callback(emptyList())
             }
         }
@@ -335,16 +271,12 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_FILTER_BY_CYCLE.value, jsonData)
         socket.on(Events.ON_FILTER_BY_CYCLE_RESPONSE.value) { args ->
             val jsonDocuments = args[0] as String
-            Log.d(tag, "JSON: $jsonDocuments")
             try {
                 val gson = Gson()
                 val documentListType = object : TypeToken<List<String>>() {}.type
                 val documentsLinks: List<String> = gson.fromJson(jsonDocuments, documentListType)
                 callback(documentsLinks)
             } catch (e: Exception) {
-                socket.on(Events.ON_FILTER_ERROR.value) {
-                    Log.e(tag, "Failed to parse JSON", e)
-                }
                 callback(emptyList())
             }
         }
@@ -357,7 +289,6 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_FILTER_BY_SUBJECT.value, jsonData)
         socket.on(Events.ON_FILTER_BY_SUBJECT_RESPONSE.value) { args ->
             val jsonDocuments = args[0] as String
-            Log.d(tag, "JSON: $jsonDocuments")
             try {
                 val gson = Gson()
                 val documentListType = object : TypeToken<List<String>>() {}.type
@@ -365,7 +296,6 @@ class SocketClient(private val activity: Activity) {
                 callback(documentsLinks)
             } catch (e: Exception) {
                 socket.on(Events.ON_FILTER_ERROR.value) {
-                    Log.e(tag, "Failed to parse JSON", e)
                 }
                 callback(emptyList())
             }
@@ -378,14 +308,12 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_FILTER_BY_SCHEDULE.value, jsonData)
         socket.on(Events.ON_FILTER_BY_SCHEDULE_RESPONSE.value) { args ->
             val jsonDocuments = args[0] as String
-            Log.d(tag, "JSON: $jsonDocuments")
             try {
                 val gson = Gson()
                 val listType = object : TypeToken<List<Schedule>>() {}.type
                 val schedules: List<Schedule> = gson.fromJson(jsonDocuments, listType)
                 callback(schedules)
             } catch (e: Exception) {
-                Log.e(tag, "Failed to parse JSON", e)
                 callback(emptyList())
             }
         }
@@ -398,21 +326,18 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_GET_EXTERNAL_COURSES.value, jsonData)
         socket.on(Events.ON_GET_EXTERNAL_COURSES_ANSWER.value) { args ->
             val jsonDocuments = args[0] as String
-            Log.d(tag, "JSONDocuments: $jsonDocuments")
             try {
                 val gson = Gson()
                 val externalCoursesType = object : TypeToken<List<ExternalCourse>>() {}.type
                 val externalCoursesList: List<ExternalCourse> =
                     gson.fromJson(jsonDocuments, externalCoursesType)
-                Log.d(tag, "JSONList: $externalCoursesList")
                 callback(externalCoursesList)
             } catch (e: Exception) {
                 callback(emptyList())
             }
         }
-        socket.on(Events.ON_GET_EXTERNAL_COURSES_ERROR.value) { args ->
-            val response = args[0] as String
-            Log.d(tag, "Login fallado: $response")
+        socket.on(Events.ON_GET_EXTERNAL_COURSES_ERROR.value) {
+            callback(emptyList())
         }
     }
 
@@ -444,32 +369,6 @@ class SocketClient(private val activity: Activity) {
         }
     }
 
-    fun getReunions(client: Client?, callback: (List<Reunion>) -> Unit) {
-        val loginData = mapOf("message" to client)
-        val jsonData = Gson().toJson(loginData)
-
-        socket.emit(Events.ON_GET_REUNIONS.value, jsonData)
-
-        socket.off(Events.ON_GET_REUNIONS_ANSWER.value)
-
-        socket.on(Events.ON_GET_REUNIONS_ANSWER.value) { args ->
-            val jsonDocuments = args[0] as String
-            try {
-                val gson = Gson()
-                val reunionType = object : TypeToken<List<Reunion>>() {}.type
-                val reunionList: List<Reunion> =
-                    gson.fromJson(jsonDocuments, reunionType)
-                callback(reunionList)
-            } catch (e: Exception) {
-                callback(emptyList())
-            }
-        }
-        socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
-            val response = args[0] as String
-            Log.d(tag, "Login fallado: $response")
-        }
-    }
-
     fun getReunions(client: Client?, callback: (List<Reunion>, List<Professor>) -> Unit) {
         val loginData = mapOf("message" to client)
         val jsonData = Gson().toJson(loginData)
@@ -494,9 +393,8 @@ class SocketClient(private val activity: Activity) {
                 callback(emptyList(), emptyList())
             }
         }
-        socket.on(Events.ON_GET_REUNIONS_ERROR.value) { args ->
-            val response = args[0] as String
-            Log.d(tag, "Login fallado: $response")
+        socket.on(Events.ON_GET_REUNIONS_ERROR.value) {
+            callback(emptyList(), emptyList())
         }
     }
 

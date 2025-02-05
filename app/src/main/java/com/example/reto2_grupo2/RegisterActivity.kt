@@ -1,14 +1,12 @@
 package com.example.reto2_grupo2
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.content.IntentFilter
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -19,12 +17,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.reto2_grupo2.Singleton.ConnectionChangeReceiver
 import com.example.reto2_grupo2.Singleton.SocketClientSingleton.socketClient
-import com.example.reto2_grupo2.databinding.ActivityRegisterBinding
 import com.example.reto2_grupo2.entity.Client
 import com.example.reto2_grupo2.entity.Course
 import com.example.reto2_grupo2.entity.Student
-import java.util.logging.Handler
 import kotlin.properties.Delegates
+
+private const val REQUEST_CODE_RECORD_IMAGE = 1
+
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var nameTextField: EditText
@@ -37,22 +36,20 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var courseNameTextField: EditText
     private lateinit var cycleNameTextField: EditText
-    private lateinit var gradoDobleCheck: CheckBox
+    private lateinit var dualCheck: CheckBox
 
     private lateinit var passwordTextField: EditText
     private lateinit var repeatPasswordTextField: EditText
     private lateinit var scholarInfoTitleView : TextView
-    private lateinit var cicleTitleView : TextView
+    private lateinit var cycleTitleView : TextView
     private lateinit var courseTitleView : TextView
     private lateinit var scrollView : ScrollView
     private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
     private lateinit var registerButton: Button
-    private lateinit var regusterCheckButton: Button
+    private lateinit var registerCheckButton: Button
     private var dual by Delegates.notNull<Boolean>()
     private lateinit var myReceiver : ConnectionChangeReceiver
-
-    private val REQUEST_CODE_RECORD_IMAGE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,10 +67,13 @@ class RegisterActivity : AppCompatActivity() {
         telephone2TextField = findViewById(R.id.telephone2Txt)
         courseNameTextField = findViewById(R.id.courseTxt)
         cycleNameTextField = findViewById(R.id.cycleTxt)
-        cicleTitleView= findViewById(R.id.cicleTitleTxt)
+        cycleTitleView = findViewById(R.id.cicleTitleTxt)
         courseTitleView = findViewById(R.id.courseTitleTxt)
         scholarInfoTitleView = findViewById(R.id.scholarInfoTitle)
-        gradoDobleCheck = findViewById(R.id.intensiveCheck)
+        cycleTitleView= findViewById(R.id.cicleTitleTxt)
+        courseTitleView = findViewById(R.id.courseTitleTxt)
+        scholarInfoTitleView = findViewById(R.id.scholarInfoTitle)
+        dualCheck = findViewById(R.id.intensiveCheck)
         passwordTextField = findViewById(R.id.password1Txt2)
         repeatPasswordTextField = findViewById(R.id.password2Txt2)
 
@@ -87,9 +87,9 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
 
-        regusterCheckButton = findViewById(R.id.registerCheckBtn)
+        registerCheckButton = findViewById(R.id.registerCheckBtn)
 
-        regusterCheckButton.setOnClickListener {
+        registerCheckButton.setOnClickListener {
             if (passwordTextField.text.toString() != repeatPasswordTextField.text.toString()) {
                 Toast.makeText(
                     this@RegisterActivity,
@@ -104,11 +104,10 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         registerButton = findViewById(R.id.registerUserButton)
-        // if (credentialsOk()) {
         registerButton.setOnClickListener {
-            if ( nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
+            if (nameTextField.text.isEmpty() || surnameTextField.text.isEmpty() || secondSurnameTextField.text.isEmpty()
                 || dniTextField.text.isEmpty() || directionTextField.text.isEmpty() || telephone1TextField.text.isEmpty() ||
-                 repeatPasswordTextField.text.toString()
+                repeatPasswordTextField.text.toString()
                     .isEmpty()
             ) {
 
@@ -137,7 +136,7 @@ class RegisterActivity : AppCompatActivity() {
                         return@setOnClickListener
                     }
 
-                    dual = gradoDobleCheck.isChecked
+                    dual = dualCheck.isChecked
                     if (socketClient != null) {
                         socketClient?.doRegister(
                             nameTextField.text.toString(),
@@ -164,35 +163,35 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    @Deprecated("")
+    @Deprecated("Deprecated in API 23")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_RECORD_IMAGE && resultCode == RESULT_OK) {
-            val takenImage: Uri? = data?.data
+            val takenImage: Bitmap? = data?.extras?.get("data") as? Bitmap
             if (takenImage != null) {
                 val imageView = findViewById<ImageView>(R.id.imageView)
-                imageView.setImageURI(takenImage)
+                imageView.setImageBitmap(takenImage)
             } else {
                 Toast.makeText(this, "Photo recording canceled", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun init(){
+    private fun init() {
         val client: Client? = intent.getParcelableExtra("user")
         if (client != null) {
-            if(client.userType){
-                cicleTitleView.visibility = View.GONE
+            if (client.userType) {
+                cycleTitleView.visibility = View.GONE
                 courseTitleView.visibility = View.GONE
                 scholarInfoTitleView.visibility = View.GONE
                 courseNameTextField.visibility = View.GONE
                 cycleNameTextField.visibility = View.GONE
-                gradoDobleCheck.visibility = View.GONE
+                dualCheck.visibility = View.GONE
             }
         }
     }
 
-    private fun preloadInfo(){
+    private fun preloadInfo() {
         val client: Client? = intent.getParcelableExtra("user")
         if (client != null) {
             nameTextField.setText(client.userName)
@@ -204,13 +203,13 @@ class RegisterActivity : AppCompatActivity() {
 
         }
         val course: Course? = intent.getParcelableExtra("userCourse")
-        if(course != null){
+        if (course != null) {
             courseNameTextField.setText(course.title)
         }
         val student: Student? = intent.getParcelableExtra("studentInfo")
-        if(student != null){
+        if (student != null) {
             cycleNameTextField.setText(student.userYear.toString())
-            gradoDobleCheck.isChecked = student.intensiveDual
+            dualCheck.isChecked = student.intensiveDual
         }
     }
     private fun registerReceiver() {

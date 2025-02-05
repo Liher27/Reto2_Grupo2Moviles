@@ -55,7 +55,7 @@
         app:layout_constraintGuide_begin="490dp" />
 
     <ImageView
-        android:id="@+id/loginLogo"
+        android:id="@+id/logo"
         android:layout_width="210dp"
         android:layout_height="205dp"
         android:layout_marginTop="-40dp"
@@ -68,7 +68,7 @@
         tools:ignore="VisualLintBounds" />
 
     <TextView
-        android:id="@+id/externalCoursesTitle"
+        android:id="@+id/professorScheduleTitle"
         android:layout_width="254dp"
         android:layout_height="54dp"
         android:text="@string/iniciar_sesion"
