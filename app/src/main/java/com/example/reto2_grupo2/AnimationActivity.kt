@@ -20,7 +20,7 @@ class AnimationActivity : AppCompatActivity() {
 
 
         animation.start()
-        val totalDuration = animation.numberOfFrames * 50L
+        val totalDuration = animation.numberOfFrames * 41L
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, LoginActivity::class.java))
             finish()

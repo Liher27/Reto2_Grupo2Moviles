@@ -1,5 +1,6 @@
 package com.example.reto2_grupo2.socketIO
 
+import AESEncode
 import com.example.reto2_grupo2.entity.Schedule
 import android.app.Activity
 import android.content.Context
@@ -31,7 +32,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class SocketClient(private val activity: Activity) {
-    private val ipPort = "http://10.5.104.65:2888"
+    private val ipPort = "http://10.5.104.21:2888"
     private val socket: Socket = IO.socket(ipPort)
     private var context: Context
     private var fragment: Fragment? = null
@@ -50,9 +51,10 @@ class SocketClient(private val activity: Activity) {
     }
 
     fun doLogin(userName: String, password: String, rememberMe: Boolean) {
+        val encryptPass = AESEncode("simplerule",password)
         val loginData = mapOf(
             "message" to userName,
-            "userPass" to password
+            "userPass" to encryptPass
         )
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(loginData))
         socket.on(Events.ON_LOGIN_SUCCESS.value) { args ->
@@ -208,11 +210,12 @@ class SocketClient(private val activity: Activity) {
         direction: String,
         telephone: Int,
     ) {
+        val encryptPass = AESEncode("simplerule",password)
         val registerData = mapOf(
             "username" to userName,
             "surname" to surname,
             "secondsurname" to secondSurname,
-            "userpass" to password,
+            "userpass" to encryptPass,
             "dni" to dni,
             "direction" to direction,
             "telephone" to telephone

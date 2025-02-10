@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var scholarInfoTitleView : TextView
     private lateinit var cycleTitleView : TextView
     private lateinit var courseTitleView : TextView
-    private lateinit var scrollView : ScrollView
+    private lateinit var scrollView : ScrollView 
     private lateinit var addPhotoButton: Button
     private lateinit var backButton: Button
     private lateinit var registerButton: Button
