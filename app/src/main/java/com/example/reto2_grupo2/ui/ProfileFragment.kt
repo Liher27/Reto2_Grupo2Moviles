@@ -1,5 +1,6 @@
 package com.example.reto2_grupo2.ui
 
+import AESEncode
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
@@ -63,7 +64,7 @@ class ProfileFragment : Fragment() {
         setupThemeSpinner()
 
         changePasswordButton.setOnClickListener {
-            if (oldPasswordTxt.text.toString() == client?.pass) {
+            if (AESEncode("simplerule",oldPasswordTxt.text.toString()) == client?.pass) {
                 if (newPasswordTxt.text.toString() == repeatNewPasswordTxt.text.toString()) {
                     socketClient?.changePassword(
                         client,
